@@ -1,0 +1,83 @@
+import {formatNumber} from "../../../common/numberUtils";
+
+const Financial = ({data}) => {
+  const finance = data?.calculations?.finance || [];
+    return (
+    <div className="col-sm-6">
+        <fieldset className="bg-white p-15px mt-0 mt-sm-30px h-100 position-relative">
+            <legend className="fw-600 float-none border-1px col-auto fs-18 ps-15px pe-15px p-5px lh-1 border-radius-4px bg-blue text-golden">Current Financial Information</legend>
+            <span className="text-light-gray fw-400 fs-13 fst-italic position-absolute top-0 end-0 pe-15px">All financial numbers specified in ({finance.valueType})</span>
+            <p className="mb-15px mt-30px fs-16 fw-500 lh-normal text-center">Historical Numbers for the Year <span className="fst-italic fw-700">{finance.dataYear}</span></p>
+
+            <div className="d-flex justify-content-center">
+                <table className="fs-16 fw-400 lh-normal text-end">
+                    <tbody>
+                    <tr>
+                        <td className="p-5px">Sales</td>
+                        <td className="center p-5px">:</td>
+                        <td className="fw-600 p-5px">{formatNumber(finance.sales)}</td>
+                    </tr>
+                    <tr>
+                        <td className="p-5px">Cost of Sales</td>
+                        <td className="center p-5px">:</td>
+                        <td className="fw-600 p-5px">{formatNumber(finance.costOfSales)}</td>
+                    </tr>
+                    <tr>
+                        <td className="p-5px">EBITDA</td>
+                        <td className="center p-5px">:</td>
+                        <td className="fw-600 p-5px">{formatNumber(finance.ebitda)}</td>
+                    </tr>
+                    <tr>
+                        <td className="p-5px">Depeciation</td>
+                        <td className="center p-5px">:</td>
+                        <td className="fw-600 p-5px">{formatNumber(finance.depreciation)}</td>
+                    </tr>
+                    <tr>
+                        <td className="p-5px">Interest Expense</td>
+                        <td className="center p-5px">:</td>
+                        <td className="fw-600 p-5px">{formatNumber(finance.interestExpense)}</td>
+                    </tr>
+                    <tr>
+                        <td className="p-5px">Cash Balance</td>
+                        <td className="center p-5px">:</td>
+                        <td className="fw-600 p-5px">{formatNumber(finance.cashBalance)}</td>
+                    </tr>
+                    <tr>
+                        <td className="p-5px">Debt / Loan</td>
+                        <td className="center p-5px">:</td>
+                        <td className="fw-600 p-5px">{formatNumber(finance.debtLoan)}</td>
+                    </tr>
+                    <tr>
+                        <td className="p-5px">Equity</td>
+                        <td className="center p-5px">:</td>
+                        <td className="fw-600 p-5px">{formatNumber(finance.equity)}</td>
+                    </tr>
+                    <tr>
+                        <td className="p-5px">Receivables</td>
+                        <td className="center p-5px">:</td>
+                        <td className="fw-600 p-5px">{formatNumber(finance.receivables)}</td>
+                    </tr>
+                    <tr>
+                        <td className="p-5px">Inventories</td>
+                        <td className="center p-5px">:</td>
+                        <td className="fw-600 p-5px">{formatNumber(finance.inventories)}</td>
+                    </tr>
+                    <tr>
+                        <td className="p-5px">Payables</td>
+                        <td className="center p-5px">:</td>
+                        <td className="fw-600 p-5px">{formatNumber(finance.payables)}</td>
+                    </tr>
+                    <tr>
+                        <td className="p-5px">Net Fixed Assets</td>
+                        <td className="center p-5px">:</td>
+                        <td className="fw-600 p-5px">{formatNumber(finance.netFixedAssets)}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </fieldset>
+    </div>
+  )
+}
+
+export default Financial;

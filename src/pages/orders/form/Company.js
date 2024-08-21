@@ -1,0 +1,539 @@
+import React, { useState, useEffect } from 'react';
+import companyLogo from "../../../assets/finimg/company-name1.png";
+import companyType from "../../../assets/finimg/company-type1.png";
+import industryTypeImage from "../../../assets/finimg/industry -type.png";
+import businessYearImage from "../../../assets/finimg/years-in-business1.png";
+import countryImage from "../../../assets/finimg/country.png";
+import financialYearImage from "../../../assets/finimg/financial-year.png";
+import historicalYearImage from "../../../assets/finimg/historical-year-trend.png";
+import descriptionImage from "../../../assets/finimg/short-description.png";
+import contactImage from "../../../assets/finimg/contact-number.png";
+import emailImage from "../../../assets/finimg/email-address.png";
+import currencyImage from "../../../assets/finimg/currency-used-in-company.png";
+import axios from 'axios';
+import { apiURL } from '../../../config/Config';
+import CustomDropdown from './CustomDropdown';
+
+const Company = ({ onSave, initialData, onFieldBlur }) => {
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [formData, setFormData] = useState({
+    companyName: '',
+    companyType: '',
+    industryType: '',
+    // subIndustryType: '',
+    companyAge: '',
+    country: '',
+    FinYrEndDate: '',
+    FinYrEndMonth: '',
+    earningTrend: '',
+    description: '',
+    contact: '',
+    email: '',
+    currency: '',
+    });
+
+const orderId = sessionStorage.getItem('orderId') || '';    
+const [countries, setCountries] = useState([]);
+const [businessYears, setbusinessYears] = useState([]);
+const [historicalTrends, sethistoricalTrends] = useState([]);
+const [availableSubIndustries, setAvailableSubIndustries] = useState([]);
+const [initialSubIndustries, setInitialSubIndustries] = useState([]);
+const [currency, setCurrency] = useState([]);
+const [errors, setErrors] = useState({});
+
+
+useEffect(() => {
+    if (initialData?.order?.business?.business) {
+    const data = initialData.order.business.business;  
+    setFormData({
+        companyName: data.companyName || '',
+        companyType: data.companyType || '',
+        industryType: data.industryType || '',
+        companyAge: data.companyAge || '',
+        country: data.country || '',
+        FinYrEndDate: data.FinYrEndDate || '',
+        FinYrEndMonth: data.FinYrEndMonth || '',
+        earningTrend: data.earningTrend || '',
+        description: data.description || '',
+        contact: data.contact || '',
+        email: data.email || '',
+        currency: data.currency || ''
+    });
+    }
+}, [initialData]);
+
+const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    handleBlur(name, value); 
+    setFormData(prevData => {
+        const updatedData = {
+            ...prevData,
+            [name]: type === 'checkbox' ? checked : value
+        };  
+        return updatedData;
+    });
+};
+  
+
+useEffect(() => {
+    if (formData.industryType) {
+        const selectedIndustrySubIndustries = initialSubIndustries[formData.industryType] || [];
+        setAvailableSubIndustries(selectedIndustrySubIndustries);
+    }
+}, [formData.industryType, initialSubIndustries]);
+
+const validateForm = () => {
+    const newErrors = {};
+    Object.keys(formData).forEach(field => {
+    if (!formData[field]) {
+        newErrors[field] = 'This field is required';
+    }
+    });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+};
+
+const handleSave = async (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+        setIsLoading(true); // Start loading
+
+        const token = sessionStorage.getItem('token');
+        const url = orderId ? apiURL + '/order/update' : apiURL + '/order/store';
+        const method = orderId ? 'PUT' : 'POST'; // Determine HTTP method
+
+        try {
+            const response = await axios({
+                method, // Use method variable to dynamically set the HTTP method
+                url,
+                data: formData, // Data to be sent in the request body
+                headers: {
+                    Authorization: `${token}`, // Added 'Bearer' prefix for token
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.status === 200) {
+                if (!orderId) { // Store orderId only if it's a new order
+                    sessionStorage.setItem('orderId', response.data.data.order._id);
+                }
+                onSave(); // Callback function after successful save
+            }
+        } catch (error) {
+            console.error('Error saving form:', error);
+        } finally {
+            setIsLoading(false); // Stop loading
+        }
+        //   onSave();
+    }
+};
+
+useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(apiURL + '/front/formdata');
+            setCountries(response.data.data.countries);
+            sethistoricalTrends(response.data.data.historicaltrends);
+            setbusinessYears(response.data.data.businessdata);
+            setInitialSubIndustries(response.data.data.subIndustries);
+            setCurrency(response.data.data.currency);
+            setAvailableSubIndustries(response.data.data.subIndustries);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    fetchData();
+}, []);
+
+const handleBlur = (fieldName, value) => {
+    onFieldBlur(fieldName, value);
+};
+
+return (
+    <div className="card m-0 border-radius-0px border-0 box-shadow h-100" style={{backgroundColor: "#f2f3f6"}}>
+        <div className="card-header fw-500 p-15px lh-normal bg-white">
+            <p className="text-blue fw-600 mb-0 fs-16 lh-1 mt-5px mb-5px">New Order: <span className="text-dark-blue">Business Details</span> <a href="#!" className="float-end text-blue text-golden-hover fw-600 fs-12"><i className="bi bi-info-circle-fill"></i> Need Help?</a>
+            </p>
+            <div className="divider-style-03 divider-style-03-02 border-color-light-gray mb-10px mt-10px w-100"></div>
+            <span className="fw-400 fs-14">Please provide your business details</span>
+            <span className="fw-400 text-danger fs-12 float-end mt-5px">(All fields are mandatory)</span>
+        </div>
+        <div className="card-body p-0" style={{
+                maxHeight: '620px',
+                overflowY: 'auto', 
+                overflowX: 'hidden', 
+                padding: '20px', 
+                scrollbarWidth: 'thin', 
+            }}
+            data-scroll-options='{ "theme": "dark" }'>
+            <form action="" method="post" className="row myform p-0 border-radius-0px myform-02 justify-content-center">
+                <div className="col-sm-11 mt-15px mb-10px">
+                    <div className="row">
+                        <div className="w-40px pe-0">
+                            <img src={companyLogo} alt="Company Name"/>
+                        </div>
+                        <div className="col">
+                            <label className="text-black mt-10px mb-10px fw-500 fs-14 d-block lh-normal">Company Name</label>
+                            <input 
+                                className={`border-radius-0px box-shadow form-control ${errors.companyName ? 'is-invalid' : ''}`} 
+                                type="text" 
+                                name="companyName" 
+                                placeholder="Name of the company" 
+                                value={formData.companyName}
+                                onChange={handleChange} 
+                            />
+                            {errors.companyName && <div className="invalid-feedback">{errors.companyName}</div>}
+                        </div>
+                    </div>
+                </div>
+                <div className="col-sm-11 mt-15px mb-10px">
+                    <div className="row">
+                        <div className="w-40px pe-0">
+                            <img src={companyType} alt="Company Type" />
+                        </div>
+                        <div className="col">
+                            <label className="text-black mt-10px mb-10px fw-500 fs-14 d-block lh-normal">Company Type</label>
+                            <div className="form-check float-start ps-30px">
+                                <input 
+                                    className="form-check-input p-0 mt-0 text-black" 
+                                    type="radio" 
+                                    name="companyType" 
+                                    id="inlineRadio1" 
+                                    value="Public"
+                                    checked={formData.companyType === 'Public'}
+                                    onChange={handleChange}
+                                />
+                                <label className="text-dark-gray mb-1 fw-400 fs-14 d-block lh-1" htmlFor="inlineRadio1">Public</label>
+                            </div>
+                            <div className="form-check float-start ps-30px">
+                                <input 
+                                    className="form-check-input p-0 mt-0 text-black" 
+                                    type="radio" 
+                                    name="companyType" 
+                                    id="inlineRadio2" 
+                                    value="Private"
+                                    checked={formData.companyType === 'Private'}
+                                    onChange={handleChange}
+                                    onBlur={() => handleBlur('companyType', 'Private')}
+                                />
+                                <label className="text-dark-gray mb-1 fw-400 fs-14 d-block lh-1" htmlFor="inlineRadio2">Private</label>
+                            </div>
+                            <br/>
+                            {errors.companyType && <div className="text-danger">{errors.companyType}</div>}
+                        </div>
+                    </div>
+                </div>
+                <div className="col-sm-11 mt-15px mb-10px">
+                    <div className="row">
+                        <div className="w-40px pe-0">
+                            <img src={industryTypeImage} alt="Industry" />
+                        </div>
+                        <div className="col">
+                            <label className="text-black mt-10px mb-10px fw-500 fs-14 d-block lh-normal">Industry Type</label>
+                            {/* <div className="select"> */}
+                            {/* <select 
+                                className={`border-radius-0px box-shadow form-control ${errors.industryType ? 'is-invalid' : ''}`} 
+                                name="industryType" 
+                                aria-label="select-industry"
+                                value={formData.industryType}
+                                onChange={handleChange}
+                                onBlur={() => handleBlur('industryType', formData.industryType)}
+                            >
+                                <option value="">Select your Industry</option>
+                                {availableSubIndustries && Object.keys(availableSubIndustries).map(industry => (
+                                    <optgroup key={industry} label={industry}>
+                                        {availableSubIndustries[industry].map(subItem => (
+                                            <option key={subItem._id} value={subItem.name}>{subItem.name}</option>
+                                        ))}
+                                    </optgroup>
+                                ))}
+                            </select>
+                                {errors.industryType && <div className="invalid-feedback">{errors.industryType}</div>}
+                            </div> */}
+
+                            {/* {formData.industryType && (
+                                <div className="select pt-1">
+                                    <select 
+                                        className={`border-radius-0px box-shadow form-control ${errors.subIndustryType ? 'is-invalid' : ''}`} 
+                                        name="subIndustryType" 
+                                        aria-label="select-sub-industry"
+                                        value={formData.subIndustryType}
+                                        onChange={handleChange}
+                                    >
+                                        <option value="">Select your Sub-Industry</option>
+                                        {availableSubIndustries.map(subIndustry => (
+                                            <option key={subIndustry._id} value={subIndustry.name}>{subIndustry.name}</option>
+                                        ))}
+                                    </select>
+                                    {errors.subIndustryType && <div className="invalid-feedback">{errors.subIndustryType}</div>}
+                                </div>
+                            )} */}
+                                <CustomDropdown
+                                    data={availableSubIndustries}
+                                    value={formData.industryType} // Check this value
+                                    onChange={handleChange}
+                                    error={errors.industryType}
+                                    name="industryType"
+                                    />
+                        </div>
+                    </div>
+                </div>
+                <div className="col-sm-11 mt-15px mb-10px">
+                    <div className="row">
+                        <div className="w-40px pe-0">
+                            <img src={businessYearImage} alt="Business Years" />
+                        </div>
+                        <div className="col">
+                            <label className="text-black mt-10px mb-10px fw-500 fs-14 d-block lh-normal">Years in Business <span className="fs-12 text-light-gray fw-400">(Select one)</span></label>
+                            {businessYears.map(businessYear => (
+                            <div className="form-check float-start ps-30px" key={businessYear._id}>
+                                <input 
+                                    className="form-check-input p-0 mt-0 text-black" 
+                                    type="radio" 
+                                    name="companyAge" 
+                                    id="inlineRadio3" 
+                                    value={businessYear.display_value}
+                                    checked={formData.companyAge === businessYear.display_value}
+                                    onChange={handleChange}
+                                />
+                                <label className="text-dark-gray mb-1 fw-400 fs-14 d-block lh-1" htmlFor="inlineRadio3">{businessYear.display_value}</label>
+                            </div>
+                            ))}
+                            <br/>
+                            {errors.companyAge && <div className="text-danger">{errors.companyAge}</div>}
+                        </div>
+                    </div>
+                </div>
+                <div className="col-sm-11 mt-15px mb-10px">
+                    <div className="row">
+                        <div className="w-40px pe-0">
+                            <img src={countryImage} alt="Country" />
+                        </div>
+                        <div className="col">
+                            <label className="text-black mt-10px mb-10px fw-500 fs-14 d-block lh-normal">Country</label>
+                            <div className="select">
+                                <select 
+                                    className={`border-radius-0px box-shadow form-control ${errors.country ? 'is-invalid' : ''}`} 
+                                    name="country" 
+                                    aria-label="select-country"
+                                    value={formData.country}
+                                    onChange={handleChange}
+                                >
+                                    <option value="">Select your country</option>
+                                    {countries.map(country => (
+                                        <option key={country.code} value={country.name}>{country.name}</option>
+                                    ))}
+                                </select>
+                                {errors.country && <div className="invalid-feedback">{errors.country}</div>}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-sm-11 mt-15px mb-10px">
+                    <div className="row">
+                        <div className="w-40px pe-0">
+                            <img src={financialYearImage} alt="Financial Year" />
+                        </div>
+                        <div className="col">
+                        <label className="text-black mt-10px mb-10px fw-500 fs-14 d-block lh-normal">Financial Year</label>
+                            <div className="row">
+                                <div className="col-6">
+                                    <div className="select">
+                                        <select className={`border-radius-0px box-shadow form-control ${errors.FinYrEndDate ? 'is-invalid' : ''}`} name="FinYrEndDate" aria-label="select-industry" value={formData.FinYrEndDate} onChange={handleChange}>
+                                            <option value="">Date</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                            <option value="21">21</option>
+                                            <option value="22">22</option>
+                                            <option value="23">23</option>
+                                            <option value="24">24</option>
+                                            <option value="25">25</option>
+                                            <option value="26">26</option>
+                                            <option value="27">27</option>
+                                            <option value="28">28</option>
+                                            <option value="29">29</option>
+                                            <option value="30">30</option>
+                                            <option value="31">31</option>
+                                        </select>
+                                    </div>
+                                    {errors.FinYrEndDate && <div className="invalid-feedback">{errors.FinYrEndDate}</div>}
+                                </div>
+                                <div className="col-6">
+                                    <div className="select">
+                                        <select className={`border-radius-0px box-shadow form-control ${errors.FinYrEndMonth ? 'is-invalid' : ''}`} name="FinYrEndMonth" aria-label="select-industry" value={formData.FinYrEndMonth} onChange={handleChange}>
+                                            <option value="">Month</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                        </select>
+                                    </div>
+                                    {errors.FinYrEndMonth && <div className="invalid-feedback">{errors.FinYrEndMonth}</div>}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-sm-11 mt-15px mb-10px">
+                    <div className="row">
+                        <div className="w-40px pe-0">
+                            <img src={historicalYearImage} alt="Historical Earnings Trend" />
+                        </div>
+                        <div className="col">
+                            <label className="text-black mt-10px mb-10px fw-500 fs-14 d-block lh-normal">
+                                Historical Earning Trend <span className="fs-12 text-light-gray fw-400">(Select one)</span>
+                            </label>
+                            {historicalTrends.map((historicalTrend, index) => (
+                                <div className="form-check mb-15px ps-30px" key={historicalTrend._id}>
+                                    <input
+                                        className="form-check-input p-0 mt-0 text-black"
+                                        type="radio"
+                                        name="earningTrend"
+                                        id={`earningTrend-${index}`}
+                                        value={historicalTrend.value}
+                                        checked={formData.earningTrend === historicalTrend.value}
+                                        onChange={(e) => setFormData({ ...formData, earningTrend: e.target.value })}
+                                    />
+                                    <label
+                                        className="text-black mb-1 fw-400 fs-14 d-block lh-1"
+                                        htmlFor={`earningTrend-${index}`}
+                                    >
+                                        {historicalTrend.value}
+                                    </label>
+                                </div>
+                            ))}
+                            {errors.earningTrend && (
+                                <div className="text-danger">{errors.earningTrend}</div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+                <div className="col-sm-11 mt-15px mb-10px">
+                    <div className="row">
+                        <div className="w-40px pe-0">
+                            <img src={descriptionImage} alt="Description" />
+                        </div>
+                        <div className="col">
+                            <label className="text-black mt-10px mb-10px fw-500 fs-14 d-block lh-normal">Description</label>
+                            <textarea 
+                                className={`border-radius-0px box-shadow form-control ${errors.description ? 'is-invalid' : ''}`} 
+                                name="description" 
+                                placeholder="Description of the business" 
+                                value={formData.description}
+                                onChange={handleChange}
+                                rows="4"
+                            />
+                            {errors.description && <div className="invalid-feedback">{errors.description}</div>}
+                        </div>
+                    </div>
+                </div>
+                <div className="col-sm-11 mt-15px mb-10px">
+                    <div className="row">
+                        <div className="w-40px pe-0">
+                            <img src={contactImage} alt="Contact Number" />
+                        </div>
+                        <div className="col">
+                            <label className="text-black mt-5px mb-10px fw-500 fs-14 d-block lh-normal">Contact Number<span className="fs-12 d-block text-light-gray fw-400">(Please enter your country code before the number)</span></label>
+                            <input 
+                                className={`border-radius-0px box-shadow form-control ${errors.contact ? 'is-invalid' : ''}`} 
+                                type="text" 
+                                name="contact" 
+                                placeholder="Contact Number" 
+                                value={formData.contact}
+                                onChange={handleChange} 
+                            />
+                            {errors.contact && <div className="invalid-feedback">{errors.contact}</div>}
+                        </div>
+                    </div>
+                </div>
+                <div className="col-sm-11 mt-15px mb-10px">
+                    <div className="row">
+                        <div className="w-40px pe-0">
+                            <img src={emailImage} alt="Email Address" />
+                        </div>
+                        <div className="col">
+                            <label className="text-black mt-10px mb-10px fw-500 fs-14 d-block lh-normal">Email Address</label>
+                            <input 
+                                className={`border-radius-0px box-shadow form-control ${errors.email ? 'is-invalid' : ''}`} 
+                                type="email" 
+                                name="email" 
+                                placeholder="Email Address" 
+                                value={formData.email}
+                                onChange={handleChange} 
+                            />
+                            {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+                        </div>
+                    </div>
+                </div>
+                <div className="col-sm-11 mt-15px mb-10px">
+                    <div className="row">
+                        <div className="w-40px pe-0">
+                            <img src={currencyImage} alt="Currency Used" />
+                        </div>
+                        <div className="col">
+                            <label className="text-black mt-10px mb-10px fw-500 fs-14 d-block lh-normal">Currency Used</label>
+                            <div className="select">
+                                <select 
+                                    className={`border-radius-0px box-shadow form-control ${errors.currency ? 'is-invalid' : ''}`} 
+                                    name="currency" 
+                                    aria-label="select-currency"
+                                    value={formData.currency}
+                                    onChange={handleChange}
+                                >
+                                    <option value="">Select your Currency</option>
+                                    {currency.map(item => (
+                                        <option key={item._id} value={item.code}>{item.code}</option>
+                                    ))}
+                                </select>
+                                {errors.currency && <div className="invalid-feedback">{errors.currency}</div>}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-sm-12 mt-15px mb-15px text-center">
+                    
+                    {isLoading ? (
+                        <span>
+                            <span><i className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></span>
+                            <span className="btn-double-text ms-3px" data-text="Submitting...">Submitting...</span>
+                        </span>
+                    ) : (
+                        <button type="button" onClick={handleSave} className="bg-blue h-40px p-1 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn d-inline-block ls-05px">
+                            <i className="feather icon-feather-save m-0 fs-16 align-text-bottom"></i> Save:Go To Financial Info
+                        </button>
+                    )}
+                </div>
+            </form>    
+        </div>
+    </div>
+)};
+
+export default Company;
