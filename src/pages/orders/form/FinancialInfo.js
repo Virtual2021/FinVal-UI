@@ -1,186 +1,199 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { apiURL } from '../../../config/Config';
 import {formatFrontNumber} from "../../../common/numberUtils";
+import { Link } from 'react-router-dom';
 
-const FinancialInfo = ({ onSave, initialData ,backButton }) => {
+const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId, editAllowed }) => {
     const [isLoading, setIsLoading] = useState(false);
+    const [errors, setErrors] = useState({});
     const currentYear = new Date().getFullYear();
-    const previousYear = currentYear - 1;
+    const previousYear = currentYear;
     
-  const [formData, setFormData] = useState({
-    financedata: {
-        dataYear : previousYear,
-        sales: '0.00',
-        costOfSales: '0.00',
-        ebitda: '0.00',
-        depreciation: '0.00',
-        interestExpense: '0.00',
-        netProfit: '0.00',
-        cashBalance: '0.00',
-        debtLoan: '0.00',
-        equity: '0.00',
-        receivables: '0.00',
-        inventories: '0.00',
-        payables: '0.00',
-        netFixedAssets: '0.00',
-        valueType : 'Millions',
-    },
-    FinYrEnd : previousYear,
-    orderId : sessionStorage.getItem('orderId')
-  });
-
-  useEffect(() => {
-    if (initialData?.calculations?.finance) {
-        const financeData = initialData.calculations.finance;
-
-        // Update formData with values from initialData
-        setFormData(prevState => ({
-            ...prevState,
-            financedata: {
-                dataYear: formatFrontNumber(financeData.dataYear) || prevState.financedata.dataYear,
-                sales: formatFrontNumber(financeData.sales) || prevState.financedata.sales,
-                costOfSales: formatFrontNumber(financeData.costOfSales) || prevState.financedata.costOfSales,
-                ebitda: formatFrontNumber(financeData.ebitda) || prevState.financedata.ebitda,
-                depreciation: formatFrontNumber(financeData.depreciation) || prevState.financedata.depreciation,
-                interestExpense: formatFrontNumber(financeData.interestExpense) || prevState.financedata.interestExpense,
-                netProfit: formatFrontNumber(financeData.netProfit) || prevState.financedata.netProfit,
-                cashBalance: formatFrontNumber(financeData.cashBalance) || prevState.financedata.cashBalance,
-                debtLoan: formatFrontNumber(financeData.debtLoan) || prevState.financedata.debtLoan,
-                equity: formatFrontNumber(financeData.equity) || prevState.financedata.equity,
-                receivables: formatFrontNumber(financeData.receivables) || prevState.financedata.receivables,
-                inventories: formatFrontNumber(financeData.inventories) || prevState.financedata.inventories,
-                payables: formatFrontNumber(financeData.payables) || prevState.financedata.payables,
-                netFixedAssets: formatFrontNumber(financeData.netFixedAssets) || prevState.financedata.netFixedAssets,
-                valueType: formatFrontNumber(financeData.valueType) || prevState.financedata.valueType,
-            },
-            FinYrEnd: financeData.FinYrEnd || prevState.FinYrEnd,
-        }));
-    }
-  }, [initialData]);
-
-  const [errors, setErrors] = useState({});
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    const [category, field] = name.split('.'); // e.g., 'financedata.sales'
-    
-    setFormData(prevFormData => ({
-        ...prevFormData,
-        [category]: {
-            ...prevFormData[category],
-            [field]: value
-        }
-    }));
-};
-
-  const handleBlur = (e) => {
-    const { name, value } = e.target;
-    const [category, field] = name.split('.');
-    let newValue = value === '' ? '0.00' : value;
-
-    const numValue = parseFloat(newValue);
-    if (!isNaN(numValue)) {
-        newValue = numValue.toFixed(2);
-    } else {
-        newValue = '0.00';
-    }
-
-    setFormData(prevFormData => ({
-        ...prevFormData,
-        [category]: {
-            ...prevFormData[category],
-            [field]: newValue
-        }
-    }));
-  };
-
-const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    let isValid = true;
-    const newErrors = {};
-    
-    if (!formData.financedata.valueType) {
-        newErrors.financedata.valueType = 'This field is required.';
-        isValid = false;
-    }
-
-    const validateNumber = (value, allowNegative) => {
-        if (value === '' || isNaN(value)) return 'Invalid number.';
-        const num = parseFloat(value);
-        if (!allowNegative && num < 0) return '-ve values are not allowed.';
-        if (allowNegative && num < 0) return null;
-        if (num < 0) return '-ve values are not allowed.';
-        return null;
-    };
-
-    const fields = {
-        sales: false,
-        costOfSales: false,
-        ebitda: true,
-        depreciation: false,
-        interestExpense: false,
-        netProfit: true,
-        cashBalance: false,
-        debtLoan: false,
-        equity: false,
-        receivables: false,
-        inventories: false,
-        payables: false,
-        netFixedAssets: false,
-    };
-
-    Object.keys(fields).forEach(field => {
-        const error = validateNumber(formData.financedata[field], fields[field]);
-        if (error) {
-            newErrors[`financedata.${field}`] = error;
-            isValid = false;
-        }
+    const [formData, setFormData] = useState({
+        financedata: {
+            dataYear : initialData?.order?.business?.business?.FinYrEnd || previousYear,
+            sales: formatFrontNumber(initialData?.calculations?.finance?.sales) || '',
+            costOfSales: formatFrontNumber(initialData?.calculations?.finance?.costOfSales) || '',
+            ebitda: formatFrontNumber(initialData?.calculations?.finance?.ebitda) || '',
+            depreciation: formatFrontNumber(initialData?.calculations?.finance?.depreciation) || '',
+            interestExpense: formatFrontNumber(initialData?.calculations?.finance?.interestExpense) || '',
+            netProfit: formatFrontNumber(initialData?.calculations?.finance?.netProfit) || '',
+            cashBalance: formatFrontNumber(initialData?.calculations?.finance?.cashBalance) || '',
+            debtLoan: formatFrontNumber(initialData?.calculations?.finance?.debtLoan) || '',
+            equity: formatFrontNumber(initialData?.calculations?.finance?.equity) || '',
+            receivables: formatFrontNumber(initialData?.calculations?.finance?.receivables) || '',
+            inventories: formatFrontNumber(initialData?.calculations?.finance?.inventories) || '',
+            payables: formatFrontNumber(initialData?.calculations?.finance?.payables) || '',
+            netFixedAssets: formatFrontNumber(initialData?.calculations?.finance?.netFixedAssets) || '',
+            valueType : initialData?.calculations?.finance?.valueType || 'Millions',
+        },
+        FinYrEnd : initialData?.order?.business?.business?.FinYrEnd || previousYear,
+        orderId : orderId
     });
 
-    // Convert blank fields to 0.00
-    const updatedFinancedata = Object.keys(formData.financedata).reduce((acc, field) => {
-        acc[field] = formData.financedata[field] === '' ? '0.00' : formData.financedata[field];
-        return acc;
-    }, {});
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+    
+        if (name === 'valueType') {
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                financedata: {
+                    ...prevFormData.financedata,
+                    valueType: value
+                }
+            }));
+            handleGraphData(name, value);
+        } else {
+            const [category, field] = name.split('.'); // e.g., 'financedata.sales'
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                [category]: {
+                    ...prevFormData[category],
+                    [field]: value
+                }
+            }));
+        }
+    };
+    
+    const handleBlur = (e) => {
+        const { name, value } = e.target;
+        const [category, field] = name.split('.');
+        let newValue = value === '' ? '0.00' : value;
 
-    setFormData(prevFormData => ({
-        ...prevFormData,
-        financedata: updatedFinancedata
-    }));
+        const numValue = parseFloat(newValue);
+        if (!isNaN(numValue)) {
+            newValue = numValue.toFixed(2);
+        } else {
+            newValue = '0.00';
+        }
+         
+        handleGraphData(field, newValue);
+        
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            [category]: {
+                ...prevFormData[category],
+                [field]: newValue
+            }
+        }));
+    };
 
-    setErrors(newErrors);
+    const [finData, setFinData] = useState({
+        sales: [initialData?.calculations?.finance?.sales || 0.00],
+        ebitda: [initialData?.calculations?.finance?.ebitda || 0.00],
+        costOfSales: [initialData?.calculations?.finance?.costOfSales || 0.00],
+        netProfit: [initialData?.calculations?.finance?.netProfit || 0.00],
+        year: [initialData?.order?.business?.business?.FinYrEnd, initialData?.order?.business?.business?.FinYrEnd+1, initialData?.order?.business?.business?.FinYrEnd+2, initialData?.order?.business?.business?.FinYrEnd+3, initialData?.order?.business?.business?.FinYrEnd+4, initialData?.order?.business?.business?.FinYrEnd+5],
+        valueType : initialData?.calculations?.finance?.valueType || 'Millions',
+    });  
 
-    if (isValid) {
-        setIsLoading(true); // Start loading
+    const handleGraphData = (fieldName, value) => {
+        setFinData(prevData => ({
+            ...prevData,
+            [fieldName]: [value] // Update with new value in an array
+        }));
+        onFieldChange({ ...finData, [fieldName]: [value] }); // Call onFieldChange with the updated data
+    };    
 
-        try {
-            const token = sessionStorage.getItem('token');
-            const response = await axios.put(
-                apiURL + '/order/update',
-                formData,
-                {
-                    headers: {
-                        Authorization: `${token}`
+    const handleSubmit = async (e, buttonName) => {
+        e.preventDefault();
+
+        let isValid = true;
+        const newErrors = {};
+        
+        if (!formData.financedata.valueType) {
+            newErrors.financedata.valueType = 'This field is required.';
+            isValid = false;
+        }
+
+        const validateNumber = (value, allowNegative) => {
+            if (value === '' || isNaN(value)) return 'Invalid number.';
+            const num = parseFloat(value);
+            if (!allowNegative && num < 0) return '-ve values are not allowed.';
+            if (allowNegative && num < 0) return null;
+            if (num < 0) return '-ve values are not allowed.';
+            return null;
+        };
+
+        const fields = {
+            sales: false,
+            costOfSales: false,
+            ebitda: true,
+            depreciation: false,
+            interestExpense: false,
+            netProfit: true,
+            cashBalance: false,
+            debtLoan: false,
+            equity: false,
+            receivables: false,
+            inventories: false,
+            payables: false,
+            netFixedAssets: false,
+        };
+
+        Object.keys(fields).forEach(field => {
+            const error = validateNumber(formData.financedata[field], fields[field]);
+            if (error) {
+                newErrors[`financedata.${field}`] = error;
+                isValid = false;
+            }
+        });
+
+        // Convert blank fields to 0.00
+        const updatedFinancedata = Object.keys(formData.financedata).reduce((acc, field) => {
+            acc[field] = formData.financedata[field] === '' ? '0.00' : formData.financedata[field];
+            return acc;
+        }, {});
+
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            financedata: updatedFinancedata
+        }));
+
+        setErrors(newErrors);
+
+        if (isValid) {
+            setIsLoading(true); // Start loading
+
+            try {
+                const token = sessionStorage.getItem('token');
+                const response = await axios.put(
+                    apiURL + '/order/update',
+                    formData,
+                    {
+                        headers: {
+                            Authorization: `${token}`
+                        }
+                    }
+                );
+                if (response.status === 200) {
+                    if (buttonName === 'back') {
+                        backButton(); // Call backButton function
+                    } else if (buttonName === 'save') {
+                        onSave(); // Call onSave function
                     }
                 }
-            );
-            if (response.status === 200) {
-               onSave();
+            } catch (error) {
+                console.error('Error saving form:', error);
+            }finally {
+                setIsLoading(false); // Start loading
             }
-        } catch (error) {
-            console.error('Error saving form:', error);
-        }finally {
-            setIsLoading(false); // Start loading
         }
-    }
- };
+    };
+
+    const handleButton = async (buttonName) => {
+        if (buttonName === 'back') {
+            backButton(); // Call backButton function
+        } else if (buttonName === 'next') {
+            onSave(); // Call onSave function
+        }
+    };
 
   return (
     <div className="card m-0 border-radius-0px border-0 box-shadow h-100" style={{backgroundColor: "#f2f3f6"}}>
         <div className="card-header fw-500 p-15px lh-normal bg-white">
-            <p className="text-blue fw-600 mb-0 fs-16 lh-1 mt-5px mb-5px">New Order: <span className="text-dark-blue">Current Financial Information</span> <a href="" className="float-end text-blue text-golden-hover fw-600 fs-12"><i className="bi bi-info-circle-fill"></i> Need Help?</a></p>
+            <p className="text-blue fw-600 mb-0 fs-16 lh-1 mt-5px mb-5px">New Order: <span className="text-dark-blue">Current Financial Information</span> <Link to="/" className="float-end text-blue text-golden-hover fw-600 fs-12"><i className="bi bi-info-circle-fill"></i> Need Help?</Link></p>
             <div className="divider-style-03 divider-style-03-02 border-color-light-gray mb-10px mt-10px w-100"></div>
             <span className="fw-500 fs-14 lh-1 d-inline-block">Please specify all values in positive number only and up to 2 decimal places</span><br/><span className="fw-400 fs-12 fst-italic lh-1 d-inline-block">(Fields marked with <span className="text-red">*</span> can be negative)</span>
         </div>
@@ -208,7 +221,7 @@ const handleSubmit = async (e) => {
                                 </span>
                                 <input type="hidden" name="FinYrEnd" value={formData.FinYrEnd}/>
                                 <div className="select">
-                                    <select className="form-control" name="valueType" value={formData.financedata.valueType} onChange={handleChange} aria-label="select-industry">
+                                    <select className="form-control" name="valueType" value={formData.financedata.valueType} onChange={handleChange} aria-label="select-industry" >
                                         <option value="Absolute">Absolute</option>
                                         <option value="Thousands">Thousands</option>
                                         <option value="Millions">Millions</option>
@@ -250,12 +263,13 @@ const handleSubmit = async (e) => {
                                     }[field]} align-middle fs-20 lh-1`}></i>
                                 </span>
                                 <input
-                                  className="mb-0 form-control bg-white"
+                                  className="mb-0 form-control bg-white financial-info-input"
                                   type="text"
                                   name={`financedata.${field}`}
                                   value={formData.financedata[field]}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
+                                  placeholder='0.00'
                                 />
                             </div>
                             {errors[field] && <div className="text-danger">{errors[field]}</div>}
@@ -263,21 +277,66 @@ const handleSubmit = async (e) => {
                     </div>
                   </div>
                 ))}
-                {isLoading ? (
-                    <span>
-                        <span><i className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></span>
-                        <span className="btn-double-text ms-3px" data-text="Submitting...">Submitting...</span>
-                    </span>
+                
+                {!editAllowed ? (
+                    <div className="col-sm-12 mt-20px mb-15px text-center">
+                        <button
+                            onClick={(e) => handleButton('back')}
+                            className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn"
+                            type="button"
+                        >
+                            <span>
+                                <span><i className="feather icon-feather-arrow-left-circle m-0"></i></span>
+                                <span className="btn-double-text"> Back</span> 
+                            </span>
+                        </button>
+                        &nbsp;
+                        <button
+                            onClick={(e) => handleButton('next')}
+                            className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn"
+                            type="button"
+                        >
+                            <span>
+                                <span><i className="feather icon-feather-arrow-right-circle m-0"></i></span>
+                                <span className="btn-double-text"> Next</span> 
+                            </span>
+                        </button>
+                    </div>
+                ):(
+                 isLoading ? (
+                    <div className="col-sm-12 mt-20px mb-15px text-center">
+                        <span>
+                            <span><i className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></span>
+                            <span className="btn-double-text ms-3px" data-text="Submitting...">Submitting...</span>
+                        </span>
+                    </div>
                 ) : (
-                <div className="col-sm-12 mt-20px mb-15px text-center">
-                    <button onClick={backButton} className="bg-blue h-40px p-1 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn d-inline-block ls-05px w-100px">
-                        <i className="feather icon-feather-arrow-left-circle m-0 fs-16 align-text-bottom"></i> Back
+                    <div className="col-sm-12 mt-20px mb-15px text-center">
+                    <button
+                        onClick={(e) => handleSubmit(e, 'back')}
+                        className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn"
+                        type="submit"
+                        name="back"
+                    >
+                        <span>
+                            <span><i className="feather icon-feather-arrow-left-circle m-0"></i></span>
+                            <span className="btn-double-text"> Back</span> 
+                        </span>
                     </button>
-                    <button type="submit" className="bg-blue h-40px p-1 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn d-inline-block ls-05px">
-                        <i className="feather icon-feather-save m-0 fs-16 align-text-bottom"></i> Save:Go To Financial Projections
+                    &nbsp;
+                    <button
+                        onClick={(e) => handleSubmit(e, 'save')}
+                        className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn"
+                        type="submit"
+                        name="save"
+                    >
+                        <span>
+                            <span><i className="feather icon-feather-save m-0"></i></span>
+                            <span className="btn-double-text"> Save:Go To Financial Projections</span> 
+                        </span>
                     </button>
                 </div>
-                )}
+               ))}
             </form>
         </div>
     </div>

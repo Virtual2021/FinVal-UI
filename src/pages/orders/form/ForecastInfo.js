@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { apiURL } from '../../../config/Config';
-import { formatNumber } from '../../../common/numberUtils';
+import { formatForecastNumber } from '../../../common/numberUtils';
 
 // Component to render the YEAR header
-const YearHeader = () => (
+const YearHeader = ({yearList}) => (
+    
     <tr>
         <th scope="col" className="fw-400 w-150px ls-1px bg-blue text-white">YEAR</th>
-        {[2024, 2025, 2026, 2027, 2028].map(year => (
+        {yearList.map(year => (
             <th scope="col" className="bg-blue" key={year}>
                 <input
                     type="text"
@@ -21,50 +22,69 @@ const YearHeader = () => (
 );
 
 // Component to render a single table row with inputs
-const TableRow = ({ label, values, onValueChange }) => (
-    <tr>
+const TableRow = ({ label, values, onValueChange, handleBlur }) => {
+    const isNegativeAllowed = label === 'Forecasted Sales Growth Rate (Y-o-Y) (%)' ||
+                              label === 'Forecasted EBITDA Margin (%)' ||
+                              label === 'Forecasted Net Profit Margin (%)'||
+                              label === 'Interest Rate (%)'||
+                              label === 'Depreciation Rate (%)'||
+                              label === 'Forecasted COGS (as % of revenue) (%)';
+
+    return (
+        <tr>
         <th scope="row">{label}</th>
         {values.map((value, index) => (
             <td key={index}>
-                <input
-                    type="text"
-                    className="form-control p-0 text-center border-radius-0px"
-                    value={value}
-                    onChange={(e) => {
-                        const newValue = e.target.value;
-                        // Allow only numbers and decimal values up to 2 places
-                        if (/^\d*\.?\d{0,2}$/.test(newValue)) {
-                            onValueChange(index, newValue);
-                        }
-                    }}
-                    onBlur={(e) => {
-                        const sanitizedValue = e.target.value.trim();
-                        if (sanitizedValue === '') {
-                            onValueChange(index, '0.00');
-                        } else {
-                            const formattedValue = sanitizedValue.includes('.')
-                                ? parseFloat(sanitizedValue).toFixed(2)
-                                : `${sanitizedValue}.00`;
-                            onValueChange(index, formattedValue);
-                        }
-                    }}
-                />
+                <div className="financial-info-input-container">
+                    <input
+                        type="text"
+                        className="form-control p-0 text-center border-radius-0px financial-info-input"
+                        placeholder="0.0"
+                        value={value}
+                        onChange={(e) => {
+                            const newValue = e.target.value;
+                            // Allow negative values only for specific rows, otherwise allow only positive values
+                            const regex = isNegativeAllowed ? /^-?\d*\.?\d{0,2}$/ : /^\d*\.?\d{0,2}$/;
+                            if (regex.test(newValue)) {
+                                onValueChange(index, newValue);
+                            }
+                        }}
+                        onBlur={(e) => {
+                            const sanitizedValue = e.target.value.trim();
+                            if (sanitizedValue === '') {
+                                onValueChange(index, '0.0');
+                            } else {
+                                const formattedValue = sanitizedValue.includes('.')
+                                    ? parseFloat(sanitizedValue).toFixed(1)
+                                    : `${sanitizedValue}.0`;
+                                onValueChange(index, formattedValue);
+                            }
+                            handleBlur(label, values);
+                        }}
+                    />
+                    <span>%</span>
+                </div>
             </td>
         ))}
     </tr>
-);
+    );
+};
+
 
 // Main component
-const ForecastInfo = ({ onSave, initialData ,backButton }) => {
+const ForecastInfo = ({ onSave, initialData ,backButton, onPercentChange, orderId, editAllowed }) => {
+    const year= initialData.order.business.business.FinYrEnd;
+    const years =  [year+1, year+2, year+3, year+4, year+5];
     const [isLoading, setIsLoading] = useState(false);
+    const [accumulatedData, setAccumulatedData] = useState([]);
     // Initial values for each row
     const initialRows = [
-        { label: 'Forecasted Sales Growth Rate %(Y-o-Y)', values: ['0.00', '0.00', '0.00', '0.00', '0.00'] },
-        { label: 'Forecasted COGS %(as % of revenue)', values: ['0.00', '0.00', '0.00', '0.00', '0.00'] },
-        { label: 'Forecasted EBITDA Margin (%)', values: ['0.00', '0.00', '0.00', '0.00', '0.00'] },
-        { label: 'Interest Rate (%)', values: ['0.00', '0.00', '0.00', '0.00', '0.00'] },
-        { label: 'Depreciation Rate (%)', values: ['0.00', '0.00', '0.00', '0.00', '0.00'] },
-        { label: 'Forecasted Net Profit Margin (%)', values: ['0.00', '0.00', '0.00', '0.00', '0.00'] }
+        { label: 'Forecasted Sales Growth Rate (Y-o-Y) (%)', values: ['', '', '', '', ''] },
+        { label: 'Forecasted COGS (as % of revenue) (%)', values: ['', '', '', '', ''] },
+        { label: 'Forecasted EBITDA Margin (%)', values:['', '', '', '', ''] },
+        { label: 'Interest Rate (%)', values: ['', '', '', '', '']  },
+        { label: 'Depreciation Rate (%)', values: ['', '', '', '', ''] },
+        { label: 'Forecasted Net Profit Margin (%)', values: ['', '', '', '', '']  }
     ];
     const [rows, setRows] = useState(initialRows);
     
@@ -73,12 +93,12 @@ const ForecastInfo = ({ onSave, initialData ,backButton }) => {
             const data = initialData.calculations.forecast_inc_stmt;
             // Extract values from initialData
             const newRows = [
-                { label: 'Forecasted Sales Growth Rate %(Y-o-Y)', values: data.map(item => formatNumber(item.salesGrowthRate)) || ['0.00', '0.00', '0.00', '0.00', '0.00'] },
-                { label: 'Forecasted COGS %(as % of revenue)', values: data.map(item => formatNumber(item.cogs)) || ['0.00', '0.00', '0.00', '0.00', '0.00'] },
-                { label: 'Forecasted EBITDA Margin (%)', values: data.map(item => formatNumber(item.ebitdaMargin)) || ['0.00', '0.00', '0.00', '0.00', '0.00'] },
-                { label: 'Interest Rate (%)', values: data.map(item => formatNumber(item.interestRate)) || ['0.00', '0.00', '0.00', '0.00', '0.00'] },
-                { label: 'Depreciation Rate (%)', values: data.map(item => formatNumber(item.depreciationRate)) || ['0.00', '0.00', '0.00', '0.00', '0.00'] },
-                { label: 'Forecasted Net Profit Margin (%)', values: data.map(item => formatNumber(item.netProfitMargin)) || ['0.00', '0.00', '0.00', '0.00', '0.00'] }
+                { label: 'Forecasted Sales Growth Rate (Y-o-Y) (%)', values: data.map(item => formatForecastNumber(item.salesGrowthRate)) || [0.0, 0.0, 0.0, 0.0, 0.0] },
+                { label: 'Forecasted COGS (as % of revenue) (%)', values: data.map(item => formatForecastNumber(item.cogs)) || [0.0, 0.0, 0.0, 0.0, 0.0]  },
+                { label: 'Forecasted EBITDA Margin (%)', values: data.map(item => formatForecastNumber(item.ebitdaMargin)) || [0.0, 0.0, 0.0, 0.0, 0.0]  },
+                { label: 'Interest Rate (%)', values: data.map(item => formatForecastNumber(item.interestRate)) || [0.0, 0.0, 0.0, 0.0, 0.0]  },
+                { label: 'Depreciation Rate (%)', values: data.map(item => formatForecastNumber(item.depreciationRate)) || [0.0, 0.0, 0.0, 0.0, 0.0] },
+                { label: 'Forecasted Net Profit Margin (%)', values: data.map(item => formatForecastNumber(item.netProfitMargin)) || [0.0, 0.0, 0.0, 0.0, 0.0]  }
             ];
 
             
@@ -101,7 +121,6 @@ const ForecastInfo = ({ onSave, initialData ,backButton }) => {
             }
             return row;
         });
-
         setRows(updatedRows);
     };
 
@@ -125,7 +144,7 @@ const ForecastInfo = ({ onSave, initialData ,backButton }) => {
             const token = sessionStorage.getItem('token');
             const response = await axios.put(apiURL + '/order/update', {
                 forecast_inc_stmt_data: forecastIncStmtData,
-                orderId : sessionStorage.getItem('orderId'),
+                orderId : orderId,
             },
             {
                 headers: {
@@ -133,12 +152,43 @@ const ForecastInfo = ({ onSave, initialData ,backButton }) => {
                 }
             });
             if (response.status === 200) {
-                onSave();
+                if (e.nativeEvent.submitter.name === 'back') {
+                    backButton(); // Call backButton function
+                } else if (e.nativeEvent.submitter.name === 'save') {
+                    onSave(); // Call onSave function
+                }
              }
         } catch (error) {
             console.error("There was an error submitting the form!", error);
         }finally {
             setIsLoading(false); // Stop loading
+        }
+    };
+
+    const handleBlur = (label, updatedValues) => {
+        const updatedData = [...rows];
+        const existingEntryIndex = updatedData.findIndex(item => item.label === label);
+        
+        if (existingEntryIndex > -1) {
+            // Update the existing entry
+            updatedData[existingEntryIndex] = { label, values: updatedValues };
+        } else {
+            // Add a new entry
+            updatedData.push({ label, values: updatedValues });
+        }
+
+        // Update the accumulated data state
+        setAccumulatedData(updatedData);
+
+        // Pass the updated data to the onPercentChange function
+        onPercentChange(updatedData);
+    };
+    
+    const handleButton = async (buttonName) => {
+        if (buttonName === 'back') {
+            backButton(); // Call backButton function
+        } else if (buttonName === 'next') {
+            onSave(); // Call onSave function
         }
     };
 
@@ -169,7 +219,7 @@ const ForecastInfo = ({ onSave, initialData ,backButton }) => {
                                         Income Statement Assumptions
                                     </th>
                                 </tr>
-                                <YearHeader />
+                                <YearHeader yearList={years} />
                             </thead>
                             <tbody className="align-middle lh-sm">
                                 {rows.map((row, rowIndex) => (
@@ -178,29 +228,63 @@ const ForecastInfo = ({ onSave, initialData ,backButton }) => {
                                         label={row.label}
                                         values={row.values}
                                         onValueChange={(colIndex, newValue) => handleValueChange(rowIndex, colIndex, newValue)}
+                                        handleBlur = {handleBlur}
                                     />
                                 ))}
                             </tbody>
                         </table>
                     </div>
                 </div>
-                {isLoading ? (
-                    <span>
-                        <span><i className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></span>
-                        <span className="btn-double-text ms-3px" data-text="Submitting...">Submitting...</span>
-                    </span>
+                {!editAllowed ? (
+                    <div className="col-sm-12 mt-20px mb-15px text-center">
+                        <button
+                            onClick={(e) => handleButton('back')}
+                            className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn"
+                            type="button"
+                        >
+                            <span>
+                                <span><i className="feather icon-feather-arrow-left-circle m-0"></i></span>
+                                <span className="btn-double-text"> Back</span> 
+                            </span>
+                        </button>
+                        &nbsp;
+                        <button
+                            onClick={(e) => handleButton('next')}
+                            className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn"
+                            type="button"
+                        >
+                            <span>
+                                <span><i className="feather icon-feather-arrow-right-circle m-0"></i></span>
+                                <span className="btn-double-text"> Next</span> 
+                            </span>
+                        </button>
+                    </div>
+                ):( isLoading ? (
+                    <div className="col-sm-12 text-center">
+                        <span>
+                            <span><i className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></span>
+                            <span className="btn-double-text ms-3px" data-text="Submitting...">Submitting...</span>
+                        </span>
+                    </div>    
                 ) : (
                     <form onSubmit={handleSubmit} className="row contact-form-style-04 myform">
                         <div className="col-sm-12 text-center">
-                            <button type="button" onClick={backButton} className="bg-blue h-40px p-1 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn d-inline-block ls-05px w-100px">
-                                <i className="feather icon-feather-arrow-left-circle m-0 fs-16 align-text-bottom"></i> Back
+                            <button className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn" type="submit" name="back">
+                                <span>
+                                    <span><i className="feather icon-feather-arrow-left-circle m-0"></i></span>
+                                    <span className="btn-double-text"> Back</span> 
+                                </span>
                             </button>
-                            <button type="submit" className="bg-blue h-40px p-1 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn d-inline-block ls-05px">
-                                <i className="feather icon-feather-save m-0 fs-16 align-text-bottom"></i> Save: Go To Balance Sheet Assumptions
+                            &nbsp;
+                            <button className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn" type="submit" name="save">
+                                <span>
+                                    <span><i className="feather icon-feather-save m-0"></i></span>
+                                    <span className="btn-double-text"> Save:Go To Financial Projections</span> 
+                                </span>
                             </button>
                         </div>
                     </form>
-                )}
+                ))}
             </div>
         </div>
     );

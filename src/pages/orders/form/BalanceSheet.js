@@ -4,16 +4,19 @@ import axios from 'axios';
 import { formatNumber } from '../../../common/numberUtils';
 import { useNavigate } from 'react-router-dom';
 
-const BalanceSheet = ({ onSave, initialData ,backButton }) => {
+const BalanceSheet = ({ onSave, initialData ,backButton, orderId, editAllowed }) => {
+  const year= initialData.order.business.business.FinYrEnd + 1;
+  const currency= initialData.order.business.business.currency;
+  const valueType = initialData.calculations.finance.valueType;
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   // State to manage forecast balance sheet data
   const [forecastBalSheetData, setForecastBalSheetData] = useState([
-    { fixedAssets: "0.00", debtLoan: "0.00" },
-    { fixedAssets: "0.00", debtLoan: "0.00" },
-    { fixedAssets: "0.00", debtLoan: "0.00" },
-    { fixedAssets: "0.00", debtLoan: "0.00" },
-    { fixedAssets: "0.00", debtLoan: "0.00" }
+    { fixedAssets: "", debtLoan: "" },
+    { fixedAssets: "", debtLoan: "" },
+    { fixedAssets: "", debtLoan: "" },
+    { fixedAssets: "", debtLoan: "" },
+    { fixedAssets: "", debtLoan: "" }
   ]);
 
   useEffect(() => {
@@ -43,8 +46,7 @@ const BalanceSheet = ({ onSave, initialData ,backButton }) => {
   });
 
   // Handle change for balance sheet data
-  // Handle change for balance sheet data
-    const handleBalSheetInputChange = (index, field, value) => {
+  const handleBalSheetInputChange = (index, field, value) => {
     const updatedData = [...forecastBalSheetData];
   
     // Allow empty input to clear the field
@@ -54,7 +56,6 @@ const BalanceSheet = ({ onSave, initialData ,backButton }) => {
     }
   };
   
-
   // Handle change for RIP days data
   const handleRipDaysInputChange = (field, value) => {
     const updatedData = { ...forecastRipDaysData, [field]: value };
@@ -62,7 +63,7 @@ const BalanceSheet = ({ onSave, initialData ,backButton }) => {
   };
 
   // Handle form submission
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event, buttonName) => {
     event.preventDefault();
     setIsLoading(true);
     try {
@@ -70,7 +71,7 @@ const BalanceSheet = ({ onSave, initialData ,backButton }) => {
         const response = await axios.put(apiURL + '/order/update', {
             forcast_bal_sheet_data: forecastBalSheetData,
             forcast_rip_days_data: forecastRipDaysData,
-            orderId : sessionStorage.getItem('orderId'),
+            orderId : orderId,
         },
         {
             headers: {
@@ -78,7 +79,11 @@ const BalanceSheet = ({ onSave, initialData ,backButton }) => {
             }
         });
         if (response.status === 200) {
-            navigate('/preview-data/' + sessionStorage.getItem('orderId'));
+            if (buttonName === 'back') {
+              backButton(); // Call backButton function
+          } else if (buttonName === 'save') {
+              navigate('/preview-data/' + orderId);
+          }
          }
     } catch (error) {
         console.error("There was an error submitting the form!", error);
@@ -94,14 +99,14 @@ const BalanceSheet = ({ onSave, initialData ,backButton }) => {
           New Order: <span className="text-dark-blue">Financial Projections</span>
         </p>
       </div>
-      <div className="card-body p-0" style={{ maxHeight: '660px'}} data-scroll-options='{ "theme": "dark" }'>
+      <div className="card-body p-0" style={{ maxHeight: '430px'}} data-scroll-options='{ "theme": "dark" }'>
         <div className="row">
           <div className="col-sm-12 p-15px ps-30px pe-30px">
             <table className="table table-striped table-bordered fs-12 mytable">
               <thead>
                 <tr>
                   <th scope="col" colSpan="5" className="fs-14 fw-400 pt-0 pb-0 bg-blue text-white">
-                    Balance Sheet Assumptions <span className="float-end fs-12 fst-italic">Values In USD (Millions)</span>
+                    Balance Sheet Assumptions <span className="float-end fs-12 fst-italic">Values In {currency} ({valueType})</span>
                   </th>
                 </tr>
               </thead>
@@ -112,13 +117,14 @@ const BalanceSheet = ({ onSave, initialData ,backButton }) => {
                 <tr>
                   {forecastBalSheetData.map((item, index) => (
                     <td key={index} align="right">
-                      <input type="text" className="w-50px form-control p-0 text-center border-radius-0px bg-light-blue text-blue fw-600 mb-5px border-1 border-blue" value={`202${4 + index}`} disabled />
+                      <input type="text" className="w-50px form-control p-0 text-center border-radius-0px bg-light-blue text-blue fw-600 mb-5px border-1 border-blue" value={year + index} disabled />
                       <input
                         type="text"
-                        className="form-control p-2 text-end border-radius-0px"
+                        className="form-control p-2 text-end border-radius-0px  financial-info-input"
                         value={item.fixedAssets}
                         onChange={(e) => handleBalSheetInputChange(index, 'fixedAssets', e.target.value)}
                         onBlur={(e) => handleBalSheetInputChange(index, 'fixedAssets', parseFloat(e.target.value).toFixed(2))}
+                        placeholder='0.00'
                       />
                     </td>
                   ))}
@@ -129,13 +135,14 @@ const BalanceSheet = ({ onSave, initialData ,backButton }) => {
                 <tr>
                   {forecastBalSheetData.map((item, index) => (
                     <td key={index} align="right">
-                      <input type="text" className="w-50px form-control p-0 text-center border-radius-0px bg-light-blue text-blue fw-600 mb-5px border-1 border-blue" value={`202${4 + index}`} disabled />
+                      <input type="text" className="w-50px form-control p-0 text-center border-radius-0px bg-light-blue text-blue fw-600 mb-5px border-1 border-blue" value={year + index} disabled />
                       <input
                         type="text"
-                        className="form-control p-2 text-end border-radius-0px"
+                        className="form-control p-2 text-end border-radius-0px  financial-info-input"
                         value={item.debtLoan}
                         onChange={(e) => handleBalSheetInputChange(index, 'debtLoan', e.target.value)}
                         onBlur={(e) => handleBalSheetInputChange(index, 'debtLoan', parseFloat(e.target.value).toFixed(2))}
+                        placeholder='0.00'
                       />
                     </td>
                   ))}
@@ -223,21 +230,41 @@ const BalanceSheet = ({ onSave, initialData ,backButton }) => {
           </div>
         </div>
       </div>
-      {isLoading ? (
+      {!editAllowed ? (
+            <div className="col-sm-12 mt-20px mb-15px text-center">
+                <button
+                    onClick={backButton}
+                    className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn"
+                    type="button"
+                >
+                    <span>
+                        <span><i className="feather icon-feather-arrow-left-circle m-0"></i></span>
+                        <span className="btn-double-text"> Back</span> 
+                    </span>
+                </button>
+            </div>
+      ):(isLoading ? (
           <span>
               <span><i className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></span>
               <span className="btn-double-text ms-3px" data-text="Submitting...">Submitting...</span>
           </span>
       ) : (
         <div className="col-sm-12 text-center">
-            <button onClick={backButton} className="bg-blue h-40px p-1 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn d-inline-block ls-05px w-100px">
-                <i className="feather icon-feather-arrow-left-circle m-0 fs-16 align-text-bottom"></i> Back
-            </button>
-            <button onClick={handleSubmit} className="bg-blue h-40px p-1 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn d-inline-block ls-05px">
-                <i className="feather icon-feather-save m-0 fs-16 align-text-bottom"></i> Save & Preview Data
-            </button>
+            <button onClick={(e) => handleSubmit(e, 'back')} className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn" type="submit">
+                  <span>
+                      <span><i className="feather icon-feather-arrow-left-circle m-0"></i></span>
+                      <span className="btn-double-text"> Back</span> 
+                  </span>
+              </button>
+              &nbsp;
+              <button onClick={(e) => handleSubmit(e, 'save')} className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn">
+                  <span>
+                      <span><i className="feather icon-feather-save m-0"></i></span>
+                      <span className="btn-double-text"> Save & Preview Data</span> 
+                  </span>
+              </button>
         </div>
-      )}  
+      ))}  
     </div>
   );
 };

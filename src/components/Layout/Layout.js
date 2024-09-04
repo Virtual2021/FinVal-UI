@@ -11,6 +11,7 @@ const Layout = ({ children }) => {
         await import('../../assets/css/responsive.css');
         await import('../../assets/demos/finance/finance.css');
         await import('../../assets/demos/finance/mystyle.css');
+        await import('../../assets/demos/finance/mystyle2.css');
         await import('../../assets/demos/finance/intlTelInput.css');
     };
 

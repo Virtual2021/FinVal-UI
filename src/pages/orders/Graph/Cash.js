@@ -1,8 +1,30 @@
 import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import GraphHeading from '../form/GraphHeading';
 
-const Cash = () => {
+const Cash = ({data, finData}) => {
+    if (!finData || !finData.cashBalance) {
+        return null;
+      }
+    
+      const { cashBalance, year } = finData;
+    
+      // Check if the sales array is not blank and contains values greater than 0
+    //   const isValidData = cashBalance.length > 0 && cashBalance.some(value => value > 0);
+    
+    //   // If data is not valid, return null to render nothing
+    //   if (!isValidData) {
+    //     return null;
+    //   }
+      // Prepare the data for the chart
+      const seriesData = year.map((yr, index) => ({
+        name: yr,
+        y: Number(cashBalance[index]),
+        drilldown: yr,
+        color: '#021a5b'
+      }));
+    
   const options = {
     chart:{
         type:'spline'
@@ -62,39 +84,7 @@ const Cash = () => {
         marker:{
             symbol:'square'
         },
-        data: [
-            {
-                name: '2023',
-                y: 24.2,
-                drilldown: '2023',
-                color:'#021a5b'
-            },{
-                name: '2024',
-                y: 39.4,
-                drilldown: '2024',
-                color:'#021a5b'
-            },{
-                name: '2025',
-                y: 26.7,
-                drilldown: '2025',
-                color:'#021a5b'
-            },{
-                name: '2026',
-                y: 29.3,
-                drilldown: '2026',
-                color:'#021a5b'
-            },{
-                name: '2027',
-                y: 33.6,
-                drilldown: '2027',
-                color:'#021a5b'
-            },{
-                name: '2028',
-                y: 30.5,
-                drilldown: '2028',
-                color:'#021a5b'
-            }
-        ]
+        data: seriesData,
     }],
   };
 
@@ -113,10 +103,12 @@ const Cash = () => {
   };
 
     return (
-        <div class="col-sm-4 ps-5px">
-            <div class="card mt-15px rounded-bottom-0 border-0 box-shadow">
-                <div class="card-header fw-700 fs-14 ps-10px pb-0 pt-5px mb-0 h-40px lh-normal border-0 bg-white text-blue">Cash<span class="fst-italic fw-500 fs-12 ms-1">(USD million)</span></div>
-                <div class="card-body p-0 overflow-hidden">
+        <div className="col-sm-4 ps-5px">
+            <div className="card mt-15px rounded-bottom-0 border-0 box-shadow">
+                <div className="card-header fw-700 fs-14 ps-10px pb-0 pt-5px mb-0 h-40px lh-normal border-0 bg-white text-blue">Cash
+                    <GraphHeading data={data} finData={finData} />
+                    </div>
+                <div className="card-body p-0 overflow-hidden">
                     <HighchartsReact
                         highcharts={Highcharts}
                         options={options}

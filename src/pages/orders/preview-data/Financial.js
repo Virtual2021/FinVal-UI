@@ -43,6 +43,11 @@ const Financial = ({data}) => {
                         <td className="fw-600 p-5px">{formatNumber(finance.cashBalance)}</td>
                     </tr>
                     <tr>
+                        <td className="p-5px">Net Profit</td>
+                        <td className="center p-5px">:</td>
+                        <td className="fw-600 p-5px">{formatNumber(finance.netProfit)}</td>
+                    </tr>
+                    <tr>
                         <td className="p-5px">Debt / Loan</td>
                         <td className="center p-5px">:</td>
                         <td className="fw-600 p-5px">{formatNumber(finance.debtLoan)}</td>

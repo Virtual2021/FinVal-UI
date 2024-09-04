@@ -1,3 +1,5 @@
+import { getMonthName } from "../../../common/numberUtils";
+
 const BusinessDetails = ({ data }) => {
     // Check if data and businessData exist
     const businessData = data?.order?.business?.business;
@@ -42,7 +44,7 @@ const BusinessDetails = ({ data }) => {
               <tr>
                 <td className="p-5px align-top">Financial Year End</td>
                 <td className="center p-5px align-top">:</td>
-                <td className="fw-600 p-5px text-start align-top">{businessData.FinYrEndMonth ? `${businessData.FinYrEndMonth} ${businessData.FinYrEndDate}` : 'N/A'}</td>
+                <td className="fw-600 p-5px text-start align-top">{businessData.FinYrEndMonth ? `${getMonthName(businessData.FinYrEndMonth)} ${businessData.FinYrEndDate}` : 'N/A'}</td>
               </tr>
               <tr>
                 <td className="p-5px align-top">Historical Earning Trend</td>
@@ -57,7 +59,7 @@ const BusinessDetails = ({ data }) => {
               <tr>
                 <td className="p-5px align-top">Contact Number</td>
                 <td className="center p-5px align-top">:</td>
-                <td className="fw-600 p-5px text-start align-top">{businessData.contact || 'N/A'}</td>
+                <td className="fw-600 p-5px text-start align-top">+{businessData.contact.dialCode || ''}-{businessData.contact.phoneNumber || ''}</td>
               </tr>
               <tr>
                 <td className="p-5px align-top">Email Address</td>

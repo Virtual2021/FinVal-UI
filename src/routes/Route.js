@@ -8,6 +8,7 @@ const Payment = React.lazy(() => import('../pages/payment/PaymentForm'));
 const ValuationForm = React.lazy(() => import('../pages/orders/ValuationForm'));
 const PreviewData = React.lazy(() => import('../pages/orders/preview-data/Preview'));
 const SessionData = React.lazy(() => import('../pages/Session'));
+const OrderData = React.lazy(() => import('../pages/orders/listing/Listing'));
 
 const routes = [
   { path: '/user-login', component: Login, exact: true, private: false },
@@ -15,9 +16,10 @@ const routes = [
   { path: '/user-verification/:id', component: VerificationLink, exact: true, private: false},
   { path: '/dashboard', component: Dashboard, exact: true, private: true },
   { path: '/payment', component: Payment, exact: true, private: true },
-  { path: '/valuation-form', component: ValuationForm, exact: true, private: true},
+  { path: '/valuation-form/:orderId?', component: ValuationForm, exact: true, private: true},
   { path: '/preview-data/:id', component: PreviewData, exact: true, private: true},
-  { path: '/clear-data', component: SessionData, exact: true, private: true}
+  { path: '/orders', component: OrderData, exact: true, private: true},
+  { path: '/clear-data', component: SessionData, exact: true, private: false}
 ];
 
 export default routes;

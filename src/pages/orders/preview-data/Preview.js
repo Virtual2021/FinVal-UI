@@ -10,12 +10,14 @@ import { useParams, useNavigate  } from "react-router-dom"
 import { apiURL } from "../../../config/Config"
 import Swal from "sweetalert2";
 import axios from "axios"
+import Graph from "./Graphs"
 
 const Preview = () => {
     const { id } = useParams(); // Extract the ID from the URL
     const [data, setData] = useState(null);
     const token = sessionStorage.getItem('token');
     const navigate = useNavigate();
+    const { editAllowed, setEditAllowed } = useState(false);
 
     const handleSave = async (event) => {
         event.preventDefault();
@@ -36,7 +38,7 @@ const Preview = () => {
                     text: 'Your order has been successfully submitted!',
                 }).then(() => {
                     sessionStorage.removeItem('orderId');
-                    navigate('/dashboard'); // Navigate to /dashboard after success
+                    navigate('/order'); // Navigate to /dashboard after success
                 });
             } else {
                 Swal.fire({
@@ -54,12 +56,20 @@ const Preview = () => {
         }
     };
 
+    const backButton = async () => {
+        navigate({
+            pathname: `/valuation-form/${id}`,
+            search: `?step=3`,
+        });
+    }
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await fetch(apiURL+`/order/preview/${id}`);
                 const result = await response.json();
                 setData(result);
+                setEditAllowed(result.editAllowed);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -106,21 +116,29 @@ const Preview = () => {
                                     {data &&
                                     <Projections data={data}/>
                                     }
+                                    {data &&
+                                        <Graph data={data}/>
+                                    }
                                     <div className="row mt-30px">
                                         <BalanceSheet data={data}/>
                                         <Documents />
                                     </div>
-
-                                    <form action="" method="post" className="row contact-form-style-04 myform mt-30px">
-                                        <div className="col-sm-12 text-center">
-                                            <a href="balance-sheet-assumptions.html" className="bg-blue h-40px p-5px ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn d-inline-block ls-05px w-100px">
-                                                <i className="feather icon-feather-arrow-left-circle m-0 fs-16 align-text-bottom"></i> Back
-                                            </a>
-                                            <button onClick={handleSave} className="bg-blue h-40px p-5px ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn d-inline-block ls-05px">
-                                                <i className="feather icon-feather-check-circle m-0 fs-16 align-text-bottom"></i> Submit Report Order
-                                            </button>
-                                        </div>
-                                    </form>
+                                    {editAllowed &&
+                                        <form action="" method="post" className="row contact-form-style-04 myform mt-30px">
+                                            <div className="col-sm-12 text-center">
+                                                <button onClick={backButton} className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn">
+                                                    <i className="feather icon-feather-arrow-left-circle m-0 fs-16 align-text-bottom"></i> Back
+                                                </button>
+                                                &nbsp;
+                                                <button onClick={handleSave} className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn">
+                                                    <span>
+                                                        <span><i className="feather icon-feather-check-circle m-0 fs-16 align-text-bottom"></i></span>
+                                                        <span className="btn-double-text">Submit Report Order</span> 
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    }
                                 </div>
                             </div>
                         </div>

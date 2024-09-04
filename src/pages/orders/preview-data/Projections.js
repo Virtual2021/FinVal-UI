@@ -5,8 +5,8 @@ const Projections = ({ data }) => {
     // Define your headings
     const years = [year+1, year+2, year+3, year+4, year+5];
     const headings = [
-      { label: "Forecasted Sales Growth Rate %(Y-o-Y)", key: "salesGrowthRate" },
-      { label: "Forecasted COGS %(as % of revenue)", key: "cogs" },
+      { label: "Forecasted Sales Growth Rate (Y-o-Y) (%)", key: "salesGrowthRate" },
+      { label: "Forecasted COGS (as % of revenue) (%)", key: "cogs" },
       { label: "Forecasted EBITDA Margin (%)", key: "ebitdaMargin" },
       { label: "Interest Rate (%)", key: "interestRate" },
       { label: "Depreciation Rate (%)", key: "depreciationRate" },
@@ -54,7 +54,7 @@ const Projections = ({ data }) => {
                         <input
                           type="text"
                           className="form-control p-0 text-center border-radius-0px bg-dark-gray border-light-blue fs-14"
-                          value={formatNumber(projection[heading.key])}
+                          value={formatNumber(projection[heading.key] || 0.00)}
                           disabled
                         />
                       </td>

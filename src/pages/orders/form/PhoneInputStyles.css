@@ -1,0 +1,17 @@
+.phone-inputs {
+  display: flex;
+  align-items: center;
+}
+
+.dial-code-input {
+  width: 80px; /* Adjust width as needed */
+  margin-right: 10px; /* Space between dial code and phone number */
+}
+
+.phone-number-input {
+  flex: 1; /* Take up remaining space */
+}
+
+.is-invalid {
+  border-color: #dc3545; /* Red border color for invalid input */
+}

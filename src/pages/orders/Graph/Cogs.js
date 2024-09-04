@@ -1,8 +1,72 @@
 import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { CalculateGraphData } from './Calculation';
+import GraphHeading from '../form/GraphHeading';
 
-const Cogs = () => {
+const Cogs = ({data, finData , forecastData}) => {
+   if (!finData || !finData.costOfSales) {
+    return null;
+  }
+
+  const { costOfSales, year } = finData;
+
+  // Check if the sales array is not blank and contains values greater than 0
+  // const isValidData = costOfSales.length > 0 ;
+
+  // // If data is not valid, return null to render nothing
+  // if (!isValidData) {
+  //   return null;
+  // }
+
+  let updatedCogs = [...costOfSales];
+
+   // Find the index of the object with the matching label in forecastData
+   const findMatchingForecast = (forecastData, searchString) => {
+    for (let key in forecastData) {
+      if (forecastData[key].label === searchString) {
+        return forecastData[key];
+      }
+    }
+    return null;
+  };
+
+  // Check if forecastData is present and contains the expected object
+  if (forecastData) {
+    
+    const matchingForecast = findMatchingForecast(forecastData, "Forecasted COGS (as % of revenue) (%)");
+
+    if (matchingForecast) {
+      const percentages = matchingForecast.values.map(value => parseFloat(value));
+      let currentCogs = costOfSales[0];
+
+      // Start calculating from the initial sales value
+      updatedCogs = [currentCogs];
+      let currentSales = finData.sales;
+      let updatedSales = [currentSales];
+      let matchSalesObject = findMatchingForecast(forecastData, "Forecasted Sales Growth Rate (Y-o-Y) (%)");
+
+      let SalesPercentArray  = matchSalesObject ? matchSalesObject.values.map(value => parseFloat(value)) : [1,1,1,1,1];
+
+      // Iterate through each percentage and calculate new sales values
+      percentages.forEach((percentage, index) => {
+        currentSales = CalculateGraphData(currentSales, SalesPercentArray[index]);
+        currentCogs = currentSales * (percentage / 100);
+        updatedCogs.push(currentCogs);
+        updatedSales.push(currentSales);
+      });    
+    }
+  }  
+
+
+  // Prepare the data for the chart
+  const seriesData = year.map((yr, index) => ({
+    name: yr,
+    y: Number(updatedCogs[index]),
+    drilldown: yr,
+    color: '#183ea3'
+  }));
+
   const options = {
     chart: {
         type: 'column'
@@ -61,45 +125,13 @@ const Cogs = () => {
     tooltip: {
         //headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
         headerFormat: '',
-        pointFormat: '<span style="color:{point.color};font-size:11px;"><b>{point.y:.0f}1%</b></span>'
+        pointFormat: '<span style="color:{point.color};font-size:11px;"><b>{point.y:.0f}</b></span>'
     },
     series: [
         {
             name: 'COGS',
             colorByPoint: true,
-            data: [
-                {
-                    name: '2023',
-                    y: 20.2,
-                    drilldown: '2023',
-                    color:'#183ea3'
-                },{
-                    name: '2024',
-                    y: 9.8,
-                    drilldown: '2024',
-                    color:'#183ea3'
-                },{
-                    name: '2025',
-                    y: 25.2,
-                    drilldown: '2025',
-                    color:'#183ea3'
-                },{
-                    name: '2026',
-                    y: 47.1,
-                    drilldown: '2026',
-                    color:'#183ea3'
-                },{
-                    name: '2027',
-                    y: 55.3,
-                    drilldown: '2027',
-                    color:'#183ea3'
-                },{
-                    name: '2028',
-                    y: 68.5,
-                    drilldown: '2028',
-                    color:'#183ea3'
-                }
-            ]
+            data: seriesData
         }
     ]
   };
@@ -119,21 +151,19 @@ const Cogs = () => {
   };
 
   return (
-      <div className="col-sm-6 pe-5px">
-        <div className="card mt-15px rounded-bottom-0 border-0 box-shadow">
-          <div className="card-header fw-700 fs-14 ps-10px pt-5px pb-0 mb-0 lh-normal border-0 bg-white text-blue">
-            Cogs
-            <span className="fst-italic fw-500 fs-12 ms-1">(USD million)</span>
-          </div>
-          <div className="card-body p-0 overflow-hidden">
-            <HighchartsReact
-              highcharts={Highcharts}
-              options={options}
-              containerProps={{ style: containerStyle }}  // Apply the style here
-            />
-          </div>
-        </div>
+    <>  
+      <div className="card-header fw-700 fs-14 ps-10px pt-5px pb-0 mb-0 lh-normal border-0 bg-white text-blue">
+        Cogs
+        <GraphHeading data={data} finData={finData} />
       </div>
+      <div className="card-body p-0 overflow-hidden">
+        <HighchartsReact
+          highcharts={Highcharts}
+          options={options}
+          containerProps={{ style: containerStyle }}  // Apply the style here
+        />
+      </div>
+    </>
   );
 };
 

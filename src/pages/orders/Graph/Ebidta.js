@@ -1,8 +1,90 @@
 import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { CalculateGraphData } from './Calculation';
+import GraphHeading from '../form/GraphHeading';
 
-const Ebidta = () => {
+const Ebidta = ({data, finData, forecastData}) => {
+    if (!finData || !finData.ebitda) {
+       return null;
+    }
+
+    const { ebitda, year } = finData;
+
+    // Check if the sales array is not blank and contains values greater than 0
+    // const isValidData = ebitda.length > 0;
+
+    // // If data is not valid, return null to render nothing
+    // if (!isValidData) {
+    //     return null;
+    // }
+
+    
+  let updatedEbitda = [...ebitda];
+
+
+//   if (forecastData && forecastData.label ==="Forecasted EBITDA Margin (%)") {
+//     const percentages = forecastData.values;
+//     let currentEbitda = ebitda[0];
+
+//     // Start calculating from the initial sales value
+//     updatedEbitda = [currentEbitda];
+
+//     // Iterate through each percentage and calculate new sales values
+//     percentages.forEach(percentage => {
+//       currentEbitda = currentEbitda * (1 + percentage / 100);
+//       updatedEbitda.push(currentEbitda);
+//     });
+//   }
+
+   // Find the index of the object with the matching label in forecastData
+   const findMatchingForecast = (forecastData, searchString) => {
+    for (let key in forecastData) {
+      if (forecastData[key].label === searchString) {
+        return forecastData[key];
+      }
+    }
+    return null;
+  };
+
+  // Check if forecastData is present and contains the expected object
+  if (forecastData) {
+    
+    const matchingForecast = findMatchingForecast(forecastData, "Forecasted EBITDA Margin (%)");
+
+    if (matchingForecast) {
+      const percentages = matchingForecast.values.map(value => parseFloat(value));
+      let currentEbitda = ebitda[0];
+
+      // Start calculating from the initial sales value
+      updatedEbitda = [currentEbitda];
+
+       let currentSales = finData.sales;
+       let updatedSales = [currentSales];
+       let matchSalesObject = findMatchingForecast(forecastData, "Forecasted Sales Growth Rate (Y-o-Y) (%)");
+ 
+       let SalesPercentArray  = matchSalesObject ? matchSalesObject.values.map(value => parseFloat(value)) : [1,1,1,1,1];
+
+      // Iterate through each percentage and calculate new sales values
+      percentages.forEach((percentage, index) => {
+        currentSales = CalculateGraphData(currentSales, SalesPercentArray[index]);
+        currentEbitda = currentSales * (percentage / 100);
+        updatedEbitda.push(currentEbitda);
+        updatedSales.push(currentSales);
+      });
+    }
+  }  
+
+    // Prepare the data for the chart
+    const seriesData = year.map((yr, index) => ({
+        name: yr,
+        y: Number(updatedEbitda[index]),
+        drilldown: yr,
+        color: '#183ea3'
+    }));
+
+
+
     const options = {
         chart: {
             type: 'bar'
@@ -60,45 +142,13 @@ const Ebidta = () => {
         },
         tooltip: {
             headerFormat: '',
-            pointFormat: '<span style="color:{point.color};font-size:11px;"><b>{point.y:.2f}%</b></span>'
+            pointFormat: '<span style="color:{point.color};font-size:11px;"><b>{point.y:.2f}</b></span>'
         },
         series: [
             {
                 name: 'EBITDA',
                 colorByPoint: true,
-                data: [
-                    {
-                        name: '2023',
-                        y: 7.20,
-                        drilldown: '2023',
-                        color:'#183ea3'
-                    },{
-                        name: '2024',
-                        y: 13.84,
-                        drilldown: '2024',
-                        color:'#183ea3'
-                    },{
-                        name: '2025',
-                        y: 18.18,
-                        drilldown: '2025',
-                        color:'#183ea3'
-                    },{
-                        name: '2026',
-                        y: 37.12,
-                        drilldown: '2026',
-                        color:'#183ea3'
-                    },{
-                        name: '2027',
-                        y: 50.33,
-                        drilldown: '2027',
-                        color:'#183ea3'
-                    },{
-                        name: '2028',
-                        y: 59.45,
-                        drilldown: '2028',
-                        color:'#183ea3'
-                    }
-                ]
+                data: seriesData
             }
         ]
       };
@@ -118,18 +168,18 @@ const Ebidta = () => {
       };
     
     return(
-        <div class="col-sm-4 pe-5px">
-            <div class="card mt-15px rounded-bottom-0 border-0 box-shadow">
-                <div class="card-header fw-700 fs-14 ps-10px pb-0 pt-5px mb-0 h-40px lh-normal border-0 bg-white text-blue">EBITDA<span class="fst-italic fw-500 fs-12 ms-1">(USD million)</span></div>
-                <div class="card-body p-0 overflow-hidden">
-                    <HighchartsReact
-                        highcharts={Highcharts}
-                        options={options}
-                        containerProps={{ style: containerStyle }}  // Apply the style here
-                        />
-                </div>
+        <>
+            <div className="card-header fw-700 fs-14 ps-10px pb-0 pt-5px mb-0 h-40px lh-normal border-0 bg-white text-blue">Ebitda
+                <GraphHeading data={data} finData={finData} />
             </div>
-        </div>
+            <div className="card-body p-0 overflow-hidden">
+                <HighchartsReact
+                    highcharts={Highcharts}
+                    options={options}
+                    containerProps={{ style: containerStyle }}  // Apply the style here
+                    />
+            </div>
+        </>
     )
 }
 

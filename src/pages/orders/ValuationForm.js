@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import Company from "./form/Company";
 import anime from 'animejs';
 import FinancialInfo from './form/FinancialInfo';
@@ -10,25 +11,37 @@ import { apiURL } from '../../config/Config';
 import GraphElements from './Graph/GraphElements';
 
 const ValuationForm = () => {
-    
+    const { orderId } = useParams();
+    const location = useLocation();
+    const navigate = useNavigate();
+
     const [currentStep, setCurrentStep] = useState(0);
     const [formData, setFormData] = useState({}); // to store form data
     const [isLoading, setIsLoading] = useState(false); // loading state
     const [companyData, setCompanyData] = useState({
         companyName: '',
         industryType: '',
-        companyAge: ''
+        companyAge: '',
+        companyType: '',
+        country: '',
+        currency : 'USD',
       });
+    const [editAllowed, setEdit] = useState(true);
+    const [finData, setFinData] = useState([]);  
+    const [forecastData, setForecastData] = useState([]);  
 
-    const fetchOrderData = async () => {
-        const orderId = sessionStorage.getItem('orderId');
+    const queryParams = new URLSearchParams(location.search);
+    const step = parseInt(queryParams.get('step'), 10) || 0;
+    
+    const fetchOrderData = async (orderId) => {
         if (orderId) {
             setIsLoading(true); // set loading to true
             try {
                 const response = await axios.get(`${apiURL}/order/preview/${orderId}`);
                 if (response.status === 200) {
                     setFormData(response.data);
-                    setCurrentStep(1); // Move to step 1 if data exists
+                    setCurrentStep(step);
+                    setOrderData(response.data);
                 }
             } catch (error) {
                 console.error('Error fetching company data:', error);
@@ -39,41 +52,81 @@ const ValuationForm = () => {
     };
 
     useEffect(() => {
-        fetchOrderData();
-    }, []);
+        fetchOrderData(orderId);
+    }, [orderId]); 
 
     const handleSaveAndFetch = async (nextStep) => {
-        // Call the save function or logic here
-        // You need to implement save logic or pass it as props to the form components
-
-        await fetchOrderData(); // Re-fetch the data
-
+        await fetchOrderData(orderId); // Re-fetch the data
         setCurrentStep(nextStep); // Move to the next step
+         // Update the query parameter 'step' in the URL
+         const searchParams = new URLSearchParams(location.search);
+         searchParams.set('step', nextStep);
+         navigate({
+            pathname: location.pathname,
+            search: `?step=${nextStep}`,
+        });
     };
 
-const handleFieldBlur = (fieldName, value) => {
-    setCompanyData(prevData => ({
-      ...prevData,
-      [fieldName]: value
-    }));
-  };
+    const handleFieldBlur = (fieldName, value) => {
+        setCompanyData(prevData => ({
+        ...prevData,
+        [fieldName]: value
+        }));
+    };
+
+    const handleSaleChange = (data) => {
+        setFinData(prevData => ({
+            ...prevData,
+            ...data
+        }));
+    };
+
+    const handleForecastData = (data) => {
+        setForecastData(prevData => ({
+            ...prevData,
+            ...data
+        }));
+    };
+
+    const setOrderData = async (data) => {
+        if (data?.order?.business?.business) {
+            const newData = {
+                companyName: data.order.business.business.companyName,
+                industryType: data.order.business.business.industryType,
+                companyAge: data.order.business.business.companyAge,
+                companyType: data.order.business.business.companyType,
+                country: data.order.business.business.country,
+                currency: data.order.business.business.currency,
+            };
+            setCompanyData(newData);
+        }
+        if (data?.graphData?.finData) {
+            setFinData(data.graphData.finData);
+        }
+        if (data?.graphData?.forecastData) {
+            setForecastData(data.graphData.forecastData);
+        }
+        if(data){
+            setEdit(data.editAllowed);
+        }
+    };
 
     const renderStep = () => {
         if (isLoading) {
             return <div>Loading...</div>; // Display loading indicator
         }
-
+      
         switch (currentStep) {
             case 0:
-                return <Company onSave={() => handleSaveAndFetch(1)} initialData={formData} onFieldBlur={handleFieldBlur}/>;
+                return <Company onSave={() => handleSaveAndFetch(1)} initialData={formData} onFieldBlur={handleFieldBlur} orderId={orderId} editAllowed={editAllowed}/>;
             case 1:
-                return <FinancialInfo onSave={() => handleSaveAndFetch(2)} initialData={formData} backButton={() => setCurrentStep(0)} />;
+                return <FinancialInfo onSave={() => handleSaveAndFetch(2)} initialData={formData} backButton={() =>handleSaveAndFetch(0)} onFieldChange={handleSaleChange} orderId={orderId} editAllowed={editAllowed}/>;
             case 2:
-                return <ForecastInfo onSave={() => handleSaveAndFetch(3)} initialData={formData} backButton={() => setCurrentStep(1)} />;
+                return <ForecastInfo onSave={() => handleSaveAndFetch(3)} initialData={formData} backButton={() => handleSaveAndFetch(1)} onPercentChange={handleForecastData} orderId={orderId} editAllowed={editAllowed}/>;
             case 3:
-                return <BalanceSheet onSave={() => handleSaveAndFetch(0)} initialData={formData} backButton={() => setCurrentStep(2)} />;
+                return <BalanceSheet onSave={() => handleSaveAndFetch(0)} initialData={formData} backButton={() => handleSaveAndFetch(2)} orderId={orderId} editAllowed={editAllowed}/>;
             default:
-                return <Company onSave={() => handleSaveAndFetch(1)} initialData={formData} />;
+                return <Company onSave={() => handleSaveAndFetch(1)} initialData={formData} onFieldBlur={handleFieldBlur} orderId={orderId} editAllowed={editAllowed}/>;
         }
       };
 
@@ -99,7 +152,7 @@ const handleFieldBlur = (fieldName, value) => {
                                 {renderStep()}
                             </div>
                             <div className="col-sm-7">
-                                <GraphElements data={companyData}/>
+                                <GraphElements data={companyData} finData={finData} forecastData={forecastData}/>
                             </div>
                         </div>
                     </div>

@@ -182,7 +182,7 @@
     color:var(--color-golden) !important;
 }
 .bg-golden{
-    background:var(--color-golden);
+    background:var(--color-golden) !important;
 }
 .bg-golden-hover.bg-golden-hover:hover{
     background:var(--color-golden) !important;
@@ -294,9 +294,9 @@ body.dark{
 }
 
 /* ===== Reusable code - Here ===== */
-.menu-links{
+/* .menu-links{
     padding:
-}
+} */
 .mysidebar li{
     height: 40px;
     list-style: none;
@@ -315,7 +315,6 @@ body.dark{
     min-width: 40px;
     border-radius: 6px;
 }
-
 .mysidebar .icon{
     min-width: 38px;
     border-radius: 6px;
@@ -325,7 +324,6 @@ body.dark{
     justify-content: center;
     font-size: 20px;
 }
-
 .mysidebar .text,
 .mysidebar .icon,
 .mysidebar .nav-link span{
@@ -333,7 +331,6 @@ body.dark{
     color:#021a5b;
     transition: var(--tran-03);
 }
-
 .mysidebar .text{
     font-size: 12px;
     font-weight: 500;
@@ -348,7 +345,6 @@ body.dark{
 .mysidebar header{
     position: relative;
 }
-
 .mysidebar header .image-text{
     display: flex;
     align-items: center;
@@ -362,24 +358,20 @@ header .image-text .name {
     font-size: 18px;
     font-weight: 600;
 }
-
 header .image-text .profession{
     font-size: 16px;
     margin-top: -2px;
     display: block;
 }
-
 .mysidebar header .image{
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
 .mysidebar header .image img{
     width: 40px;
     border-radius: 6px;
 }
-
 .mysidebar header .mytoggle{
     position: absolute;
     top: 20px;
@@ -400,11 +392,9 @@ header .image-text .profession{
     cursor: pointer;
     transition: var(--tran-05);
 }
-
 body.dark .mysidebar header .mytoggle{
     color: var(--text-color);
 }
-
 .mysidebar.close .mytoggle{
     transform: translateY(-50%) rotate(0deg);
 }
@@ -412,14 +402,12 @@ body.dark .mysidebar header .mytoggle{
 .mysidebar .menu{
     margin-top: 40px;
 }
-
 .mysidebar li.search-box{
     border-radius: 6px;
     background-color: var(--primary-color-light);
     cursor: pointer;
     transition: var(--tran-05);
 }
-
 .mysidebar li.search-box input{
     height: 100%;
     width: 100%;
@@ -444,7 +432,6 @@ body.dark .mysidebar header .mytoggle{
     text-decoration: none;
     transition: var(--tran-03);
 }
-
 .mysidebar li a:hover{
     /*background-color: var(--primary-color);*/
     background-color:#ffc30f;
@@ -458,7 +445,6 @@ body.dark .mysidebar li a:hover .icon,
 body.dark .mysidebar li a:hover .text{
     color: var(--text-color);
 }
-
 .mysidebar .menu-bar{
     height: calc(100% - 10px);
     display: flex;
@@ -475,7 +461,6 @@ body.dark .mysidebar li a:hover .text{
     position: relative;
     transition: var(--tran-05);
 }
-
 .home{
     position: relative;
     left: 48px;
@@ -483,14 +468,13 @@ body.dark .mysidebar li a:hover .text{
     background-color: var(--body-color);
     transition: var(--tran-05);
 }
-
 /*.mysidebar.close ~ .home{
     left: 48px;
     height: 100vh;
     width: calc(100% - 48px);
 }*/
 .myform input, .myform select, .myform textarea, .myform .form-control, .myform .form-select{
-    font-size:12px;
+    font-size:14px;
     line-height:normal;
 }
 .myform .form-control, .myform .form-control.is-invalid, .myform .was-validated .form-control:invalid{
@@ -508,7 +492,7 @@ body.dark .mysidebar li a:hover .text{
     margin-top: 0px;
 }
 .myform .form-check .form-check-input{
-    margin-left:-15px;
+    margin-left:-18px;
     border-color:rgba(0,0,0,.6);
 }
 .myform .form-check{
@@ -537,7 +521,7 @@ body.dark .mysidebar li a:hover .text{
 }
 .navbar .navbar-nav .nav-link {
     font-weight: 600;
-    font-size: 12px;
+    font-size: 14px;
     letter-spacing: .05em;
     line-height: normal;
     text-transform: uppercase;
@@ -545,14 +529,16 @@ body.dark .mysidebar li a:hover .text{
 }
 header .navbar{
     background:#021a5b;
+    color: #fff;
+    /* background-color: #fff; */
 }
 header .navbar.mini-header .navbar-brand img{
-    max-height:30px;
+    max-height:35px;
 }
-.golden-btn{
+.golden-btn, .golden-btn.btn.show{
     background:#ffc30f;
     color:#021a5b !important;
-    padding:8px 12px !important;
+    padding:11px 22px !important;
     border-radius:4px;
     border:0px;
     font-size:12px !important;
@@ -561,7 +547,6 @@ header .navbar.mini-header .navbar-brand img{
 .golden-btn:hover, .golden-btn:focus, .golden-btn:active, .golden-btn:first-child:active{
     background:#fad66b;
 }
-
 #receivableDays, #inventoryDays, #payableDays{
     width:35px;
     position: relative;
@@ -625,4 +610,76 @@ fieldset{
 }
 legend{
     background:#e4e4e4;
+}
+
+
+
+.financial-info-input::placeholder {
+    color: grey !important; /* Change the color to your preference */
+    font-style: italic; /* Make the placeholder text italic */
+    opacity: 1; /* Ensure the opacity is set, as some browsers might lower it by default */
+}
+
+.financial-info-input-container {
+    display: flex;
+    align-items: center;
+}
+
+.financial-info-input {
+    flex: 1; /* Ensures the input takes up available space */
+    border-radius: 0px;
+}
+
+.financial-info-input-container span {
+    margin-left: 2px; /* Adjust spacing between the input and the % symbol */
+}
+
+
+.new-btn-color{
+    background:#4ea8f6;
+    color:#fff !important;
+    padding:11px 22px !important;
+    border-radius:4px;
+    border:0px;
+    font-size:12px !important;
+    font-weight:600;
+}
+.new-btn-color:hover, .new-btn-color:focus, .new-btn-color:active, .new-btn-color:first-child:active{
+    background:#7196f9;
+}
+.blog-date{
+    width: 70px;
+    height: 90px;
+    text-align: center;
+    background-color: #4ea8f6;    
+}
+.blog-date-month{
+    margin-top: 2px;
+    display: block;
+    width: 100%!important;
+    background-color: white;
+}
+.blog-date-date{
+    padding: 10px;
+    font-size: 30px;
+    color: white;
+    height: 100%;
+}
+/* maps */
+.menu-li-hover{
+    text-align: center;
+    border: 1px solid #e8e8e8!important;
+    padding: 0px 25px!important;
+}
+.menu-li-hover li{
+    padding: 2px!important;
+}
+.menu-li-hover li a{
+    padding-bottom: 6px!important;
+}
+.menu-li-hover li a:hover{
+    color: #4ea8f6!important;
+}
+.image-overlay-light-blue{
+    background: linear-gradient(0deg, rgb(137 200 255 / 100%) 5%, rgba(255, 255, 255, 0) 40%);
 }

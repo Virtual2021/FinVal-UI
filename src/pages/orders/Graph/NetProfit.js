@@ -1,8 +1,84 @@
 import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { CalculateGraphData } from './Calculation';
+import GraphHeading from '../form/GraphHeading';
 
-const NetProfit = () => {
+const NetProfit = ({data, finData, forecastData}) => {
+    if (!finData || !finData.netProfit) {
+        return null;
+      }
+    
+      const { netProfit, year } = finData;
+    
+      // Check if the sales array is not blank and contains values greater than 0
+    //   const isValidData = netProfit.length > 0;
+    
+    //   // If data is not valid, return null to render nothing
+    //   if (!isValidData) {
+    //     return null;
+    //   }
+
+    let updatedNetProfit = [...netProfit];
+    
+    let netProfitMargin = ( parseFloat(finData.netProfit) / parseFloat(finData.sales) ) * 100;
+    
+    let updatedNetProfitMarginPercent = [netProfitMargin];
+    
+    // Find the index of the object with the matching label in forecastData
+    const findMatchingForecast = (forecastData, searchString) => {
+        for (let key in forecastData) {
+        if (forecastData[key].label === searchString) {
+            return forecastData[key];
+        }
+        }
+        return null;
+    };
+
+    // Check if forecastData is present and contains the expected object
+    if (forecastData) {
+    
+        const matchingForecast = findMatchingForecast(forecastData, "Forecasted Net Profit Margin (%)");
+
+        if (matchingForecast) {
+            const percentages = matchingForecast.values.map(value => parseFloat(value));
+            let currentNetProfit = netProfit[0];
+
+            // Start calculating from the initial sales value
+            updatedNetProfit = [currentNetProfit];
+
+            let currentSales = finData.sales;
+            let updatedSales = [currentSales];
+            let matchSalesObject = findMatchingForecast(forecastData, "Forecasted Sales Growth Rate (Y-o-Y) (%)");
+        
+            let SalesPercentArray  = matchSalesObject ? matchSalesObject.values.map(value => parseFloat(value)) : [1,1,1,1,1];
+
+            // Iterate through each percentage and calculate new sales values
+            percentages.forEach((percentage, index) => {
+                currentSales = CalculateGraphData(currentSales, SalesPercentArray[index]);
+                currentNetProfit = (parseFloat(currentSales) * parseFloat(percentage)) / 100;
+                updatedNetProfit.push(currentNetProfit);
+                updatedNetProfitMarginPercent.push(percentage);
+                updatedSales.push(currentSales);
+            });
+        }
+    }  
+
+    // Prepare the data for the chart
+    const seriesData = year.map((yr, index) => ({
+        name: yr,
+        y: Number(updatedNetProfit[index]),
+        drilldown: yr,
+        color: '#183ea3'
+    }));
+
+    const waveData = year.map((yr, index) => ({
+        name: yr,
+        y: Number(updatedNetProfitMarginPercent[index]),
+        drilldown: yr,
+        color: '#183ea3'
+    }));
+
     const options = {
         chart: {
             zooming: {
@@ -19,9 +95,7 @@ const NetProfit = () => {
             enabled: false
         },
         xAxis: [{
-            categories: [
-                '2023', '2024', '2025', '2026', '2027', '2028'
-            ],
+            categories: year,
             crosshair: true,
             labels: {
                 style: {
@@ -64,14 +138,11 @@ const NetProfit = () => {
             name: '',
             type: 'column',
             yAxis: 1,
-            data: [
-                9.20, 17.84, 21.18, 34.12, 42.33, 49.45
-            ],
+            data: waveData,
             color:'#183ea3',
             tooltip: {
-                //headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
                 headerFormat: '',
-                pointFormat: '<span style="color:{point.color};font-size:11px;"><b>{point.y:.0f}1%</b></span>'
+                pointFormat: '<span style="color:{point.color};font-size:11px;"><b>{point.y:.0f}%</b></span>'
             },
             borderWidth: 0,
             dataLabels: {
@@ -82,34 +153,14 @@ const NetProfit = () => {
             name: '',
             type: 'spline',
             yAxis: 1,
-            data: [
-                {
-                    y: 15.30,
-                    color:'#021a5b'
-                },{
-                    y: 27.84,
-                    color:'#021a5b'
-                },{
-                    y: 31.18,
-                    color:'#021a5b'
-                },{
-                    y: 44.12,
-                    color:'#021a5b'
-                },{
-                    y: 60.33,
-                    color:'#021a5b'
-                },{
-                    y: 70.45,
-                    color:'#021a5b'
-                } 
-            ],
+            data: seriesData,
             marker:{
                 symbol:'diamond'
             },
             tooltip: {
                 //headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
                 headerFormat: '',
-                pointFormat: '<span style="color:{point.color};font-size:11px;"><b>{point.y:.0f}2%</b></span>'
+                pointFormat: '<span style="color:{point.color};font-size:11px;"><b>{point.y:.0f}</b></span>'
             },
             borderWidth: 0,
             dataLabels: {
@@ -134,18 +185,16 @@ const NetProfit = () => {
       };
     
     return(
-        <div class="col-sm-4 pe-5px">
-            <div class="card mt-15px rounded-bottom-0 border-0 box-shadow">
-                <div class="card-header fw-700 fs-14 ps-10px pb-0 pt-5px mb-0 h-40px lh-normal border-0 bg-white text-blue">Net Profit<span class="fst-italic fw-500 fs-12 ms-1">(USD million)</span> & <br/>Net Profit Margin<span class="fst-italic fw-500 fs-12 ms-1">(%)</span></div>
-                <div class="card-body p-0 overflow-hidden">
-                    <HighchartsReact
-                        highcharts={Highcharts}
-                        options={options}
-                        containerProps={{ style: containerStyle }}  // Apply the style here
-                        />
-                </div>
-            </div>
+       <>
+        <div className="card-header fw-700 fs-14 ps-10px pb-0 pt-5px mb-0 h-40px lh-normal border-0 bg-white text-blue">Net Profit<GraphHeading data={data} finData={finData} /> & <br/>Net Profit Margin<span className="fst-italic fw-500 fs-12 ms-1">(%)</span></div>
+        <div className="card-body p-0 overflow-hidden">
+            <HighchartsReact
+                highcharts={Highcharts}
+                options={options}
+                containerProps={{ style: containerStyle }}  // Apply the style here
+                />
         </div>
+      </>  
     )
 }
 

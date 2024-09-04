@@ -4,21 +4,21 @@ import { TreeSelect } from 'antd';
 const { TreeNode } = TreeSelect;
 
 const CustomDropdown = ({ data, value, onChange, error, name }) => {
-  
+
   // Format the tree nodes from the data
   const formatTreeNodes = (data) => {
     return Object.keys(data).map(industry => {      
       // Check if data[industry] is an array
       if (!Array.isArray(data[industry])) {
-        console.error(`Expected an array for ${industry}, but got ${typeof data[industry]}`);
         return null;
       }
-  
+
       return (
         <TreeNode
           value={industry}
-          title={industry} // Make the main industry visually non-clickable
+          title={industry} // Title for display
           key={industry}
+          selectable={false} // Disable selection of main industry
         >
           {data[industry].map(subItem => (
             <TreeNode value={subItem.name} title={subItem.name} key={subItem.name} />
@@ -27,11 +27,24 @@ const CustomDropdown = ({ data, value, onChange, error, name }) => {
       );
     });
   };
-  
-  
+
   // Handle change event
   const handleChangeInternal = (value) => {
-    onChange({ target: { name, value } });
+    // Check if the selected value is a sub-industry (not the main industry)
+    const isValidValue = Object.values(data).some(subIndustries =>
+      subIndustries.some(subItem => subItem.name === value)
+    );
+
+    // Only call onChange if it's a valid value
+    if (isValidValue) {
+      onChange({ target: { name, value } });
+    }
+  };
+
+  // Filter function for search
+  const filterTreeNode = (inputValue, treeNode) => {
+    // Return true if the node title includes the search input (case-insensitive)
+    return treeNode.title.toLowerCase().includes(inputValue.toLowerCase());
   };
 
   return (
@@ -41,11 +54,14 @@ const CustomDropdown = ({ data, value, onChange, error, name }) => {
         value={value || undefined}
         placeholder="Select your Industry"
         onChange={handleChangeInternal}
+        showSearch // Enable search feature
+        filterTreeNode={filterTreeNode} // Apply custom search filter
+        treeDefaultExpandAll={false} // Initially collapse all nodes
         dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
       >
         {formatTreeNodes(data)}
       </TreeSelect>
-      {error && <div className="invalid-feedback">{error}</div>}
+      {error && <div className="text-danger">{error}</div>}
     </div>
   );
 };
