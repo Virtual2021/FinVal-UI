@@ -25,7 +25,7 @@ const Navbar = () => {
                         <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
                             <ul className="navbar-nav alt-font"> 
                                 <li className="nav-item"><a href="demo-finance.html" className="nav-link">Home</a></li>
-                                <li className="nav-item"><a href="demo-finance-about.html" className="nav-link">About</a></li>
+                                <li className="nav-item"><Link to="/about" className="nav-link">About</Link></li>
                                 <li className="nav-item dropdown simple-dropdown">
                                     <a href="demo-finance-expertise.html" className="nav-link">Expertise</a>
                                     <i className="fa-solid fa-angle-down dropdown-toggle" id="navbarDropdownMenuLink_1" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
@@ -36,8 +36,8 @@ const Navbar = () => {
                                         <li><a href="demo-finance-expertise-details.html">Audit assurance</a></li>
                                     </ul>
                                 </li>
-                                <li className="nav-item"><a href="demo-finance-team.html" className="nav-link">Team</a></li>
-                                <li className="nav-item"><a href="demo-finance-pricing.html" className="nav-link">Pricing</a></li>
+                                <li className="nav-item"><Link to="/team" className="nav-link">Team</Link></li>
+                                <li className="nav-item"><Link to="/pricing" className="nav-link">Pricing</Link></li>
                                 <li className="nav-item"><a href="demo-finance-news.html" className="nav-link">News</a></li>
                             </ul>
                         </div>
