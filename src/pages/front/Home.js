@@ -10,6 +10,7 @@ import blog_4 from '../../assets/finimg/curated-with-personal-touch.jpg';
 import blog_5 from '../../assets/finimg/pay-less.jpg';
 import blog_6 from '../../assets/finimg/people-office.jpg';
 import laptop from '../../assets/finimg/laptop.png';
+import Testimonial from './Testimonial';
 
 const Home = () => {
     const bannerStyle = {
@@ -526,6 +527,8 @@ const Home = () => {
                     </div>
                 </div>
             </section>
+
+            <Testimonial />
         </>
     );
 };

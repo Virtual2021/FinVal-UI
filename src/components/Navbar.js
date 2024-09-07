@@ -27,7 +27,7 @@ const Navbar = () => {
                                 <li className="nav-item"><a href="demo-finance.html" className="nav-link">Home</a></li>
                                 <li className="nav-item"><Link to="/about" className="nav-link">About</Link></li>
                                 <li className="nav-item dropdown simple-dropdown">
-                                    <a href="demo-finance-expertise.html" className="nav-link">Expertise</a>
+                                    <Link to="/how-it-works" className="nav-link">Expertise</Link>
                                     <i className="fa-solid fa-angle-down dropdown-toggle" id="navbarDropdownMenuLink_1" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"> 
                                         <li><a href="demo-finance-expertise-details.html">Finance planning</a></li>

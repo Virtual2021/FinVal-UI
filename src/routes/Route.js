@@ -15,6 +15,7 @@ const Pricing = React.lazy(() => import('../pages/front/Pricing'));
 const Contact = React.lazy(() => import('../pages/front/Contact'));
 const Blog = React.lazy(() => import('../pages/front/Blog'));
 const Home = React.lazy(() => import('../pages/front/Home'));
+const HowItWorks = React.lazy(() => import('../pages/front/product/HowItWorks'));
 
 const routes = [
   { path: '/', component: Home, exact: true, private: false },
@@ -23,6 +24,7 @@ const routes = [
   { path: '/pricing', component: Pricing, exact: true, private: false },
   { path: '/contact', component: Contact, exact: true, private: false },
   { path: '/blog', component: Blog, exact: true, private: false },
+  { path: '/how-it-works', component: HowItWorks, exact: true, private: false },
   { path: '/user-login', component: Login, exact: true, private: false },
   { path: '/user-signup', component: Signup, exact: true, private: false },
   { path: '/user-verification/:id', component: VerificationLink, exact: true, private: false},
