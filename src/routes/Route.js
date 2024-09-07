@@ -14,8 +14,10 @@ const Team = React.lazy(() => import('../pages/front/Team'));
 const Pricing = React.lazy(() => import('../pages/front/Pricing'));
 const Contact = React.lazy(() => import('../pages/front/Contact'));
 const Blog = React.lazy(() => import('../pages/front/Blog'));
+const Home = React.lazy(() => import('../pages/front/Home'));
 
 const routes = [
+  { path: '/', component: Home, exact: true, private: false },
   { path: '/about', component: About, exact: true, private: false },
   { path: '/team', component: Team, exact: true, private: false },
   { path: '/pricing', component: Pricing, exact: true, private: false },
