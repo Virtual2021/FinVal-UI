@@ -56,9 +56,9 @@ const Blog = () => {
                                 <li class="grid-item" style={{ position: "absolute", left: "0%", top: "0px" }}>
                                     <div class="blog-box d-md-flex d-block flex-row h-100 border-radius-6px overflow-hidden box-shadow-extra-large">
                                         <div class="blog-content w-100 h-350px sm-w-100 p-3 bg-white d-flex flex-column justify-content-center align-items-start last-paragraph-no-margin">
-                                            <a href="/" class="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px ">Business</a>
+                                            <a href="/blog-details" class="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px ">Business</a>
                                             <div class="heading-box-index">
-                                                <a href="/" class="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">Creativity is nothing but a mind set free.</a>
+                                                <a href="/blog-details" class="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">Creativity is nothing but a mind set free.</a>
                                             </div>
                                             
                                             <p class=" gray-text fs-16 lh-28">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, Lorem Ipsum is simply dummy text.</p>
@@ -70,9 +70,9 @@ const Blog = () => {
                                 <li class="grid-item" style={{ position: "absolute", left: "33.33%", top: "0px" }}>
                                     <div class="blog-box d-md-flex d-block flex-row h-100 border-radius-6px overflow-hidden box-shadow-extra-large">
                                         <div class="blog-content w-100 h-350px sm-w-100 p-3 bg-white d-flex flex-column justify-content-center align-items-start last-paragraph-no-margin">
-                                            <a href="/" class="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px ">Finance</a>
+                                            <a href="/blog-details" class="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px ">Finance</a>
                                             <div class="heading-box-index">
-                                            <a href="/" class="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">A business needs a successful mix of design.</a>
+                                            <a href="/blog-details" class="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">A business needs a successful mix of design.</a>
                                             </div>
                                             
                                             <p class=" gray-text fs-16 lh-28">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, Lorem Ipsum is simply dummy text.</p>
@@ -84,9 +84,9 @@ const Blog = () => {
                                 <li class="grid-item" style={{ position: "absolute", left: "66.66%", top: "0px" }}>
                                     <div class="blog-box d-md-flex d-block flex-row h-100 border-radius-6px overflow-hidden box-shadow-extra-large">
                                         <div class="blog-content w-100 h-350px sm-w-100 p-3 bg-white d-flex flex-column justify-content-center align-items-start last-paragraph-no-margin">
-                                            <a href="/" class="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px ">Business</a>
+                                            <a href="/blog-details" class="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px ">Business</a>
                                             <div class="heading-box-index">
-                                            <a href="/" class="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">A dream doesn't become reality through magic.</a>
+                                            <a href="/blog-details" class="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">A dream doesn't become reality through magic.</a>
                                             </div>
                                             
                                             <p class=" gray-text fs-16 lh-28">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, Lorem Ipsum is simply dummy text.</p>
@@ -98,9 +98,9 @@ const Blog = () => {
                                 <li class="grid-item" style={{ position: "absolute", left: "0%", top: "380px" }}>
                                     <div class="blog-box d-md-flex d-block flex-row h-100 border-radius-6px overflow-hidden box-shadow-extra-large">
                                         <div class="blog-content w-100 h-350px sm-w-100 p-3 bg-white d-flex flex-column justify-content-center align-items-start last-paragraph-no-margin">
-                                            <a href="/" class="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px ">Creative</a>
+                                            <a href="/blog-details" class="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px ">Creative</a>
                                             <div class="heading-box-index">
-                                                <a href="/" class="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">Build up healthy habits and strong peaceful life.</a>
+                                                <a href="/blog-details" class="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">Build up healthy habits and strong peaceful life.</a>
                                             </div>
                                             
                                             <p class=" gray-text fs-16 lh-28">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, Lorem Ipsum is simply dummy text.</p>
@@ -112,9 +112,9 @@ const Blog = () => {
                                 <li class="grid-item" style={{ position: "absolute", left: "33.33%", top: "380px" }}>
                                     <div class="blog-box d-md-flex d-block flex-row h-100 border-radius-6px overflow-hidden box-shadow-extra-large">
                                         <div class="blog-content w-100 h-350px sm-w-100 p-3 bg-white d-flex flex-column justify-content-center align-items-start last-paragraph-no-margin">
-                                            <a href="/" class="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px ">Finance</a>
+                                            <a href="/blog-details" class="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px ">Finance</a>
                                             <div class="heading-box-index">
-                                            <a href="/" class="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">Everything is design are designed well.</a>
+                                            <a href="/blog-details" class="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">Everything is design are designed well.</a>
                                             </div>
                                             
                                             <p class=" gray-text fs-16 lh-28">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, Lorem Ipsum is simply dummy text.</p>
@@ -126,9 +126,9 @@ const Blog = () => {
                                 <li class="grid-item" style={{ position: "absolute", left: "66.66%", top: "380px" }}>
                                     <div class="blog-box d-md-flex d-block flex-row h-100 border-radius-6px overflow-hidden box-shadow-extra-large">
                                         <div class="blog-content w-100 h-350px sm-w-100 p-3 bg-white d-flex flex-column justify-content-center align-items-start last-paragraph-no-margin">
-                                            <a href="/" class="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px ">Business</a>
+                                            <a href="/blog-details" class="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px ">Business</a>
                                             <div class="heading-box-index">
-                                            <a href="/" class="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">Creative Make it simple, but significant.</a>
+                                            <a href="/blog-details" class="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">Creative Make it simple, but significant.</a>
                                             </div>
                                             
                                             <p class=" gray-text fs-16 lh-28">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, Lorem Ipsum is simply dummy text.</p>
@@ -140,9 +140,9 @@ const Blog = () => {
                                 <li class="grid-item" style={{ position: "absolute", left: "0%", top: "760px" }}>
                                     <div class="blog-box d-md-flex d-block flex-row h-100 border-radius-6px overflow-hidden box-shadow-extra-large">
                                         <div class="blog-content w-100 h-350px sm-w-100 p-3 bg-white d-flex flex-column justify-content-center align-items-start last-paragraph-no-margin">
-                                            <a href="/" class="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px ">Business</a>
+                                            <a href="/blog-details" class="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px ">Business</a>
                                             <div class="heading-box-index">
-                                            <a href="/" class="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">Creative Make it simple, but significant.</a>
+                                            <a href="/blog-details" class="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">Creative Make it simple, but significant.</a>
                                             </div>
                                             
                                             <p class=" gray-text fs-16 lh-28">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, Lorem Ipsum is simply dummy text.</p>
