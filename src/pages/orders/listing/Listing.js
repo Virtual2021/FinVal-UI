@@ -7,7 +7,7 @@ import axios from 'axios';
 import { apiURL } from '../../../config/Config';
 
 const Listing = () => {
-  const [filterData, setFilterData] = useState({ countries: [], companies: [] });
+  const [filterData, setFilterData] = useState({ countries: [], companies: [], customers: [] });
   const [filters, setFilters] = useState({
     orderId: '',
     companyName: '',
@@ -32,7 +32,8 @@ const Listing = () => {
         if (data.status) {
           setFilterData({
             countries: data.data.data.countries, 
-            companies: data.data.data.companies
+            companies: data.data.data.companies,
+            customers: data.data.data.customer
           });
         } else {
           console.error('Failed to fetch filter data:', data.message);
@@ -89,7 +90,7 @@ const Listing = () => {
                   <div className="card mt-15px rounded-bottom-0 border-0 box-shadow">
                     <div className="card-body overflow-hidden ps-15px pe-15px pt-0 pb-0">
                       
-                      <Heading />
+                      <Heading data={filterData} />
 
                       <Filter data={filterData} filters={filters} setFilters={setFilters} /> 
                       

@@ -1,4 +1,6 @@
-const Heading = () => {
+const Heading = ({data}) => {
+    console.log(data);
+  const customer = data.customers || [];  
   return (
     <div className="row row-cols-1 row-cols-lg-4 row-cols-md-4 justify-content-center align-items-center" data-anime='{ "el": "childs", "rotateZ": [5, 0], "translateY": [50, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
         <div className="col w-30 icon-with-text-style-10 mt-15px fin-box">
@@ -13,7 +15,7 @@ const Heading = () => {
                     </div>
                     <div className="col-8 feature-box-content last-paragraph-no-margin lh-normal text-start ps-10px">
                         <p className="fs-12 text-light-blue lh-normal">Plan Type</p>
-                        <span className="d-block fw-600 text-black mb-0 fs-16">Advisor</span>
+                        <span className="d-block fw-600 text-black mb-0 fs-16">{customer.activePlanType || 'N/A'}</span>
                     </div>
                 </div>
             </div>
@@ -26,7 +28,7 @@ const Heading = () => {
                     </div>
                     <div className="col-8 feature-box-content last-paragraph-no-margin lh-normal text-start ps-10px">
                         <p className="fs-12 text-light-blue lh-normal">New Orders Available</p>
-                        <span className="d-block fw-600 text-black mb-0 fs-16">25</span>
+                        <span className="d-block fw-600 text-black mb-0 fs-16">{customer.TotalPlanOrderedCount || 0}</span>
                     </div>
                 </div>
             </div>
@@ -39,7 +41,7 @@ const Heading = () => {
                     </div>
                     <div className="col-8 feature-box-content last-paragraph-no-margin lh-normal text-start ps-10px">
                         <p className="fs-12 text-light-blue lh-normal text-nowrap">Days Remianing in plan</p>
-                        <span className="d-block fw-600 text-black mb-0 fs-16">32</span>
+                        <span className="d-block fw-600 text-black mb-0 fs-16">{customer.daysLeft || 0}</span>
                     </div>
                 </div>
             </div>

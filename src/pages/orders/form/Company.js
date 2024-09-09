@@ -15,6 +15,8 @@ import axios from 'axios';
 import { apiURL } from '../../../config/Config';
 import CustomDropdown from './CustomDropdown';
 import PhoneInputs from './PhoneInputs';
+import "./Form.css";
+import SupportLink from './Modal/SupportLink';
 
 const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -184,8 +186,8 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
     return (
         <div className="card m-0 border-radius-0px border-0 box-shadow h-100" style={{backgroundColor: "#f2f3f6"}}>
             <div className="card-header fw-500 p-15px lh-normal bg-white">
-                <p className="text-blue fw-600 mb-0 fs-16 lh-1 mt-5px mb-5px">New Order: <span className="text-dark-blue">Business Details</span> <a href="#!" className="float-end text-blue text-golden-hover fw-600 fs-12"><i className="bi bi-info-circle-fill"></i> Need Help?</a>
-                </p>
+            <p class="text-blue fw-600 mb-0 fs-16 lh-1 mt-5px mb-5px d-inline-block">New Order: <span class="text-dark-blue">Business Details</span></p>
+                <SupportLink />
                 <div className="divider-style-03 divider-style-03-02 border-color-light-gray mb-10px mt-10px w-100"></div>
                 <span className="fw-400 fs-14">Please provide your business details</span>
                 <span className="fw-400 text-danger fs-12 float-end mt-5px">(All fields are mandatory)</span>
