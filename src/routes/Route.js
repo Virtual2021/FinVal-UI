@@ -1,14 +1,9 @@
 import React from 'react';
 
+// Front-end Component
 const Login = React.lazy(() => import('../pages/login/Login'));
 const Signup = React.lazy(() => import('../pages/signup/Signup'));
 const VerificationLink = React.lazy(() => import('../pages/signup/Verify'));
-const Dashboard = React.lazy(() => import('../pages/dashboard/Dashboard'));
-const Payment = React.lazy(() => import('../pages/payment/PaymentForm'));
-const ValuationForm = React.lazy(() => import('../pages/orders/ValuationForm'));
-const PreviewData = React.lazy(() => import('../pages/orders/preview-data/Preview'));
-const SessionData = React.lazy(() => import('../pages/Session'));
-const OrderData = React.lazy(() => import('../pages/orders/listing/Listing'));
 const About = React.lazy(() => import('../pages/front/About'));
 const Team = React.lazy(() => import('../pages/front/Team'));
 const Pricing = React.lazy(() => import('../pages/front/Pricing'));
@@ -17,6 +12,15 @@ const Blog = React.lazy(() => import('../pages/front/Blog'));
 const Home = React.lazy(() => import('../pages/front/Home'));
 const HowItWorks = React.lazy(() => import('../pages/front/product/HowItWorks'));
 const BlogDetails = React.lazy(() => import('../pages/front/BlogDetails'));
+
+// Auth Component
+const Dashboard = React.lazy(() => import('../pages/dashboard/Dashboard'));
+const Payment = React.lazy(() => import('../pages/payment/PaymentForm'));
+const ValuationForm = React.lazy(() => import('../pages/orders/ValuationForm'));
+const PreviewData = React.lazy(() => import('../pages/orders/preview-data/Preview'));
+const SessionData = React.lazy(() => import('../pages/Session'));
+const OrderData = React.lazy(() => import('../pages/orders/listing/Listing'));
+
 
 const routes = [
   { path: '/', component: Home, exact: true, private: false },
