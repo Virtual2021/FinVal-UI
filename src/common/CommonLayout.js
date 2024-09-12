@@ -8,6 +8,7 @@ import AuthNavbar from '../components/Auth/Navbar';
 
 const CommonLayout = ({ children }) => {
   const isLoggedIn = sessionStorage.getItem('token') !== null; 
+  
   return (
     <Layout>
       {isLoggedIn ? 

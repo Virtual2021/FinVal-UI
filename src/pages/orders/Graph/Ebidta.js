@@ -10,32 +10,14 @@ const Ebidta = ({data, finData, forecastData}) => {
     }
 
     const { ebitda, year } = finData;
-
-    // Check if the sales array is not blank and contains values greater than 0
-    // const isValidData = ebitda.length > 0;
-
-    // // If data is not valid, return null to render nothing
-    // if (!isValidData) {
-    //     return null;
-    // }
-
     
   let updatedEbitda = [...ebitda];
 
-
-//   if (forecastData && forecastData.label ==="Forecasted EBITDA Margin (%)") {
-//     const percentages = forecastData.values;
-//     let currentEbitda = ebitda[0];
-
-//     // Start calculating from the initial sales value
-//     updatedEbitda = [currentEbitda];
-
-//     // Iterate through each percentage and calculate new sales values
-//     percentages.forEach(percentage => {
-//       currentEbitda = currentEbitda * (1 + percentage / 100);
-//       updatedEbitda.push(currentEbitda);
-//     });
-//   }
+  // Function to format numbers with thousand separators and two decimal places
+    const formatNumber = (number) => {
+    return number.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    };
+  
 
    // Find the index of the object with the matching label in forecastData
    const findMatchingForecast = (forecastData, searchString) => {
@@ -84,7 +66,6 @@ const Ebidta = ({data, finData, forecastData}) => {
     }));
 
 
-
     const options = {
         chart: {
             type: 'bar'
@@ -96,7 +77,7 @@ const Ebidta = ({data, finData, forecastData}) => {
         credits: {
             href: '',
             mapText: '',
-            enabled: false,
+            enabled: false
         },
         subtitle: {
             align: 'left',
@@ -111,7 +92,7 @@ const Ebidta = ({data, finData, forecastData}) => {
             type: 'category',
             labels: {
                 style: {
-                    fontSize: '10'
+                    fontSize: '10px' // Added 'px' for consistency
                 }
             }
         },
@@ -120,9 +101,10 @@ const Ebidta = ({data, finData, forecastData}) => {
                 text: ''
             },
             labels: {
-                enabled: false
+                enabled: false // Ensure labels are enabled
             },
-            visible: false
+            visible: true, // Ensure yAxis is visible
+            
         },
         legend: {
             enabled: false
@@ -136,13 +118,17 @@ const Ebidta = ({data, finData, forecastData}) => {
                 borderWidth: 0,
                 dataLabels: {
                     enabled: true,
-                    format: '<span style="font-size:9px;">{point.y:.1f}</span>'
+                    formatter: function() {
+                        return `<span style="font-size:9px;"><b>${formatNumber(this.y)}</b></span>`;
+                    }
                 }
             }
         },
         tooltip: {
             headerFormat: '',
-            pointFormat: '<span style="color:{point.color};font-size:11px;"><b>{point.y:.2f}</b></span>'
+            pointFormatter: function() {
+                return `<span style="color:${this.color};font-size:11px;"><b>${formatNumber(this.y)}</b></span>`;
+            }
         },
         series: [
             {
@@ -151,7 +137,7 @@ const Ebidta = ({data, finData, forecastData}) => {
                 data: seriesData
             }
         ]
-      };
+    };    
     
       const containerStyle = {
         position: 'relative',

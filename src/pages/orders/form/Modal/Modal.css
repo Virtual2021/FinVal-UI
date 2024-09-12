@@ -1,0 +1,32 @@
+/* Style the modal */
+.modal-popup-main {
+    background: #fff;
+    border-radius: 4px;
+    padding: 20px;
+    max-width: 93%;
+    margin: auto;
+    position: relative;
+  }
+  
+  /* Style the overlay */
+  .modal-overlay {
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+  }
+  
+  /* Style the close button */
+  .close-modal-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  

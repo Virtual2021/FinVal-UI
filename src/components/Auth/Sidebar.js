@@ -1,7 +1,29 @@
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/finimg/logo.png';
 
 const Sidebar = () => {
+    useEffect(() => {
+        const body = document.querySelector('body');
+        const mysidebar = body.querySelector('.mysidebar');
+        const mytoggle = body.querySelector(".mytoggle");
+
+        if (mytoggle) {
+            mytoggle.addEventListener("click", () => {
+                mysidebar.classList.toggle("close");
+            });
+        }
+
+        // Clean up event listener on unmount
+        return () => {
+            if (mytoggle) {
+                mytoggle.removeEventListener("click", () => {
+                    mysidebar.classList.toggle("close");
+                });
+            }
+        };
+    }, []); // Empty dependency array means this effect runs once on mount
+
     const handleLogout = () => {
         sessionStorage.clear(); // Clear all data from sessionStorage
         window.location.href = '/user-login';
@@ -44,28 +66,28 @@ const Sidebar = () => {
                     <span className="fs-11 white-space-nowrap lh-normal fw-600">Orders</span>
                 </li>
                 <li className="nav-link">
-                    <a href="plans-and-billing.html">
+                    <Link to="/my-plan">
                         <i class='bi bi-clipboard-check icon'></i>
                         <span className="text nav-text">Plans & Billing</span>
-                    </a>
+                    </Link>
                 </li>
                 <li className="nav-link m-0 h-15px justify-content-center gmailtype">
                     <span className="fs-11 white-space-nowrap lh-normal fw-600">Plans</span>
                 </li>
                 <li className="nav-link">
-                    <a href="upgrade-plan.html">
+                    <Link to="/upgrade-plan">
                         <i class='bi bi-box-arrow-up icon'></i>
                         <span className="text nav-text">Upgrade Plan</span>
-                    </a>
+                    </Link>
                 </li>
                 <li className="nav-link m-0 h-15px justify-content-center gmailtype text-center mt-5px">
                     <span className="fs-11 white-space-nowrap lh-1 fw-600">Up-grade</span>
                 </li>
                 <li className="nav-link">
-                    <a href="profile.html">
+                    <Link to="/profile">
                         <i class='bi bi-person icon'></i>
                         <span className="text nav-text">My Profile</span>
-                    </a>
+                    </Link>
                 </li>
                 <li className="nav-link m-0 h-15px justify-content-center gmailtype">
                     <span className="fs-11 white-space-nowrap lh-normal fw-600">Profile</span>

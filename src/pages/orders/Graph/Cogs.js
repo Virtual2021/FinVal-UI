@@ -11,13 +11,10 @@ const Cogs = ({data, finData , forecastData}) => {
 
   const { costOfSales, year } = finData;
 
-  // Check if the sales array is not blank and contains values greater than 0
-  // const isValidData = costOfSales.length > 0 ;
-
-  // // If data is not valid, return null to render nothing
-  // if (!isValidData) {
-  //   return null;
-  // }
+    // Function to format numbers with thousand separators and two decimal places
+    const formatNumber = (number) => {
+      return number.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    };
 
   let updatedCogs = [...costOfSales];
 
@@ -118,14 +115,16 @@ const Cogs = ({data, finData , forecastData}) => {
             borderWidth: 0,
             dataLabels: {
                 enabled: true,
-                format: '<span style="font-size:9px;">{point.y:.1f}</span>'
+                formatter: function() {
+                  return `<span style="font-size:9px;"><b>${formatNumber(this.y)}</b></span>`;
+                }
             }
         }
     },
     tooltip: {
-        //headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-        headerFormat: '',
-        pointFormat: '<span style="color:{point.color};font-size:11px;"><b>{point.y:.0f}</b></span>'
+      pointFormatter: function() {
+        return `<span style="color:${this.color};font-size:11px;"><b>${formatNumber(this.y)}</b></span>`; // Use formatted value for tooltips
+      }
     },
     series: [
         {

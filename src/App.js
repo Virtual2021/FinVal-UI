@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Navigate } from 'react-router-dom';
 import AppRoutes from './components/AppRoutes';
 import routes from './routes/Route';
 import CommonLayout from './common/CommonLayout';
+import Loader from './common/Loader';
 
 export const PrivateRoute = ({ children }) => {
   const isAuthenticated = !!sessionStorage.getItem('token');
@@ -14,7 +15,7 @@ const App = () => {
   return (
     <Router>
       <CommonLayout>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div><Loader/></div>}>
           <AppRoutes routes={routes} />
         </Suspense>
       </CommonLayout>

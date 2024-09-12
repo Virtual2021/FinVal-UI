@@ -9,14 +9,12 @@ const Cash = ({data, finData}) => {
       }
     
       const { cashBalance, year } = finData;
+      
+      // Function to format numbers with thousand separators and two decimal places
+      const formatNumber = (number) => {
+        return number.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      };  
     
-      // Check if the sales array is not blank and contains values greater than 0
-    //   const isValidData = cashBalance.length > 0 && cashBalance.some(value => value > 0);
-    
-    //   // If data is not valid, return null to render nothing
-    //   if (!isValidData) {
-    //     return null;
-    //   }
       // Prepare the data for the chart
       const seriesData = year.map((yr, index) => ({
         name: yr,
@@ -74,7 +72,9 @@ const Cash = ({data, finData}) => {
             step:'left',
             dataLabels: {
                 enabled: true,
-                format: '<span style="font-size:9px;">{point.y:.1f}</span>'
+                formatter: function() {
+                    return `<span style="font-size:9px;"><b>${formatNumber(this.y)}</b></span>`;
+                  }
             },
             enableMouseTracking: false
         }

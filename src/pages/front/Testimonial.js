@@ -3,9 +3,7 @@ import Particles from 'react-tsparticles';
 import anime from 'animejs';
 import { loadSlim } from "tsparticles-slim";
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation, Pagination, EffectFade } from 'swiper/modules';
-import 'swiper/swiper-bundle.css'; // This ensures the core CSS is imported
-import 'swiper/css/autoplay';
+import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-coverflow';
@@ -16,7 +14,7 @@ const Testimonial = () => {
     }, []);
 
     const particlesLoaded = useCallback(async container => {
-        await console.log(container);
+       
     }, []);
 
     useEffect(() => {
@@ -109,6 +107,7 @@ const Testimonial = () => {
                     retina_detect: false
                 }}
                 className="position-absolute top-0px left-0px w-100  h-100 z-index-minus-1 bg-white"
+              
             />
             <div className="container">
             <div class="row justify-content-center overlap-section  g-0"  style={{ 'marginTop': '-96.4062px'}}>
@@ -123,6 +122,7 @@ const Testimonial = () => {
                 <div className="row">
                     <div className="col-12 text-center" data-anime='{ "rotateX": [-40, 0], "opacity": [0,1], "duration": 1200, "delay": 100, "staggervalue": 150, "easing": "easeOutQuad" }'>
                     <Swiper
+                        className="swiper-horizontal-3d pt-8 lg-pt-10 md-pt-12 sm-pt-15 swiper-pagination-bottom testimonials-style-04"
                         loop={true}
                         slidesPerView={1}
                         centeredSlides={true}
@@ -132,28 +132,27 @@ const Testimonial = () => {
                             stretch: 100,
                             depth: 150,
                             modifier: 1.5,
-                            slideShadows: true,
+                            slideShadows: true
                         }}
                         autoplay={{
                             delay: 5000,
-                            disableOnInteraction: false,
+                            disableOnInteraction: false
                         }}
                         pagination={{
                             clickable: true,
                             dynamicBullets: true,
-                            el: ".swiper-pagination-04",
+                            el: ".swiper-pagination-04"
                         }}
                         navigation={{
                             nextEl: ".swiper-button-next-nav.slider-navigation-style-04",
-                            prevEl: ".swiper-button-previous-nav.slider-navigation-style-04",
+                            prevEl: ".swiper-button-previous-nav.slider-navigation-style-04"
                         }}
                         breakpoints={{
                             768: {
-                                slidesPerView: 2,
-                            },
+                                slidesPerView: 2
+                            }
                         }}
-                    >
-
+                        >
                         <div className="swiper-wrapper">
                             <SwiperSlide className="swiper-slide bg-white border-radius-4px">
                                 <div className="position-relative ps-10 pe-10 md-ps-10 md-pe-10 sm-ps-7 sm-pe-7 pt-20 pb-10 lg-pt-22 md-pt-30 sm-pt-20">
@@ -199,9 +198,8 @@ const Testimonial = () => {
                                     <div className="testimonials-position fs-15 lh-20" style={{ color: "#787777" }}>Themezaa Design</div>
                                 </div>
                             </SwiperSlide>
-                            {/* Add more SwiperSlide components similarly */}
                             </div>
-                        </Swiper>
+                    </Swiper>
                     </div>
                 </div>
             </div>

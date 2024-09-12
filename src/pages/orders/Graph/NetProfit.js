@@ -10,14 +10,12 @@ const NetProfit = ({data, finData, forecastData}) => {
       }
     
       const { netProfit, year } = finData;
+
+      // Function to format numbers with thousand separators and two decimal places
+    const formatNumber = (number) => {
+        return number.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    };  
     
-      // Check if the sales array is not blank and contains values greater than 0
-    //   const isValidData = netProfit.length > 0;
-    
-    //   // If data is not valid, return null to render nothing
-    //   if (!isValidData) {
-    //     return null;
-    //   }
 
     let updatedNetProfit = [...netProfit];
     
@@ -101,9 +99,25 @@ const NetProfit = ({data, finData, forecastData}) => {
                 style: {
                     fontSize: '10'
                 }
-            }
+            },
+            gridLineWidth: 1, // Add grid lines
+            gridLineColor: '#e0e0e0', // Set grid line color
+            gridLineDashStyle: 'ShortDash' // Set grid line style
         }],
-        yAxis: [{ // Primary yAxis
+        yAxis: [{ // Primary yAxis for waveData (Net Profit Margin)
+            title: {
+                text: ''
+            },
+            labels: {
+                format: '{value}%',
+                enabled: false
+            },
+            visible: false,
+            min: Math.min(0, Math.min(...updatedNetProfitMarginPercent)), // Adjust min to handle negative values
+            gridLineWidth: 1, // Optionally add grid lines here
+            gridLineColor: '#e0e0e0', // Optionally set grid line color here
+            gridLineDashStyle: 'ShortDash' // Optionally set grid line style here
+        }, { // Secondary yAxis for seriesData (Net Profit)
             title: {
                 text: ''
             },
@@ -111,22 +125,15 @@ const NetProfit = ({data, finData, forecastData}) => {
                 format: '{value}',
                 enabled: false
             },
-            visible: false
-        }, { // Secondary yAxis
-            title: {
-                text: ''
-            },
-            labels: {
-                format: '{value}',
-                enabled: false
-            },
-            visible: false
+            visible: false,
+            min: Math.min(0, Math.min(...updatedNetProfit)), // Adjust min dynamically based on negative values
+            max: Math.max(...updatedNetProfit),
+            gridLineWidth: 1, // Optionally add grid lines here
+            gridLineColor: '#e0e0e0', // Optionally set grid line color here
+            gridLineDashStyle: 'ShortDash' // Optionally set grid line style here
         }],
         tooltip: {
             shared: false
-        },
-        legend: {
-            enabled: false
         },
         plotOptions: {
             column: {
@@ -135,40 +142,45 @@ const NetProfit = ({data, finData, forecastData}) => {
             }
         },
         series: [{
-            name: '',
+            name: 'Net Profit Margin',
             type: 'column',
-            yAxis: 1,
+            yAxis: 0, // Associate with primary yAxis (waveData)
             data: waveData,
             color:'#183ea3',
             tooltip: {
                 headerFormat: '',
-                pointFormat: '<span style="color:{point.color};font-size:11px;"><b>{point.y:.0f}%</b></span>'
+                pointFormat: '<span style="color:{point.color};font-size:11px;"><b>{point.y:.0f}%</b></span>',
             },
             borderWidth: 0,
             dataLabels: {
                 enabled: true,
                 format: '<span style="font-size:9px;">{point.y:.1f}</span>'
             }
-        },{
-            name: '',
+        }, {
+            name: 'Net Profit',
             type: 'spline',
-            yAxis: 1,
+            yAxis: 1, // Associate with secondary yAxis (seriesData)
             data: seriesData,
             marker:{
-                symbol:'diamond'
+                symbol: 'diamond'
             },
             tooltip: {
-                //headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
                 headerFormat: '',
-                pointFormat: '<span style="color:{point.color};font-size:11px;"><b>{point.y:.0f}</b></span>'
+                pointFormatter: function() {
+                    return `<span style="color:${this.color};font-size:11px;"><b>${formatNumber(this.y)}</b></span>`;
+                }
             },
             borderWidth: 0,
             dataLabels: {
                 enabled: true,
-                format: '<span style="font-size:9px;">{point.y:.1f}</span>'
+                formatter: function() {
+                    return `<span style="font-size:9px;"><b>${formatNumber(this.y)}</b></span>`;
+                }
             }
         }]
-      };
+    };
+    
+
     
       const containerStyle = {
         position: 'relative',

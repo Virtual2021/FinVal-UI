@@ -10,13 +10,11 @@ const SalesChart = ({ data, finData, forecastData }) => {
   
   const { sales, year } = finData;
 
-  // Check if the sales array is not blank and contains values greater than 0
-  // const isValidData = sales.length > 0;
-
-  // // If data is not valid, return null to render nothing
-  // if (!isValidData) {
-  //   return null;
-  // }
+  // Function to format numbers with thousand separators and two decimal places
+  const formatNumber = (number) => {
+    return number.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  };
+  
   let updatedSales = [...sales];
 
   // Find the index of the object with the matching label in forecastData
@@ -31,7 +29,6 @@ const SalesChart = ({ data, finData, forecastData }) => {
 
   // Check if forecastData is present and contains the expected object
   if (forecastData) {
-    
     const matchingForecast = findMatchingForecast(forecastData, "Forecasted Sales Growth Rate (Y-o-Y) (%)");
 
     if (matchingForecast) {
@@ -52,17 +49,17 @@ const SalesChart = ({ data, finData, forecastData }) => {
   // Prepare the data for the chart
   const seriesData = year.map((yr, index) => ({
     name: yr,
-    y: Number(updatedSales[index] || 0),
+    y: Number(updatedSales[index] || 0), // Use raw numeric value for charting
     drilldown: yr,
     color: '#183ea3'
   }));
 
   const maxSales = Math.max(...updatedSales);
-  const maxSalesValue = maxSales * 3;
+  const maxSalesValue = maxSales * 1.5;
 
   const maxData = year.map((yr, index) => ({
     name: yr,
-    y: Number(maxSalesValue || 0),
+    y: Number(maxSalesValue || 0), // Use raw numeric value for charting
     drilldown: yr,
     color: '#deebf7'
   }));
@@ -91,14 +88,14 @@ const SalesChart = ({ data, finData, forecastData }) => {
       }
     },
     yAxis: {
-      min: 0,
+      min: null, // Allow automatic scaling to include negative values
       title: {
         text: ''
       },
       labels: {
-        enabled: false
+        enabled: false // Disable yAxis labels
       },
-      visible: false
+      visible: true // Ensure yAxis is visible
     },
     legend: {
       enabled: false
@@ -114,10 +111,14 @@ const SalesChart = ({ data, finData, forecastData }) => {
         borderWidth: 0,
         dataLabels: {
           enabled: true,
-          format: '<span style="font-size:9px;">{point.y:.2f}</span>'
+          formatter: function() {
+            return `<span style="font-size:9px;"><b>${formatNumber(this.y)}</b></span>`;
+          }
         },
         tooltip: {
-          pointFormat: '<span style="color:{point.color};font-size:11px;"><b>{point.y:.2f}</b></span>'
+          pointFormatter: function() {
+            return `<span style="color:${this.color};font-size:11px;"><b>${formatNumber(this.y)}</b></span>`; // Use formatted value for tooltips
+          }
         }
       }
     },

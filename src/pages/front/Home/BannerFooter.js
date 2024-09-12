@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import anime from 'animejs';
 import banner_change from '../../../assets/finimg/bannner-animate-change2.png';
+import { Link } from 'react-router-dom';
 
 const BannerFooter = () => {
 
@@ -136,8 +137,8 @@ const BannerFooter = () => {
                     </div>
 
                     <div className="d-inline-block">
-                        <a href="/" className="btn btn-large  btn-box-shadow fw-400 me-35px sm-me-25px btn-round-edge" style={{ color: "white", backgroundColor: "#4ea8f6" }}>About company</a>
-                        <a href="/" className="btn btn-link btn-extra-large thin xs-mt-15px xs-mb-15px" style={{ color: "#4ea8f6" }}>How we <span>work</span></a>
+                        <Link to="/about" className="btn btn-large  btn-box-shadow fw-400 me-35px sm-me-25px btn-round-edge" style={{ color: "white", backgroundColor: "#4ea8f6" }}>About company</Link>
+                        <Link to="/how-it-works" className="btn btn-link btn-extra-large thin xs-mt-15px xs-mb-15px" style={{ color: "#4ea8f6" }}>How we <span>work</span></Link>
                     </div>
                 </div>
 

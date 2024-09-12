@@ -4,7 +4,9 @@ import { Navigate } from 'react-router-dom';
 
 export const PublicRoute = ({ children }) => {
   const isAuthenticated = !!sessionStorage.getItem('token');
-  return isAuthenticated ? <Navigate to="/dashboard" /> : children;
+  // return isAuthenticated ? <Navigate to="/dashboard" /> : children;
+  return isAuthenticated ? children : children;
+
 };
 
 export default PublicRoute;

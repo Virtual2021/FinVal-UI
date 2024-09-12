@@ -3,9 +3,9 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import './PhoneInputStyles.css'; // Custom CSS for better design
 
-const PhoneInputs = () => {
+const PhoneInputs = ({ value, onChange, error, name }) => {
   const [phone, setPhone] = useState('');
-  const [error, setError] = useState('');
+  const [errors, setError] = useState('');
 
   const handleChange = (value, country, e, formattedValue) => {
     setPhone(value);
