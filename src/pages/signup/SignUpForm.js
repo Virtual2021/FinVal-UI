@@ -12,7 +12,7 @@ const SignUpForm = () => {
     last_name: '',
     company: '',
     jobTitle: '',
-    industry: '',
+    // industry: '',
     country: ''
   });
 
@@ -20,6 +20,7 @@ const SignUpForm = () => {
   const [backendError, setBackendError] = useState('');
   const [backendSuccess, setBackendSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const [countries, setCountries] = useState([]);
 
   const errorRef = useRef(null);
   const successRef = useRef(null);
@@ -32,7 +33,7 @@ const SignUpForm = () => {
       last_name: '',
       company: '',
       jobTitle: '',
-      industry: '',
+      // industry: '',
       country: ''
     });
   };
@@ -71,9 +72,9 @@ const SignUpForm = () => {
     if (!formData.jobTitle) {
       formErrors.jobTitle = 'Job Title is required';
     }
-    if (!formData.industry) {
-      formErrors.industry = 'Industry is required';
-    }
+    // if (!formData.industry) {
+    //   formErrors.industry = 'Industry is required';
+    // }
     if (!formData.country) {
       formErrors.country = 'Country is required';
     }
@@ -119,6 +120,23 @@ const SignUpForm = () => {
     } else if (backendSuccess && successRef.current) {
       successRef.current.scrollIntoView({ behavior: 'smooth' });
     }
+
+    // Fetch plan data from API
+    const fetchCountries = async () => {
+      try {
+          const response = await axios.get(apiURL + '/front/countries');
+          const data = response.data;
+          if (data.status) {
+             setCountries(data.data.countries); 
+          }
+      } catch (err) {
+          console.error("Error fetching plan data:", err);
+          // Handle error appropriately here
+      }
+  };
+
+  fetchCountries();
+
   }, [backendError, backendSuccess]);
 
   return (
@@ -221,7 +239,7 @@ const SignUpForm = () => {
                 />
                 {errors.jobTitle && <span className="text-danger">{errors.jobTitle}</span>}
             </div>
-            <div className="col-md-6 mb-30px">
+            {/* <div className="col-md-6 mb-30px">
                 <div className="select">
                     <select
                       className="form-control border-radius-4px border-color-white box-shadow-double-large"
@@ -238,8 +256,8 @@ const SignUpForm = () => {
                     </select>
                     {errors.industry && <span className="text-danger">{errors.industry}</span>}
                 </div>
-            </div>
-            <div className="col-md-6 mb-30px">
+            </div> */}
+            <div className="col-md-12 mb-30px">
                 <div className="select">
                     <select
                       className="form-control border-radius-4px border-color-white box-shadow-double-large"
@@ -249,10 +267,9 @@ const SignUpForm = () => {
                       onChange={handleChange}
                     >
                         <option value="">Select Country</option>
-                        <option value="Country1">Country1</option>
-                        <option value="Country2">Country2</option>
-                        <option value="Country3">Country3</option>
-                        <option value="Country4">Country4</option>
+                        {countries.map(country => (
+                            <option key={country.code} value={country.name}>{country.name}</option>
+                        ))}
                     </select>
                     {errors.country && <span className="text-danger">{errors.country}</span>}
                 </div>

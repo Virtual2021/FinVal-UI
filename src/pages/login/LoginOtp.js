@@ -75,7 +75,7 @@ const LoginOtp = () => {
             setIsLoading(false);
 
             // Navigate to the dashboard
-            window.location.href = '/dashboard';
+            window.location.href = '/orders';
         } catch (err) {
             setError('OTP verification failed. Please try again.');
             console.error(err);

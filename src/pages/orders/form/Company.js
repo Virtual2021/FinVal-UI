@@ -24,7 +24,6 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
     const previousYear = currentYear;
     const years = [previousYear,previousYear-1,previousYear-2];
     const navigate = useNavigate();
-
     const [formData, setFormData] = useState({
         companyName: '',
         companyType: '',
@@ -45,35 +44,38 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
         currency: '',
         orderId : '',
     });
-  
     const [countries, setCountries] = useState([]);
     const [businessYears, setbusinessYears] = useState([]);
     const [historicalTrends, sethistoricalTrends] = useState([]);
     const [availableSubIndustries, setAvailableSubIndustries] = useState([]);
     const [currency, setCurrency] = useState([]);
     const [errors, setErrors] = useState({});
-
+    const [documents, setDouments] = useState(false);
 
     useEffect(() => {
         if (initialData?.order?.business?.business) {
         const data = initialData.order.business.business;  
-        setFormData({
-            companyName: data.companyName || '',
-            companyType: data.companyType || '',
-            industryType: data.industryType || '',
-            similarCompany: data.similarCompany || '',
-            companyAge: data.companyAge || '',
-            country: data.country || '',
-            FinYrEndDate: data.FinYrEndDate || '',
-            FinYrEndMonth: data.FinYrEndMonth || '',
-            FinYrEnd : data.FinYrEnd || '',
-            earningTrend: data.earningTrend || '',
-            description: data.description || '',
-            contact: data.contact || '',
-            email: data.email || '',
-            currency: data.currency || '',
-            orderId : orderId || '',
-        });
+            setFormData({
+                companyName: data.companyName || '',
+                companyType: data.companyType || '',
+                industryType: data.industryType || '',
+                similarCompany: data.similarCompany || '',
+                companyAge: data.companyAge || '',
+                country: data.country || '',
+                FinYrEndDate: data.FinYrEndDate || '',
+                FinYrEndMonth: data.FinYrEndMonth || '',
+                FinYrEnd : data.FinYrEnd || '',
+                earningTrend: data.earningTrend || '',
+                description: data.description || '',
+                contact: data.contact || '',
+                email: data.email || '',
+                currency: data.currency || '',
+                orderId : orderId || '',
+            });
+        }
+
+        if (initialData && initialData.documents && initialData.documents.document.length > 0) {
+            setDouments(true); // Assume documents is an array of file objects
         }
     }, [initialData]);
 
@@ -91,38 +93,40 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
   
     const validateForm = () => {
         const newErrors = {};
-    
-        Object.keys(formData).forEach(field => {
-            // Check for required fields excluding 'similarCompany'
-            if (field !== 'similarCompany' && field !== 'orderId' && !formData[field]) {
-                newErrors[field] = 'This field is required';
-            }
-    
-            // Handle validation for the 'contact' field separately
-            if (field === 'contact') {
-                if (!formData.contact.dialCode) {
-                    newErrors.contact = {
-                        ...newErrors.contact,
-                        dialCode: 'Dial code is required',
-                    };
+        if(!documents){
+            Object.keys(formData).forEach(field => {
+                // Check for required fields excluding 'similarCompany'
+                if (field !== 'similarCompany' && field !== 'orderId' && !formData[field]) {
+                    newErrors[field] = 'This field is required';
                 }
-                if (!formData.contact.phoneNumber) {
-                    newErrors.contact = {
-                        ...newErrors.contact,
-                        phoneNumber: 'Phone number is required',
-                    };
+        
+                // Handle validation for the 'contact' field separately
+                if (field === 'contact') {
+                    if (!formData.contact.dialCode) {
+                        newErrors.contact = {
+                            ...newErrors.contact,
+                            dialCode: 'Dial code is required',
+                        };
+                    }
+                    if (!formData.contact.phoneNumber) {
+                        newErrors.contact = {
+                            ...newErrors.contact,
+                            phoneNumber: 'Phone number is required',
+                        };
+                    }
                 }
-            }
-        });
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+            });
+            setErrors(newErrors);
+            return Object.keys(newErrors).length === 0;
+        }else{
+            return Object.keys(newErrors).length === 0;
+        }
     };
 
     const nextButton = async() => {
         onSave();
     }
     
-
     const handleSave = async (e) => {
         e.preventDefault();
         if (validateForm()) {
@@ -130,19 +134,20 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
 
             const token = sessionStorage.getItem('token');
             const url = orderId ? apiURL + '/order/update' : apiURL + '/order/store';
+            const formDatas = orderId ? {orderId: orderId, businessdata: formData } : formData;
             const method = orderId ? 'PUT' : 'POST'; 
             try {
                 const response = await axios({
                     method, 
                     url,
-                    data: formData, 
+                    data: formDatas, 
                     headers: {
                         Authorization: `${token}`,
                         'Content-Type': 'application/json',
                     },
                 });
 
-                if (response.status === 200) {
+                if (response.status) {
                     if (!orderId) { 
                         const newOrderId = response.data.data.order._id;
                         navigate({
@@ -150,7 +155,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                             search: `?step=1`,
                         });
                     }
-                    onSave(); 
+                    // onSave(); 
                 }
             } catch (error) {
                 console.error('Error saving form:', error);
@@ -187,7 +192,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
         <div className="card m-0 border-radius-0px border-0 box-shadow h-100" style={{backgroundColor: "#f2f3f6"}}>
             <div className="card-header fw-500 p-15px lh-normal bg-white">
             <p class="text-blue fw-600 mb-0 fs-16 lh-1 mt-5px mb-5px d-inline-block">New Order: <span class="text-dark-blue">Business Details</span></p>
-                <SupportLink />
+                <SupportLink data={initialData}/>
                 <div className="divider-style-03 divider-style-03-02 border-color-light-gray mb-10px mt-10px w-100"></div>
                 <span className="fw-400 fs-14">Please provide your business details</span>
                 <span className="fw-400 text-danger fs-12 float-end mt-5px">(All fields are mandatory)</span>

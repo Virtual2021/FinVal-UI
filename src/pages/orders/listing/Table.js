@@ -10,7 +10,7 @@ const Table = ({data}) => {
            return <Link to={`/valuation-form/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-pencil"></i> Edit</Link>;
 
         case 'Help Requested':
-           return <Link to="/dashboard" className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-pencil"></i> Edit</Link>;   
+           return <Link to={`/valuation-form/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-pencil"></i> Edit</Link>;   
 
         case 'Submitted':
            return <Link to={`/valuation-form/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-info-circle"></i> View Details</Link>;

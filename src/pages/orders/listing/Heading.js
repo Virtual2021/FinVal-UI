@@ -1,5 +1,4 @@
 const Heading = ({data}) => {
-    console.log(data);
   const customer = data.customers || [];  
   return (
     <div className="row row-cols-1 row-cols-lg-4 row-cols-md-4 justify-content-center align-items-center" data-anime='{ "el": "childs", "rotateZ": [5, 0], "translateY": [50, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>

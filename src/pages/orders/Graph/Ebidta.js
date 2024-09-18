@@ -92,7 +92,7 @@ const Ebidta = ({data, finData, forecastData}) => {
             type: 'category',
             labels: {
                 style: {
-                    fontSize: '10px' // Added 'px' for consistency
+                    fontSize: '10' // Added 'px' for consistency
                 }
             }
         },
@@ -111,19 +111,23 @@ const Ebidta = ({data, finData, forecastData}) => {
         },
         plotOptions: {
             bar: {
-                borderWidth: 0,
-                borderRadius: 0
+              borderWidth: 0,
+              borderRadius: 0
             },
             series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true,
-                    formatter: function() {
-                        return `<span style="font-size:9px;"><b>${formatNumber(this.y)}</b></span>`;
-                    }
+              borderWidth: 0,
+              dataLabels: {
+                enabled: true,
+                formatter: function() {
+                  return `<span style="font-size:9px;color:#000000;">${formatNumber(this.y)}</span>`; // Set the color explicitly
+                },
+                style: {
+                  color: '#000000' // Ensure the text color is black
                 }
+              }
             }
-        },
+          }
+,          
         tooltip: {
             headerFormat: '',
             pointFormatter: function() {
@@ -134,7 +138,7 @@ const Ebidta = ({data, finData, forecastData}) => {
             {
                 name: 'EBITDA',
                 colorByPoint: true,
-                data: seriesData
+                data: seriesData,
             }
         ]
     };    

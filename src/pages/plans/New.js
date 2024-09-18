@@ -1,32 +1,91 @@
-import React, { useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import anime from 'animejs';
 import { Link } from 'react-router-dom';
+import axios from 'axios'; // Assuming axios is used for API calls
+import { apiURL } from '../../config/Config';
+import { formatDate } from '../../common/dateUtils';
 
 const New = () => {
 
-useEffect(() => {
-    // Handle anime.js animations
-    const elements = document.querySelectorAll('[data-anime]');
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const el = entry.target;
-            const animeConfig = JSON.parse(el.getAttribute('data-anime'));
-            anime({
-            targets: el,
-            ...animeConfig,
+    const [currentplanData, setCurrentPlanData] = useState(null); // State to store plan data
+    const [historyplanData, setHistoryPlanData] = useState(null); // State to store plan data
+    const [contentArray, setContentArray] = useState([]);
+    // const [loading, setLoading] = useState(true); // State to manage loading
+    // const [error, setError] = useState(null); // State to handle any errors
+    const token = sessionStorage.getItem('token');
+
+    useEffect(() => {
+        // Fetch plan data from API
+        const fetchPlanData = async () => {
+            const token = sessionStorage.getItem('token');
+            
+            try {
+                const response = await axios.get(apiURL + '/plan/customer_plans', {
+                    headers: {
+                        Authorization: `${token}`, 
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const data = response.data;
+                if (data.status) {
+                    setCurrentPlanData(data.data.current_plan[0]);
+                    setHistoryPlanData(data.data.old_plan);
+                    if (data.data.current_plan[0] && data.data.current_plan[0].planId && data.data.current_plan[0].planId.description) {
+                        const parsedArray = parseHtmlList(data.data.current_plan[0].planId.userplandescription);
+                        setContentArray(parsedArray);
+                    }
+                } else {
+                    setCurrentPlanData(null); // No active plan
+                    setHistoryPlanData(null);
+                }
+            } catch (err) {
+                console.error("Error fetching plan data:", err);
+                // Handle error appropriately here
+            }
+        };
+
+        fetchPlanData();
+
+        const elements = document.querySelectorAll('[data-anime]');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                const animeConfig = JSON.parse(el.getAttribute('data-anime'));
+                anime({
+                targets: el,
+                ...animeConfig,
+                });
+                observer.unobserve(el);
+            }
             });
-            observer.unobserve(el);
-        }
         });
-    });
-    elements.forEach(el => {
-        observer.observe(el);
-    });
-    return () => {
-        elements.forEach(el => observer.unobserve(el));
-    };
-}, []);
+        elements.forEach(el => {
+            observer.observe(el);
+        });
+        return () => {
+            elements.forEach(el => observer.unobserve(el));
+        };
+    }, []);
+
+    const parseHtmlList = (htmlString) => {
+        const convertString =  htmlString
+          .replace("<ul>", "")
+          .replace("</ul>", "")
+          .split("</li><li>")
+          .map((item) => item.replace("<li>", "").replace("</li>", ""));
+        return convertString;  
+      };
+      
+
+    // Display loading or error states
+    // if (loading) {
+    //     return <div>Loading...</div>;
+    // }
+
+    // if (error) {
+    //     return <div>{error}</div>;
+    // }
 
    return (
     <section class="position-relative pt-15px pb-15px">
@@ -50,27 +109,27 @@ useEffect(() => {
                                                                     <tr>
                                                                         <td class="ps-5px pb-5px pe-5px pt-0 lh-1">Plan Id</td>
                                                                         <td class="center ps-5px pb-5px pe-5px pt-0 lh-1">:</td>
-                                                                        <td class="fw-600 ps-5px pb-5px pe-5px pt-0 lh-1 text-start">3</td>
+                                                                        <td class="fw-600 ps-5px pb-5px pe-5px pt-0 lh-1 text-start">{currentplanData && currentplanData.planId ? currentplanData.planId.sequenceId : "N/A"}</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td class="p-5px">Number of Reports</td>
                                                                         <td class="center p-5px">:</td>
-                                                                        <td class="fw-600 p-5px text-start">36</td>
+                                                                        <td class="fw-600 p-5px text-start">{currentplanData && currentplanData.planId ? currentplanData.planId.reports : "N/A"}</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td class="p-5px">Reports currently unutilized</td>
                                                                         <td class="center p-5px">:</td>
-                                                                        <td class="fw-600 p-5px text-start">0</td>
+                                                                        <td class="fw-600 p-5px text-start">{currentplanData && currentplanData.planId ? currentplanData.planId.reports : "N/A"}</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td class="p-5px">Plan Type</td>
                                                                         <td class="center p-5px">:</td>
-                                                                        <td class="fw-600 p-5px text-start">Advisor</td>
+                                                                        <td class="fw-600 p-5px text-start">{currentplanData && currentplanData.planId ? currentplanData.planId.planType : "N/A"}</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td class="p-5px">Plan Expiry Date</td>
                                                                         <td class="center p-5px">:</td>
-                                                                        <td class="fw-600 p-5px text-start">06-Jun-2024</td>
+                                                                        <td class="fw-600 p-5px text-start">{currentplanData && currentplanData.planId ? formatDate(currentplanData.expiresAt) : "N/A"}</td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
@@ -86,32 +145,16 @@ useEffect(() => {
                                                             </div>
                                                             <div class="pricing-body bg-white">
                                                                 <ul class="list-style-01 p-0 mb-0">
+                                                                {contentArray.map((item, index) => (
                                                                     <li class="border-color-transparent-dark-very-light p-10px fs-16" style={{"display": "flex", "alignItems": "flex-start"}}>
                                                                         <i class="bi bi-check2-circle fs-22 fw-700" style={{"color": "rgb(20, 193, 20)", "marginRight": "8px", "marginTop": "-4px"}}></i>
                                                                         <span class="text-start lh-sm">
-                                                                            Allowed 1 Modification to the assumptions within the first 48 hours after the
-                                                                            reports are delivered
+                                                                            {item}
                                                                         </span>
                                                                     </li>
-                                                                    <li class="border-color-transparent-dark-very-light p-10px fs-16" style={{"display": "flex", "alignItems": "flex-start"}}>
-                                                                        <i class="bi bi-check2-circle fs-22 fw-700" style={{"color": "rgb(20, 193, 20)", "marginRight": "8px", "marginTop": "-4px"}}></i>
-                                                                        <span class="text-start lh-sm">
-                                                                            Report delivered in 1 to 2 working days
-                                                                        </span>
-                                                                    </li>
-                                                                    <li class="border-color-transparent-dark-very-light p-10px fs-16" style={{"display": "flex", "alignItems": "flex-start"}}>
-                                                                        <i class="bi bi-check2-circle fs-22 fw-700"  style={{"color": "rgb(20, 193, 20)", "marginRight": "8px", "marginTop": "-4px"}}></i>
-                                                                        <span class="text-start lh-sm">
-                                                                            2 valuation methods in 1
-                                                                        </span>
-                                                                    </li>
-
-                                                                    <li class="border-color-transparent-dark-very-light p-10px fs-16" style={{"display": "flex", "alignItems": "flex-start"}}>
-                                                                        <i class="bi bi-check2-circle fs-22 fw-700" style={{"color": "rgb(20, 193, 20)", "marginRight": "8px", "marginTop": "-4px"}}></i>
-                                                                        <span class="text-start lh-sm">
-                                                                            Industry research for WACC calculation
-                                                                        </span>
-                                                                    </li>
+                                                                ))}
+                                                                    {/* {currentplanData.planId.description} */}
+                                                                    
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -123,6 +166,7 @@ useEffect(() => {
                                     <fieldset class="ps-15px pe-15px pt-10px mt-15px mb-15px">
                                         <legend class="fw-600 float-none border-1px col-auto fs-14 ps-15px pe-15px p-5px lh-1 border-radius-4px bg-light-blue text-blue m-0">Order History</legend>
                                         <div class="table-responsive">
+                                            {historyplanData ?
                                             <table class="table table-striped table-bordered fs-14 lh-normal mytable border-light-blue align-middle text-center">
                                                 <thead class="border-solid border-1 border-light-blue">
                                                     <tr>
@@ -151,32 +195,9 @@ useEffect(() => {
                                                         <td class="fs-14">Expired</td>
                                                         <td class="fs-14"><a href="#" class="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i class="bi bi-file-earmark-pdf"></i> Invoice</a></td>
                                                     </tr>
-                                                    <tr>
-                                                        <td class="fs-14">28-Mar-2024</td>
-                                                        <td class="fs-14">Advisor</td>
-                                                        <td class="fs-14">2</td>
-                                                        <td class="fs-14">New Plan</td>
-                                                        <td class="fs-14">30</td>
-                                                        <td class="fs-14">50</td>
-                                                        <td class="fs-14">16</td>
-                                                        <td class="fs-14">NA</td>
-                                                        <td class="fs-14">Inactive</td>
-                                                        <td class="fs-14"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="fs-14">15-May-2024</td>
-                                                        <td class="fs-14">Advisor</td>
-                                                        <td class="fs-14">3</td>
-                                                        <td class="fs-14">Upgrade</td>
-                                                        <td class="fs-14">34</td>
-                                                        <td class="fs-14">22</td>
-                                                        <td class="fs-14">0</td>
-                                                        <td class="fs-14">06-Jun-2024</td>
-                                                        <td class="fs-14">Active</td>
-                                                        <td class="fs-14"></td>
-                                                    </tr>
                                                 </tbody>
                                             </table>
+                                            : "No Order History" }
                                         </div>
                                     </fieldset>
                                 </div>

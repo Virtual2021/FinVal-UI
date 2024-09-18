@@ -17,7 +17,7 @@ const Preview = () => {
     const [data, setData] = useState(null);
     const token = sessionStorage.getItem('token');
     const navigate = useNavigate();
-    const { editAllowed, setEditAllowed } = useState(false);
+    const [ editAllowed, setEditAllowed ] = useState(false);
 
     const handleSave = async (event) => {
         event.preventDefault();
@@ -38,7 +38,7 @@ const Preview = () => {
                     text: 'Your order has been successfully submitted!',
                 }).then(() => {
                     sessionStorage.removeItem('orderId');
-                    navigate('/order'); // Navigate to /dashboard after success
+                    navigate('/orders'); // Navigate to /dashboard after success
                 });
             } else {
                 Swal.fire({
@@ -121,7 +121,7 @@ const Preview = () => {
                                     }
                                     <div className="row mt-30px">
                                         <BalanceSheet data={data}/>
-                                        <Documents />
+                                        <Documents data={data}/>
                                     </div>
                                     {editAllowed &&
                                         <form action="" method="post" className="row contact-form-style-04 myform mt-30px">

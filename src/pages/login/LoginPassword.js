@@ -51,7 +51,7 @@ const LoginPassword = () => {
             setIsLoading(false);
 
             // Navigate to the dashboard
-            window.location.href = '/dashboard';
+            window.location.href = '/orders';
         } catch (err) {
             setGeneralError(err.response.data.message);
         }finally{

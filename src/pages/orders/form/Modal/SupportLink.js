@@ -3,10 +3,9 @@ import { fetchPlanData } from '../../../../services/PlanService';
 import Support from './Support';
 import NeedHelp from './NeedHelp';
 
-const SupportLink = () => {
+const SupportLink = ({data}) => {
     const [planData, setPlanData] = useState(null);
     const token = sessionStorage.getItem('token');
-    const userPlanData = sessionStorage.getItem('planData');
 
     useEffect(() => {
         const getPlanData = async () => {
@@ -28,7 +27,7 @@ const SupportLink = () => {
                 {planData.upgrade ? (
                 <NeedHelp data={planData} />
                 ) : (
-                <Support />
+                <Support documents={data} />
                 )}
             </>
             ) : (

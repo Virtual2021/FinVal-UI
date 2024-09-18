@@ -5,7 +5,7 @@ import './Modal.css';
 
 Modal.setAppElement('#root'); // Ensure the root element is set for accessibility
 
-const Support = () => {
+const Support = ({documents}) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const openModal = () => setModalIsOpen(true);
@@ -50,7 +50,7 @@ const Support = () => {
         <button onClick={closeModal} className="close-modal-btn">
           &times;
         </button>
-        <Upload />
+        <Upload documents={documents} />
       </Modal>
     </>
   );

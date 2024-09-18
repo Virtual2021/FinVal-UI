@@ -83,7 +83,7 @@ const SalesChart = ({ data, finData, forecastData }) => {
       type: 'category',
       labels: {
         style: {
-          fontSize: '10px'
+          fontSize: '10'
         }
       }
     },

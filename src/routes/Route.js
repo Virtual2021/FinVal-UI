@@ -6,7 +6,7 @@ const Signup = React.lazy(() => import('../pages/signup/Signup'));
 const VerificationLink = React.lazy(() => import('../pages/signup/Verify'));
 const About = React.lazy(() => import('../pages/front/About'));
 const Team = React.lazy(() => import('../pages/front/Team'));
-const Pricing = React.lazy(() => import('../pages/front/Pricing'));
+const Pricing = React.lazy(() => import('../pages/front/plan/Pricing'));
 const Contact = React.lazy(() => import('../pages/front/Contact'));
 const Blog = React.lazy(() => import('../pages/front/Blog'));
 const Home = React.lazy(() => import('../pages/front/Home'));
