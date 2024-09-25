@@ -110,11 +110,11 @@ const Testimonial = () => {
               
             />
             <div className="container">
-            <div class="row justify-content-center overlap-section  g-0"  style={{ 'marginTop': '-96.4062px'}}>
-                <div class="col-auto text-center last-paragraph-no-margin bg-white pt-20px pb-20px ps-6 pe-6 border-radius-100px"
+            <div className="row justify-content-center overlap-section  g-0"  style={{ 'marginTop': '-96.4062px'}}>
+                <div className="col-auto text-center last-paragraph-no-margin bg-white pt-20px pb-20px ps-6 pe-6 border-radius-100px"
                     data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
-                    <div class="d-inline-block  fs-24 align-middle fw-700 text-base-color"><span
-                            class="text-decoration-line-bottom-medium fw-600">Loved by most valuable <span
+                    <div className="d-inline-block  fs-24 align-middle fw-700 text-base-color"><span
+                            className="text-decoration-line-bottom-medium fw-600">Loved by most valuable <span
                                 style={{color: '#4ea8f6'}}>customers</span></span></div>
                     </div>
                 </div>

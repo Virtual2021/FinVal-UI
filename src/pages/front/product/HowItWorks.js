@@ -334,19 +334,19 @@ const HowItWorks = () => {
                 </div>
             </section>
 
-            <section class="padding-60-60 w-100 text-center  bg-white">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <h4 class="fw-600   mb-2 d-block  text-base-color margin-4px">Valuation Multiples sourced from a trusted
+            <section className="padding-60-60 w-100 text-center  bg-white">
+                <div className="container">
+                    <div className="row justify-content-center">
+                        <h4 className="fw-600   mb-2 d-block  text-base-color margin-4px">Valuation Multiples sourced from a trusted
                             <span style={{ color: "#4ea8f6" }}>Database</span>
                         </h4>
-                        <p class="gray-text fs-16 lh-28">To provide you with a thorough and trustworthy understanding of the
+                        <p className="gray-text fs-16 lh-28">To provide you with a thorough and trustworthy understanding of the
                             valuation of your business, your inputs and our data are integrated into different valuation techniques.</p>
-                        <div class="col-lg-6 d-flex ">
-                            <img src={howitworrks_2} class="w-100 border-radius-6px" alt="" style={{ boxShadow: "0 15px 60px -30px rgba(0,0,0,1)", height: "400px" }} />
+                        <div className="col-lg-6 d-flex ">
+                            <img src={howitworrks_2} className="w-100 border-radius-6px" alt="" style={{ boxShadow: "0 15px 60px -30px rgba(0,0,0,1)", height: "400px" }} />
                         </div>
-                        <div class="col-lg-6 ">
-                            <img src={howitworrks_3} class=" md-mt-15px border-radius-6px" alt="" style={{ boxShadow: "0 15px 60px -30px rgba(0,0,0,1)", height: "400px" }} />
+                        <div className="col-lg-6 ">
+                            <img src={howitworrks_3} className=" md-mt-15px border-radius-6px" alt="" style={{ boxShadow: "0 15px 60px -30px rgba(0,0,0,1)", height: "400px" }} />
                         </div>
                     </div>
                 </div>

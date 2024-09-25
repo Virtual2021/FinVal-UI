@@ -9,7 +9,7 @@ const Form = ({ documents }) => {
   const [tempFile, setTempFile] = useState(null); // Temporary state for file selection
   const [remarks, setRemarks] = useState(''); // State for additional remarks
   const fileInputRef = useRef(null); // useRef to manage file input
-  const token = sessionStorage.getItem('token');
+  const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const { orderId } = useParams(); // Extract orderId from the URL
 

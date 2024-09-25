@@ -15,7 +15,7 @@ import Graph from "./Graphs"
 const Preview = () => {
     const { id } = useParams(); // Extract the ID from the URL
     const [data, setData] = useState(null);
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     const navigate = useNavigate();
     const [ editAllowed, setEditAllowed ] = useState(false);
 
@@ -37,7 +37,7 @@ const Preview = () => {
                     title: 'Order Submitted',
                     text: 'Your order has been successfully submitted!',
                 }).then(() => {
-                    sessionStorage.removeItem('orderId');
+                    localStorage.removeItem('orderId');
                     navigate('/orders'); // Navigate to /dashboard after success
                 });
             } else {

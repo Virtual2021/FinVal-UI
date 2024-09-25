@@ -2,6 +2,15 @@ import { formatDate } from "../../../common/numberUtils";
 import { Link } from "react-router-dom";
 
 const Table = ({data}) => {
+const handleDownload = (report_url) => {
+    const link = document.createElement('a');
+    link.href = report_url;
+    link.download = 'valuation_report.pdf'; // Suggest a filename
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+};
+       
   
  const renderLink = (status, id) => {
     switch (status) {
@@ -16,7 +25,7 @@ const Table = ({data}) => {
            return <Link to={`/valuation-form/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-info-circle"></i> View Details</Link>;
 
         case 'Completed':
-           return <Link to="/dashboard" className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-pencil-square"></i> Modify & Re-Submit</Link>;
+           return <Link to={`/valuation-form/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-pencil-square"></i> Modify & Re-Submit</Link>;
 
         case 'Re-Submitted':
            return <Link to={`/valuation-form/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-info-circle"></i> View Details</Link>;
@@ -79,12 +88,30 @@ const Table = ({data}) => {
                         <th scope="row" className="align-middle text-center fs-14">{order['customerOrderSequence']}</th>
                         <td className="fs-14">{order['companyName']}
                             {order['status'] === 'Completed' && 
-                             <><br/>
-                            <Link to="/dashboard" className="bg-green text-nowrap text-white border-radius-5px pe-5px ps-5px pb-1 fs-11 ls-normal"><i className="bi bi-download"></i> Valuation report</Link></>
+                            <>
+                            <br />
+                                <a 
+                                    href={order.report_url} 
+                                    className="bg-green text-nowrap text-white border-radius-5px pe-5px ps-5px pb-1 fs-11 ls-normal"  
+                                    target="_blank" // Open in a new tab
+                                    rel="noopener noreferrer" // Security best practice
+                                    download // This attribute prompts a download instead of navigating
+                                >
+                                    <i className="bi bi-download"></i> Valuation report
+                                </a>
+                            </>
                             }
                             {order['status'] === 'Re-Submitted' && 
                              <><br/>
-                            <Link to="/dashboard" className="bg-green text-nowrap text-white border-radius-5px pe-5px ps-5px pb-1 fs-11 ls-normal"><i className="bi bi-download"></i> Valuation report</Link>
+                                <a 
+                                    href={order.report_url} 
+                                    className="bg-green text-nowrap text-white border-radius-5px pe-5px ps-5px pb-1 fs-11 ls-normal"  
+                                    target="_blank" // Open in a new tab
+                                    rel="noopener noreferrer" // Security best practice
+                                    download // This attribute prompts a download instead of navigating
+                                >
+                                    <i className="bi bi-download"></i> Valuation report
+                                </a>
                             <br/>
                             <Link to="/dashboard" className="bg-red text-nowrap text-white border-radius-5px pe-5px ps-5px pb-1 fs-11 ls-normal d-inline-block mt-5px"><i className="bi bi-arrow-clockwise"></i> Revised valuation report - Pending</Link
                             ></>

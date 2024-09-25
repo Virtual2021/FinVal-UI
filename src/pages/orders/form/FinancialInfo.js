@@ -158,7 +158,7 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
             setIsLoading(true); // Start loading
 
             try {
-                const token = sessionStorage.getItem('token');
+                const token = localStorage.getItem('token');
                 const response = await axios.put(
                     apiURL + '/order/update',
                     formData,

@@ -3,7 +3,7 @@ import { fetchPlanData } from '../../services/PlanService';
 
 const Dashboard = () => {
   const [planData, setPlanData] = useState(null);
-  const token = sessionStorage.getItem('token');
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     const getPlanData = async () => {

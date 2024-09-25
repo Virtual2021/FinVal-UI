@@ -25,11 +25,12 @@ const Sidebar = () => {
     }, []); // Empty dependency array means this effect runs once on mount
 
     const handleLogout = () => {
-        sessionStorage.clear(); // Clear all data from sessionStorage
+        localStorage.clear(); // Clear all data from localStorage
         window.location.href = '/user-login';
     };
 
     return (
+        <>
     <div className="mysidebar close hoverOpen">
     <header>
         <div className="image-text d-none">
@@ -107,6 +108,7 @@ const Sidebar = () => {
         </div>
     </div>
     </div>
+    </>
     );
 
 }

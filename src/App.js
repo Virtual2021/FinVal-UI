@@ -7,7 +7,7 @@ import CommonLayout from './common/CommonLayout';
 import Loader from './common/Loader';
 
 export const PrivateRoute = ({ children }) => {
-  const isAuthenticated = !!sessionStorage.getItem('token');
+  const isAuthenticated = !!localStorage.getItem('token');
   return isAuthenticated ? children : <Navigate to="/user-login" />;
 };
 

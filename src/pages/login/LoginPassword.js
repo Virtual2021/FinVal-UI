@@ -45,13 +45,18 @@ const LoginPassword = () => {
             const name = response.data.data.user.first_name + ' ' + response.data.data.user.last_name;
 
             // Store token and name in localStorage
-            sessionStorage.setItem('token', token);
-            sessionStorage.setItem('name', name);
+            localStorage.setItem('token', token);
+            localStorage.setItem('name', name);
 
             setIsLoading(false);
 
-            // Navigate to the dashboard
-            window.location.href = '/orders';
+            const selectedPlan = localStorage.getItem('selectedPlan');
+            if (selectedPlan) {
+                window.location.href = '/checkout'; // Redirect to checkout page after verification
+            } else {
+                // Navigate to the dashboard
+                window.location.href = '/orders';
+            }
         } catch (err) {
             setGeneralError(err.response.data.message);
         }finally{

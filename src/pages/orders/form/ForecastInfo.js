@@ -141,7 +141,7 @@ const ForecastInfo = ({ onSave, initialData ,backButton, onPercentChange, orderI
         });
 
         try {
-            const token = sessionStorage.getItem('token');
+            const token = localStorage.getItem('token');
             const response = await axios.put(apiURL + '/order/update', {
                 forecast_inc_stmt_data: forecastIncStmtData,
                 orderId : orderId,

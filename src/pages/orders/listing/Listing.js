@@ -20,7 +20,7 @@ const Listing = () => {
 
   useEffect(() => {
     const fetchFilterData = async () => {
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       try {
         const response = await axios.get(apiURL + '/order/order-filter-data', {
           headers: {
@@ -57,7 +57,7 @@ const Listing = () => {
 
   useEffect(() => {
     const fetchTableData = async () => {
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       try {
         const response = await axios.post(apiURL + '/order/customer_order', filters, {
           headers: {
@@ -92,7 +92,9 @@ const Listing = () => {
                       
                       <Heading data={filterData} />
 
-                      <Filter data={filterData} filters={filters} setFilters={setFilters} /> 
+                       {filterData && filterData?.activePlanType === 'A' &&
+                          <Filter data={filterData} filters={filters} setFilters={setFilters} /> 
+                       }
                       
                       <Table data={tableData} />
 

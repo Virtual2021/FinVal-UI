@@ -8,7 +8,7 @@ import './Navbar.css';
 
 const Navbar = () => {
 const handleLogout = () => {
-    sessionStorage.clear(); // Clear all data from sessionStorage
+    localStorage.clear(); // Clear all data from localStorage
     window.location.href = '/user-login';
 };
   return (
@@ -59,7 +59,7 @@ const handleLogout = () => {
                         </div>
                         <div className="col-auto text-end d-none d-sm-flex">
                             <div className="header-icon lh-1">
-                                <div className="header-button fs-16">Hi, Satish</div>
+                                <div className="header-button fs-16">Hi, {localStorage.getItem('name')}</div>
                             </div>
                             <div className="header-icon lh-1 ms-15px">
                                 <li className="nav-item dropdown simple-dropdown list-unstyled">

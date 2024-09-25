@@ -69,16 +69,20 @@ const LoginOtp = () => {
             const name = response.data.data.userdata.user.first_name + ' ' + response.data.data.userdata.user.last_name;
 
             // Store token and name in localStorage
-            sessionStorage.setItem('token', token);
-            sessionStorage.setItem('name', name);
+            localStorage.setItem('token', token);
+            localStorage.setItem('name', name);
 
             setIsLoading(false);
 
-            // Navigate to the dashboard
-            window.location.href = '/orders';
+            const selectedPlan = localStorage.getItem('selectedPlan');
+            if (selectedPlan) {
+                window.location.href = '/checkout';// Redirect to checkout page after verification
+            } else {
+                // Navigate to the dashboard
+                window.location.href = '/orders';
+            }
         } catch (err) {
             setError('OTP verification failed. Please try again.');
-            console.error(err);
             setIsLoading(false);
         }
     };

@@ -5,7 +5,7 @@ import NeedHelp from './NeedHelp';
 
 const SupportLink = ({data}) => {
     const [planData, setPlanData] = useState(null);
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     useEffect(() => {
         const getPlanData = async () => {

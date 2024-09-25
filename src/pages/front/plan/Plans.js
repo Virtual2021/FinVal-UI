@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { apiURL } from "../../../config/Config";
 import Loader from '../../../common/Loader'; // Ensure this path is correct
+import { useNavigate } from 'react-router-dom';
 
 const Plans = ({ elementRef2 }) => {
   const [plans, setPlans] = useState([]);
@@ -12,6 +13,9 @@ const Plans = ({ elementRef2 }) => {
   const [bopcontentArray, setBopContentArray] = useState([]);
   const [AcontentArray, setAContentArray] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedAdvisorPlan, setSelectedAdvisorPlan] = useState(""); // State for selected advisor plan
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPlans = async () => {
@@ -61,6 +65,32 @@ const Plans = ({ elementRef2 }) => {
     fetchPlans();
   }, []);
 
+  // Function to handle Buy Now click event
+  const handleBuyNow = (planId) => {
+    const isLoggedIn = localStorage.getItem('token');
+  
+    // Remove existing selectedPlan if it exists
+    if (localStorage.getItem('selectedPlan')) {
+      localStorage.removeItem('selectedPlan');
+    }
+
+    localStorage.setItem("selectedPlan", planId);
+  
+    if (!isLoggedIn) {
+      // Redirect to login
+      navigate("/user-login");
+    } else {
+      // Proceed to checkout page with selected plan
+      navigate("/checkout");
+    }
+  };
+
+  // Handle selection of advisor plan
+  const handleAdvisorPlanChange = (event) => {
+    const selectedPlan = typeAPlans.find(plan => plan._id === event.target.value);
+    setSelectedAdvisorPlan(selectedPlan._id);
+  };
+
   return (
     <section className="bg-very-light-gray padding-60-60">
       {loading ? (
@@ -108,7 +138,7 @@ const Plans = ({ elementRef2 }) => {
                       </ul>
                     </div>
                     <div className="pricing-footer text-center pb-2 bg-white">
-                      <a href="/" className="btn btn-box-shadow btn-small btn-round-edge" style={{ backgroundColor: "#4ea8f6", color: "white" }}>Get started</a>
+                      <button type="button" onClick={() => handleBuyNow(boPlans[0]['_id'])}  className="btn btn-box-shadow btn-small btn-round-edge" style={{ backgroundColor: "#4ea8f6", color: "white" }}>Buy Now</button>
                     </div>
                   </div>
                 </div>
@@ -145,7 +175,7 @@ const Plans = ({ elementRef2 }) => {
                       </ul>
                     </div>
                     <div className="pricing-footer text-center pb-2" style={{ backgroundColor: "white" }}>
-                      <a href="/" className="btn btn-box-shadow btn-small btn-round-edge" style={{ backgroundColor: "#4ea8f6", color: "white" }}>Get started</a>
+                    <button type="button" onClick={() => handleBuyNow(bopPlans[0]['_id'])}  className="btn btn-box-shadow btn-small btn-round-edge" style={{ backgroundColor: "#4ea8f6", color: "white" }}>Buy Now</button>
                     </div>
                   </div>
                 </div>
@@ -156,7 +186,7 @@ const Plans = ({ elementRef2 }) => {
                     <div className="pricing-header mb-1 p-2 text-center bg-base-color" style={{ borderRadius: "10px 10px 0 0", height: "185px" }}>
                       <div className="alt-font fw-700 text-golden-color text-uppercase text-center pt-2 mb-1 fs-22">Advisor</div>
                       <label htmlFor="plan-select" className="text-center fw-400 text-white fs-16">Select The Plan Options</label>
-                      <select id="plan-select" className="form-select p-1" style={{ borderColor: "#b7b7b7", borderRadius: "6px", fontSize: "15px" }}>
+                      <select id="plan-select" onChange={handleAdvisorPlanChange} className="form-select p-1" style={{ borderColor: "#b7b7b7", borderRadius: "6px", fontSize: "15px" }}>
                         {typeAPlans.map(plan => (
                           <option key={plan._id} value={plan._id}>
                             Reports: {plan.reports} Access Days: {plan.accessDays} Price: ${plan.price}
@@ -178,7 +208,12 @@ const Plans = ({ elementRef2 }) => {
                       </ul>
                     </div>
                     <div className="pricing-footer text-center pb-2 bg-white">
-                      <a href="/" className="btn btn-box-shadow btn-small btn-round-edge" style={{ backgroundColor: "#4ea8f6", color: "white" }}>Get started</a>
+                      <button 
+                        onClick={() => handleBuyNow(selectedAdvisorPlan)} 
+                        className="btn btn-box-shadow btn-small btn-round-edge" 
+                        style={{ backgroundColor: "#4ea8f6", color: "white" }}>
+                        Buy Now
+                      </button>
                     </div>
                   </div>
                 </div>

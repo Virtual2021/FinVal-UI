@@ -22,7 +22,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
     const [isLoading, setIsLoading] = useState(false);
     const currentYear = new Date().getFullYear();
     const previousYear = currentYear;
-    const years = [previousYear,previousYear-1,previousYear-2];
+    const years = [previousYear-2,previousYear-1,previousYear];
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         companyName: '',
@@ -132,7 +132,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
         if (validateForm()) {
             setIsLoading(true); // Start loading
 
-            const token = sessionStorage.getItem('token');
+            const token = localStorage.getItem('token');
             const url = orderId ? apiURL + '/order/update' : apiURL + '/order/store';
             const formDatas = orderId ? {orderId: orderId, businessdata: formData } : formData;
             const method = orderId ? 'PUT' : 'POST'; 
@@ -154,8 +154,9 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                             pathname: `/valuation-form/${newOrderId}`,
                             search: `?step=1`,
                         });
-                    }
-                    // onSave(); 
+                    }else{
+                        onSave();
+                    } 
                 }
             } catch (error) {
                 console.error('Error saving form:', error);
@@ -191,7 +192,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
     return (
         <div className="card m-0 border-radius-0px border-0 box-shadow h-100" style={{backgroundColor: "#f2f3f6"}}>
             <div className="card-header fw-500 p-15px lh-normal bg-white">
-            <p class="text-blue fw-600 mb-0 fs-16 lh-1 mt-5px mb-5px d-inline-block">New Order: <span class="text-dark-blue">Business Details</span></p>
+            <p className="text-blue fw-600 mb-0 fs-16 lh-1 mt-5px mb-5px d-inline-block">New Order: <span className="text-dark-blue">Business Details</span></p>
                 <SupportLink data={initialData}/>
                 <div className="divider-style-03 divider-style-03-02 border-color-light-gray mb-10px mt-10px w-100"></div>
                 <span className="fw-400 fs-14">Please provide your business details</span>

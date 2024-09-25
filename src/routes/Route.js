@@ -12,6 +12,9 @@ const Blog = React.lazy(() => import('../pages/front/Blog'));
 const Home = React.lazy(() => import('../pages/front/Home'));
 const HowItWorks = React.lazy(() => import('../pages/front/product/HowItWorks'));
 const BlogDetails = React.lazy(() => import('../pages/front/BlogDetails'));
+const Success = React.lazy(() => import('../pages/front/plan/checkout/Thanks'));
+const Failure = React.lazy(() => import('../pages/front/plan/checkout/Failure'));
+
 
 // Auth Component
 const Dashboard = React.lazy(() => import('../pages/dashboard/Dashboard'));
@@ -20,12 +23,11 @@ const ValuationForm = React.lazy(() => import('../pages/orders/ValuationForm'));
 const PreviewData = React.lazy(() => import('../pages/orders/preview-data/Preview'));
 const OrderData = React.lazy(() => import('../pages/orders/listing/Listing'));
 const MyPlan = React.lazy(() => import('../pages/plans/New'));
-const UpgradePlan = React.lazy(() => import('../pages/plans/Upgrade'));
-const UpgradeSummary = React.lazy(() => import('../pages/plans/UpgradeSummary'));
+const UpgradePlan = React.lazy(() => import('../pages/plans/upgrade/Upgrade'));
+const UpgradeSummary = React.lazy(() => import('../pages/plans/upgrade/UpgradeSummary'));
 const Profile = React.lazy(() => import('../pages/profile/Profile'));
 const Form = React.lazy(() => import('../pages/orders/form/Modal/UploadForm/Upload'));
-
-
+const Checkout = React.lazy(() => import('../pages/front/plan/checkout/Checkout'));
 
 const routes = [
   { path: '/', component: Home, exact: true, private: false },
@@ -49,6 +51,10 @@ const routes = [
   { path: '/upgrade-summary', component: UpgradeSummary, exact: true, private: true},
   { path: '/profile', component: Profile, exact: true, private: true},
   { path: '/form', component: Form, exact: true, private: true},
+  { path: '/checkout', component: Checkout, exact: true, private: true},
+  { path: '/success-page', component: Success, exact: true, private: true},
+  { path: '/payment-failed', component: Failure, exact: true, private: true},
+
 
 ];
 

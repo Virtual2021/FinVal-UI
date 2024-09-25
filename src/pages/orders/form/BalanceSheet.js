@@ -67,7 +67,7 @@ const BalanceSheet = ({ onSave, initialData ,backButton, orderId, editAllowed })
     event.preventDefault();
     setIsLoading(true);
     try {
-        const token = sessionStorage.getItem('token');
+        const token = localStorage.getItem('token');
         const response = await axios.put(apiURL + '/order/update', {
             forcast_bal_sheet_data: forecastBalSheetData,
             forcast_rip_days_data: forecastRipDaysData,
