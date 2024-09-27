@@ -152,7 +152,7 @@ const Cogs = ({data, finData , forecastData}) => {
   return (
     <>  
       <div className="card-header fw-700 fs-14 ps-10px pt-5px pb-0 mb-0 lh-normal border-0 bg-white text-blue">
-        Cogs
+        COGS
         <GraphHeading data={data} finData={finData} />
       </div>
       <div className="card-body p-0 overflow-hidden">

@@ -18,43 +18,66 @@ const Preview = () => {
     const token = localStorage.getItem('token');
     const navigate = useNavigate();
     const [ editAllowed, setEditAllowed ] = useState(false);
-
     const handleSave = async (event) => {
         event.preventDefault();
-        try {
-            const response = await axios.put(apiURL + '/order/submit-order', {
-                orderId : id,
-            },
-            {
-                headers: {
-                    Authorization: `${token}`
-                }
-            });
 
-            if (response.status === 200) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Order Submitted',
-                    text: 'Your order has been successfully submitted!',
-                }).then(() => {
-                    localStorage.removeItem('orderId');
-                    navigate('/orders'); // Navigate to /dashboard after success
-                });
+        const text = data.order.status === 'Help Requested' ? 'You will not be able to make any more changes once the order is submitted. Since you have requested for support to complete the input financial data, we will complete and validate the remaining information. Do you wish to continue and submit the order?' : 'Please ensure that all the data being submitted is correct. Once submitted you will not be able to make any more changes. Do you wish to continue and submit the order?';
+    
+        // Show confirmation alert before proceeding
+        Swal.fire({
+            title: 'Are you sure?',
+            text: text,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, submit Order!',
+            cancelButtonText: 'Cancel!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await axios.put(apiURL + '/order/submit-order', {
+                        orderId: id,
+                    }, {
+                        headers: {
+                            Authorization: `${token}`
+                        }
+                    });
+                    console.log(response); 
+                    if (response.status === 200) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Order Submitted',
+                            text: response.data.message,
+                        }).then(() => {
+                            localStorage.removeItem('orderId');
+                            navigate('/orders'); // Navigate to /dashboard after success
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message || 'Something went wrong',
+                        });
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: error.message || 'Something went wrong',
+                    });
+                }
             } else {
+                // If canceled, do nothing or handle the cancel event
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: response.message || 'Something went wrong',
+                    icon: 'info',
+                    title: 'Cancelled',
+                    text: 'Order submission cancelled!',
                 });
             }
-        } catch (error) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: error.message || 'Something went wrong',
-            });
-        }
+        });
     };
+    
 
     const backButton = async () => {
         navigate({

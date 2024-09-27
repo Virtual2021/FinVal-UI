@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { apiURL } from "../../config/Config";
+import Swal from "sweetalert2";
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
@@ -18,12 +19,12 @@ const SignUpForm = () => {
 
   const [errors, setErrors] = useState({});
   const [backendError, setBackendError] = useState('');
-  const [backendSuccess, setBackendSuccess] = useState('');
+  // const [backendSuccess, setBackendSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   const [countries, setCountries] = useState([]);
 
   const errorRef = useRef(null);
-  const successRef = useRef(null);
+  // const successRef = useRef(null);
   const resetForm = () => {
     setFormData({
       email: '',
@@ -90,11 +91,16 @@ const SignUpForm = () => {
       setLoading(true);
       try {
         setBackendError('');
-        setBackendSuccess('');
+        // setBackendSuccess('');
         const response = await axios.post(apiURL + '/front/customer/signup', formData);
         if (response.status === 200) {
           resetForm();
-          setBackendSuccess(response.data.message);
+          // setBackendSuccess(response.data.message);
+          Swal.fire({
+            icon: 'success',
+            title: 'Registration Successful',
+            text: response.data.message,
+          })
           setErrors(formErrors);
         }else{
           setBackendError(response.data.message);
@@ -117,9 +123,10 @@ const SignUpForm = () => {
   useEffect(() => {
     if (backendError && errorRef.current) {
       errorRef.current.scrollIntoView({ behavior: 'smooth' });
-    } else if (backendSuccess && successRef.current) {
-      successRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
+    } 
+    // else if (backendSuccess && successRef.current) {
+    //   successRef.current.scrollIntoView({ behavior: 'smooth' });
+    // }
 
     // Fetch plan data from API
     const fetchCountries = async () => {
@@ -137,7 +144,7 @@ const SignUpForm = () => {
 
   fetchCountries();
 
-  }, [backendError, backendSuccess]);
+  }, [backendError]);
 
   return (
     <>        
@@ -150,11 +157,11 @@ const SignUpForm = () => {
                 {backendError}
               </div>
             )}
-            {backendSuccess && (
+            {/* {backendSuccess && (
               <div ref={successRef} className="col-md-12 text-center text-success">
                 {backendSuccess}
               </div>
-            )}
+            )} */}
             <div className="col-md-12 mb-30px">
                 <input
                   className="border-radius-4px border-color-white box-shadow form-control"
@@ -276,8 +283,12 @@ const SignUpForm = () => {
             </div>
 
             <div className="col-md-12 text-center sm-mt-20px">
-                <button className="btn btn-large btn-round-edge bg-blue submit text-white w-100 fin-btn" type="submit">
-                {loading ? (
+                <button 
+                    className="btn btn-large btn-round-edge bg-blue submit text-white w-100 fin-btn" 
+                    type="submit" 
+                    disabled={loading} // Disable the button when loading is true
+                >
+                    {loading ? (
                         <span>
                             <span><i className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></span>
                             <span className="btn-double-text ms-3px" data-text="Signing In...">Signing Up...</span>
@@ -287,10 +298,13 @@ const SignUpForm = () => {
                             <span><i className="bi bi-person-circle align-middle"></i></span>
                             <span className="btn-double-text align-middle" data-text="Sign Up Now">Sign Up Now</span> 
                         </span>
-                  )}
+                    )}
                 </button>
-                <span className="fs-14 lh-22 d-block mt-15px">Already have an account? <Link to="/user-login" className="text-dark-gray text-decoration-line-bottom fw-500">Sign In</Link></span>
+                <span className="fs-14 lh-22 d-block mt-15px">Already have an account? 
+                    <Link to="/user-login" className="text-dark-gray text-decoration-line-bottom fw-500">Sign In</Link>
+                </span>
             </div>
+
         </form>
     </>
   );

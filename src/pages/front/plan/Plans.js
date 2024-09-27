@@ -46,6 +46,10 @@ const Plans = ({ elementRef2 }) => {
           setBoPlans(BOPlans);
           setBopPlans(BOPPlans);
           setTypeAPlans(fetchedPlans.typeA);
+
+          if (fetchedPlans.typeA.length > 0) {
+            setSelectedAdvisorPlan(fetchedPlans.typeA[0]._id);
+          }
         }
       } catch (error) {
         console.error("Error fetching plans:", error);

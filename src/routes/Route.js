@@ -1,5 +1,4 @@
 import React from 'react';
-
 // Front-end Component
 const Login = React.lazy(() => import('../pages/login/Login'));
 const Signup = React.lazy(() => import('../pages/signup/Signup'));
@@ -24,10 +23,10 @@ const PreviewData = React.lazy(() => import('../pages/orders/preview-data/Previe
 const OrderData = React.lazy(() => import('../pages/orders/listing/Listing'));
 const MyPlan = React.lazy(() => import('../pages/plans/New'));
 const UpgradePlan = React.lazy(() => import('../pages/plans/upgrade/Upgrade'));
-const UpgradeSummary = React.lazy(() => import('../pages/plans/upgrade/UpgradeSummary'));
 const Profile = React.lazy(() => import('../pages/profile/Profile'));
 const Form = React.lazy(() => import('../pages/orders/form/Modal/UploadForm/Upload'));
 const Checkout = React.lazy(() => import('../pages/front/plan/checkout/Checkout'));
+const AdvisorSummary = React.lazy(() => import('../pages/plans/upgrade/AdvisorSummary'));
 
 const routes = [
   { path: '/', component: Home, exact: true, private: false },
@@ -48,7 +47,7 @@ const routes = [
   { path: '/orders', component: OrderData, exact: true, private: true},
   { path: '/my-plan', component: MyPlan, exact: true, private: true},
   { path: '/upgrade-plan', component: UpgradePlan, exact: true, private: true},
-  { path: '/upgrade-summary', component: UpgradeSummary, exact: true, private: true},
+  { path: '/upgrade-summary', component: AdvisorSummary, exact: true, private: true},
   { path: '/profile', component: Profile, exact: true, private: true},
   { path: '/form', component: Form, exact: true, private: true},
   { path: '/checkout', component: Checkout, exact: true, private: true},

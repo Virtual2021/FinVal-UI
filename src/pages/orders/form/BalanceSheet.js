@@ -3,6 +3,7 @@ import { apiURL } from '../../../config/Config';
 import axios from 'axios';
 import { formatNumber } from '../../../common/numberUtils';
 import { useNavigate } from 'react-router-dom';
+import SupportLink from './Modal/SupportLink';
 
 const BalanceSheet = ({ onSave, initialData ,backButton, orderId, editAllowed }) => {
   const year= initialData.order.business.business.FinYrEnd + 1;
@@ -97,6 +98,7 @@ const BalanceSheet = ({ onSave, initialData ,backButton, orderId, editAllowed })
       <div className="card-header fw-500 p-15px lh-normal bg-white">
         <p className="text-blue fw-600 mb-0 fs-16 lh-1 mt-5px mb-5px">
           New Order: <span className="text-dark-blue">Financial Projections</span>
+          <SupportLink data={initialData}/>
         </p>
       </div>
       <div className="card-body p-0" style={{ maxHeight: '430px'}} data-scroll-options='{ "theme": "dark" }'>

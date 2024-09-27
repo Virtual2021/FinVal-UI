@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // Or import axiosInstance if using a custom instance
 import { apiURL } from '../../config/Config';
+import Swal from 'sweetalert2';
 
 const LoginPassword = () => {
     const [email, setEmail] = useState('');
@@ -41,21 +42,29 @@ const LoginPassword = () => {
         try {
             const response = await axios.post(apiURL + '/front/customer/login', { email, password });
             // Handle successful response, e.g., store token, redirect
-            const token = response.data.data.token;
-            const name = response.data.data.user.first_name + ' ' + response.data.data.user.last_name;
+            if(response.data.status === true){
+                const token = response.data.data.token;
+                const name = response.data.data.user.first_name + ' ' + response.data.data.user.last_name;
 
-            // Store token and name in localStorage
-            localStorage.setItem('token', token);
-            localStorage.setItem('name', name);
+                // Store token and name in localStorage
+                localStorage.setItem('token', token);
+                localStorage.setItem('name', name);
 
-            setIsLoading(false);
-
-            const selectedPlan = localStorage.getItem('selectedPlan');
-            if (selectedPlan) {
-                window.location.href = '/checkout'; // Redirect to checkout page after verification
-            } else {
-                // Navigate to the dashboard
-                window.location.href = '/orders';
+                const selectedPlan = localStorage.getItem('selectedPlan');
+                if (selectedPlan) {
+                    window.location.href = '/checkout'; // Redirect to checkout page after verification
+                } else {
+                    // Navigate to the dashboard
+                    window.location.href = '/orders';
+                }
+            }else if(response.data.status === 'alert'){
+                Swal.fire({
+                    icon: 'warning', // Make sure to use a valid icon, e.g., 'warning' instead of 'alert'
+                    title: 'Account Verification Pending',
+                    text: response.data.message,
+                });
+            }else{
+                setGeneralError(response.data.message);
             }
         } catch (err) {
             setGeneralError(err.response.data.message);
@@ -93,7 +102,7 @@ const LoginPassword = () => {
             </div>
             {generalError && <div className="col-md-12 text-center text-danger">{generalError}</div>}
             <div className="col-md-12 text-center sm-mt-20px">
-                <button className="btn btn-large btn-round-edge bg-blue submit text-white w-100 fin-btn" type="submit">
+                <button className="btn btn-large btn-round-edge bg-blue submit text-white w-100 fin-btn" type="submit" disabled={isLoading}>
                     {isLoading ? (
                         <span>
                             <span><i className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></span>

@@ -39,7 +39,7 @@ const Heading = ({data}) => {
                         <i className="line-icon-Time-Backup text-blue text-dark-blue-hover fs-16 fw-600"></i>
                     </div>
                     <div className="col-8 feature-box-content last-paragraph-no-margin lh-normal text-start ps-10px">
-                        <p className="fs-12 text-light-blue lh-normal text-nowrap">Days Remianing in plan</p>
+                        <p className="fs-12 text-light-blue lh-normal text-nowrap">Days Remaining in plan</p>
                         <span className="d-block fw-600 text-black mb-0 fs-16">{customer.daysLeft || 0}</span>
                     </div>
                 </div>

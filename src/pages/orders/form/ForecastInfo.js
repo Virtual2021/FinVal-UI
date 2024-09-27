@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { apiURL } from '../../../config/Config';
 import { formatForecastNumber } from '../../../common/numberUtils';
+import SupportLink from './Modal/SupportLink';
 
 // Component to render the YEAR header
 const YearHeader = ({yearList}) => (
@@ -197,6 +198,7 @@ const ForecastInfo = ({ onSave, initialData ,backButton, onPercentChange, orderI
             <div className="card-header fw-500 p-15px lh-normal bg-white">
                 <p className="text-blue fw-600 mb-0 fs-16 lh-1 mt-5px mb-5px">
                     New Order: <span className="text-dark-blue">Financial Projections</span>
+                    <SupportLink data={initialData}/>
                 </p>
             </div>
             <div

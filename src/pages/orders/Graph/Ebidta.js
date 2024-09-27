@@ -159,7 +159,7 @@ const Ebidta = ({data, finData, forecastData}) => {
     
     return(
         <>
-            <div className="card-header fw-700 fs-14 ps-10px pb-0 pt-5px mb-0 h-40px lh-normal border-0 bg-white text-blue">Ebitda
+            <div className="card-header fw-700 fs-14 ps-10px pb-0 pt-5px mb-0 h-40px lh-normal border-0 bg-white text-blue">EBITDA
                 <GraphHeading data={data} finData={finData} />
             </div>
             <div className="card-body p-0 overflow-hidden">

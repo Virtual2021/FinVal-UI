@@ -240,8 +240,10 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
                     <div className="row align-items-center">
                         <div className="w-130px text-end pe-0">
                             <label className="text-black mb-0 fw-600 fs-13 d-block lh-1">
-                                {field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
-                                {['ebitda', 'netProfit'].includes(field) && <sup className="text-red fs-14">*</sup>}
+                            {field === 'ebitda' 
+                                ? 'EBITDA' 
+                                : field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                            {['ebitda', 'netProfit'].includes(field) && <sup className="text-red fs-14">*</sup>}
                             </label>
                         </div>
                         <div className="col">

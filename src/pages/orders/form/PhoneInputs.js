@@ -59,6 +59,7 @@ const PhoneInputs = ({ value, onChange, error, name }) => {
         dropdownClass="custom-dropdown" // Custom class for the dropdown
       />
       {errors && <div className="error-message">{errors}</div>}
+      {error && <div className="error-message">{error}</div>}
     </div>
   );
 };
