@@ -7,6 +7,9 @@ import './Navbar.css';
 
 
 const Navbar = () => {
+
+const role = localStorage.getItem('role');
+    
 const handleLogout = () => {
     localStorage.clear(); // Clear all data from localStorage
     window.location.href = '/user-login';
@@ -61,50 +64,52 @@ const handleLogout = () => {
                             <div className="header-icon lh-1">
                                 <div className="header-button fs-16">Hi, {localStorage.getItem('name')}</div>
                             </div>
-                            <div className="header-icon lh-1 ms-15px">
-                                <li className="nav-item dropdown simple-dropdown list-unstyled">
-                                <a href="#!" className="text-white lh-1 text-golden-hover dropdown-toggle" id="navbarDropdownMenuLink_1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i className="bi bi-person-circle m-0"></i>
-                                </a>
-                                    <ul className="dropdown-menu end-0 m-0 ps-10px pt-0 pe-10px pb-15px fs-12 box-shadow" aria-labelledby="navbarDropdownMenuLink" style={{ minWidth: '130px', 'left': '-60.7969px'}} >
-                                        <li className="mt-15px">
-                                            <Link to="/valuation-form" className="text-golden-hover">
-                                                <i class='bi bi-pencil-square me-5px text-blue'></i>New Order
-                                            </Link>
-                                        </li>
-                                        <div className="divider-style-03 divider-style-03-01 mt-10px mb-10px w-100" style={{borderColor: 'rgba(0, 0, 0, 0.1)' }}></div>
-                                        <li className="mt-10px">
-                                            <Link to="/orders" className="text-golden-hover">
-                                                <i class='bi bi-box-seam me-5px text-blue'></i>My Orders
-                                            </Link>
-                                        </li>
-                                        <div className="divider-style-03 divider-style-03-01 mt-10px mb-10px w-100" style={{borderColor: 'rgba(0, 0, 0, 0.1)' }}></div>
-                                        <li className="mt-10px">
-                                            <Link to="/my-plan" className="text-golden-hover">
-                                                <i class='bi bi-clipboard-check me-5px text-blue'></i>Plans & Billing
-                                            </Link>
-                                        </li>
-                                        <div className="divider-style-03 divider-style-03-01 mt-10px mb-10px w-100" style={{borderColor: 'rgba(0, 0, 0, 0.1)' }}></div>
-                                        <li className="mt-10px">
-                                            <Link to="upgrade-plan" className="text-golden-hover">
-                                                <i class='bi bi-box-arrow-up me-5px text-blue'></i>Upgrade Plan
-                                            </Link>
-                                        </li>
-                                        <div className="divider-style-03 divider-style-03-01 mt-10px mb-10px w-100" style={{borderColor: 'rgba(0, 0, 0, 0.1)' }}></div>
-                                        <li className="mt-10px">
-                                            <Link to="/profile" className="text-golden-hover">
-                                                <i class='bi bi-person me-5px text-blue'></i>My Profile
-                                            </Link>
-                                        </li>
-                                        <div className="divider-style-03 divider-style-03-01 mt-10px mb-10px w-100" style={{borderColor: 'rgba(0, 0, 0, 0.1)' }}></div>
-                                        <li className="mt-10px">
-                                            <a href="#!" onClick={handleLogout} className="text-golden-hover">
-                                                <i class='bi bi-power me-5px text-blue'></i>Logout
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </div>
+                            {role && role !== 'admin' &&
+                                <div className="header-icon lh-1 ms-15px">
+                                    <li className="nav-item dropdown simple-dropdown list-unstyled">
+                                    <a href="#!" className="text-white lh-1 text-golden-hover dropdown-toggle" id="navbarDropdownMenuLink_1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i className="bi bi-person-circle m-0"></i>
+                                    </a>
+                                        <ul className="dropdown-menu end-0 m-0 ps-10px pt-0 pe-10px pb-15px fs-12 box-shadow" aria-labelledby="navbarDropdownMenuLink" style={{ minWidth: '130px', 'left': '-60.7969px'}} >
+                                            <li className="mt-15px">
+                                                <Link to="/valuation-form" className="text-golden-hover">
+                                                    <i class='bi bi-pencil-square me-5px text-blue'></i>New Order
+                                                </Link>
+                                            </li>
+                                            <div className="divider-style-03 divider-style-03-01 mt-10px mb-10px w-100" style={{borderColor: 'rgba(0, 0, 0, 0.1)' }}></div>
+                                            <li className="mt-10px">
+                                                <Link to="/orders" className="text-golden-hover">
+                                                    <i class='bi bi-box-seam me-5px text-blue'></i>My Orders
+                                                </Link>
+                                            </li>
+                                            <div className="divider-style-03 divider-style-03-01 mt-10px mb-10px w-100" style={{borderColor: 'rgba(0, 0, 0, 0.1)' }}></div>
+                                            <li className="mt-10px">
+                                                <Link to="/my-plan" className="text-golden-hover">
+                                                    <i class='bi bi-clipboard-check me-5px text-blue'></i>Plans & Billing
+                                                </Link>
+                                            </li>
+                                            <div className="divider-style-03 divider-style-03-01 mt-10px mb-10px w-100" style={{borderColor: 'rgba(0, 0, 0, 0.1)' }}></div>
+                                            <li className="mt-10px">
+                                                <Link to="upgrade-plan" className="text-golden-hover">
+                                                    <i class='bi bi-box-arrow-up me-5px text-blue'></i>Upgrade Plan
+                                                </Link>
+                                            </li>
+                                            <div className="divider-style-03 divider-style-03-01 mt-10px mb-10px w-100" style={{borderColor: 'rgba(0, 0, 0, 0.1)' }}></div>
+                                            <li className="mt-10px">
+                                                <a href="#" className="text-golden-hover">
+                                                    <i class='bi bi-person me-5px text-blue'></i>My Profile
+                                                </a>
+                                            </li>
+                                            <div className="divider-style-03 divider-style-03-01 mt-10px mb-10px w-100" style={{borderColor: 'rgba(0, 0, 0, 0.1)' }}></div>
+                                            <li className="mt-10px">
+                                                <a href="#!" onClick={handleLogout} className="text-golden-hover">
+                                                    <i class='bi bi-power me-5px text-blue'></i>Logout
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </div>
+                            }
                         </div>
                     </div>
                 </nav>

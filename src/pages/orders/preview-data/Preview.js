@@ -18,6 +18,8 @@ const Preview = () => {
     const token = localStorage.getItem('token');
     const navigate = useNavigate();
     const [ editAllowed, setEditAllowed ] = useState(false);
+    const role = localStorage.getItem('role');
+
     const handleSave = async (event) => {
         event.preventDefault();
 
@@ -38,12 +40,12 @@ const Preview = () => {
                 try {
                     const response = await axios.put(apiURL + '/order/submit-order', {
                         orderId: id,
+                        role: role
                     }, {
                         headers: {
                             Authorization: `${token}`
                         }
                     });
-                    console.log(response); 
                     if (response.status === 200) {
                         Swal.fire({
                             icon: 'success',
@@ -51,7 +53,12 @@ const Preview = () => {
                             text: response.data.message,
                         }).then(() => {
                             localStorage.removeItem('orderId');
-                            navigate('/orders'); // Navigate to /dashboard after success
+                            if(role && role !== 'admin'){
+                                navigate('/orders'); // Navigate to /dashboard after success
+                            }else{
+                                localStorage.clear(); 
+                                window.close();
+                            }
                         });
                     } else {
                         Swal.fire({

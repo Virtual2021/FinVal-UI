@@ -10,6 +10,7 @@ import routes from '../routes/Route';
 const CommonLayout = ({ children }) => {
   const isLoggedIn = localStorage.getItem('token') !== null; 
   const location = useLocation();
+  const role = localStorage.getItem('role');
 
   // Check if the current path is a private route
   const isPrivate = routes.some(route => {
@@ -19,18 +20,33 @@ const CommonLayout = ({ children }) => {
 
   return (
     <Layout>
-      {isLoggedIn && isPrivate ? 
-        <div className="home">
-          <Sidebar />
-          <AuthNavbar />
-          {children}
-        </div>
-      : isLoggedIn && !isPrivate ? (
-        <div>
-          <AuthNavbar />
-          {children}
-        </div> 
-      ) : ( 
+      {isLoggedIn ? (
+        // For logged-in users
+        isPrivate ? (
+          // For private routes
+          role && role !== 'admin' ? (
+            // If the user is not an admin, show Sidebar and AuthNavbar
+            <div className="home">
+              <Sidebar />
+              <AuthNavbar />
+              {children}
+            </div>
+          ) : (
+            // If the user is an admin and trying to access restricted routes
+            <>
+              <AuthNavbar />
+              {children}
+            </> // You could return a NotAuthorized component here
+          )
+        ) : (
+          // For public routes (but logged-in users)
+          <div>
+            <AuthNavbar />
+            {children}
+          </div>
+        )
+      ) : (
+        // For non-logged-in users
         <>
           <Navbar />
           {children}

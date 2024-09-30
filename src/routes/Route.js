@@ -27,6 +27,8 @@ const Profile = React.lazy(() => import('../pages/profile/Profile'));
 const Form = React.lazy(() => import('../pages/orders/form/Modal/UploadForm/Upload'));
 const Checkout = React.lazy(() => import('../pages/front/plan/checkout/Checkout'));
 const AdvisorSummary = React.lazy(() => import('../pages/plans/upgrade/AdvisorSummary'));
+const AdminLogin = React.lazy(() => import('../pages/login/AdminLogin'));
+const NotAuthorised = React.lazy(() => import('../pages/NotAuthorised'));
 
 const routes = [
   { path: '/', component: Home, exact: true, private: false },
@@ -40,20 +42,22 @@ const routes = [
   { path: '/user-login', component: Login, exact: true, private: false },
   { path: '/user-signup', component: Signup, exact: true, private: false },
   { path: '/user-verification/:id', component: VerificationLink, exact: true, private: false},
-  { path: '/dashboard', component: Dashboard, exact: true, private: true },
-  { path: '/payment', component: Payment, exact: true, private: true },
-  { path: '/valuation-form/:orderId?', component: ValuationForm, exact: true, private: true},
-  { path: '/preview-data/:id', component: PreviewData, exact: true, private: true},
-  { path: '/orders', component: OrderData, exact: true, private: true},
-  { path: '/my-plan', component: MyPlan, exact: true, private: true},
-  { path: '/upgrade-plan', component: UpgradePlan, exact: true, private: true},
-  { path: '/upgrade-summary', component: AdvisorSummary, exact: true, private: true},
-  { path: '/profile', component: Profile, exact: true, private: true},
-  { path: '/form', component: Form, exact: true, private: true},
-  { path: '/checkout', component: Checkout, exact: true, private: true},
-  { path: '/success-page', component: Success, exact: true, private: true},
-  { path: '/payment-failed', component: Failure, exact: true, private: true},
 
+  { path: '/dashboard', component: Dashboard, exact: true, private: true , allowedRoles: [ 'user']},
+  { path: '/payment', component: Payment, exact: true, private: true, allowedRoles: [ 'user'] },
+  { path: '/valuation-form/:orderId?', component: ValuationForm, exact: true, private: true, allowedRoles: ['admin', 'user']},
+  { path: '/preview-data/:id', component: PreviewData, exact: true, private: true, allowedRoles: ['admin', 'user']},
+  { path: '/orders', component: OrderData, exact: true, private: true, allowedRoles: [ 'user']},
+  { path: '/my-plan', component: MyPlan, exact: true, private: true, allowedRoles: ['user']},
+  { path: '/upgrade-plan', component: UpgradePlan, exact: true, private: true, allowedRoles: [ 'user']},
+  { path: '/upgrade-summary', component: AdvisorSummary, exact: true, private: true, allowedRoles: [ 'user']},
+  { path: '/profile', component: Profile, exact: true, private: true, allowedRoles: [ 'user']},
+  { path: '/form', component: Form, exact: true, private: true, allowedRoles: [ 'user']},
+  { path: '/checkout', component: Checkout, exact: true, private: true, allowedRoles: [ 'user']},
+  { path: '/success-page', component: Success, exact: true, private: true, allowedRoles: [ 'user']},
+  { path: '/payment-failed', component: Failure, exact: true, private: true, allowedRoles: [ 'user']},
+  { path: '/admin-login', component: AdminLogin, exact: true, private: false},
+  { path: '/not-authorised', component: NotAuthorised, exact: true, private: false},
 
 ];
 

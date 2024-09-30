@@ -36,6 +36,7 @@
     "react-router-dom": "^6.26.0",
     "react-scripts": "5.0.1",
     "react-select": "^5.8.0",
+    "react-tooltip": "^5.28.0",
     "react-treebeard": "^3.2.4",
     "react-tsparticles": "^2.12.2",
     "redux": "^5.0.1",

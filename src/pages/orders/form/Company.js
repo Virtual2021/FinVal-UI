@@ -21,13 +21,13 @@ import Swal from 'sweetalert2';
 import Loader from "../../../common/Loader";
 
 const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => {
-    console.log(orderId);
     const [isLoading, setIsLoading] = useState(false);
     const currentYear = new Date().getFullYear();
     const previousYear = currentYear;
     const years = [previousYear-2,previousYear-1,previousYear];
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
     const [formData, setFormData] = useState({
         companyName: '',
         companyType: '',
@@ -229,7 +229,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                     <>
                     <div className="card-header fw-500 p-15px lh-normal bg-white">
                     <p className="text-blue fw-600 mb-0 fs-16 lh-1 mt-5px mb-5px d-inline-block">New Order: <span className="text-dark-blue">Business Details</span></p>
-                        <SupportLink data={initialData}/>
+                        {editAllowed && (role && role !== 'admin') && <SupportLink data={initialData}/> }
                         <div className="divider-style-03 divider-style-03-02 border-color-light-gray mb-10px mt-10px w-100"></div>
                         <span className="fw-400 fs-14">Please provide your business details</span>
                         <span className="fw-400 text-danger fs-12 float-end mt-5px">(All fields are mandatory)</span>

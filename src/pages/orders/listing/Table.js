@@ -1,16 +1,17 @@
+import React, {useEffect} from "react";
 import { formatDate } from "../../../common/numberUtils";
 import { Link } from "react-router-dom";
 
 const Table = ({data}) => {
-const handleDownload = (report_url) => {
-    const link = document.createElement('a');
-    link.href = report_url;
-    link.download = 'valuation_report.pdf'; // Suggest a filename
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-};
-       
+
+    useEffect(() => {
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.forEach((tooltipTriggerEl) => {
+          new window.bootstrap.Tooltip(tooltipTriggerEl);
+        });
+        console.log("Tooltips initialized");
+      }, []);
+
   
  const renderLink = (status, id, submittedOn) => {
 
@@ -32,7 +33,20 @@ const handleDownload = (report_url) => {
            return <Link to={`/valuation-form/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-info-circle"></i> View Details</Link>;
 
         case 'Completed':
-           return <Link to={`/valuation-form/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-pencil-square"></i> Modify & Re-Submit</Link>;
+           return (
+            <div className="btn-group text-nowrap">
+              <Link to={`/valuation-form/${id}`} 
+                 className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-80px text-center border-radius-4px"
+                 style={{ borderBottomRightRadius: '0px', borderTopRightRadius: '0px' }}>
+                <i className="bi bi-pencil-square"></i> Modify
+              </Link>
+              <span className="bg-red pt-10px pb-10px fw-400 text-white w-30px text-center border-radius-4px" 
+                    style={{ borderBottomLeftRadius: '0px', borderTopLeftRadius: '0px' }} 
+                    data-bs-toggle="tooltip" data-bs-title="10 hours remaining to re-submit">
+                <i className="bi bi-clock"></i>
+              </span>
+            </div>
+          );
 
         case 'Re-Submitted':
            return <Link to={`/valuation-form/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-info-circle"></i> View Details</Link>;

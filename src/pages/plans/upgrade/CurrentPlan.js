@@ -11,7 +11,7 @@ const CurrentPlan = ({data}) => {
     <div className="row mt-15px">
         <div className="col-sm-12">
             <fieldset className="ps-15px pe-15px pb-15px pt-10px d-block" style={{"background":"#f2f3f6"}}>
-                <legend className="fw-600 float-none border-1px col-auto fs-14 ps-15px pe-15px p-5px lh-1 border-radius-4px bg-light-blue text-blue m-0">Current Plan Details</legend>
+                
                 <div className="row justify-content-center align-items-center">
                     <div className="col-sm-12 text-center">
                         <div className="pricing-table box-shadow rounded-4 rounded-bottom-0">
@@ -39,6 +39,8 @@ const CurrentPlan = ({data}) => {
                         </div>
                     </div>
                 </div> 
+                
+                <legend className="fw-600 float-none border-1px col-auto fs-14 ps-15px pe-15px p-5px lh-1 border-radius-4px bg-light-blue text-blue m-0">Current Plan Details</legend>
                 <div className="row justify-content-center mt-15px">
                     <div className="col-sm-4">
                         <div className="border pt-10px pb-10px rounded-4 bg-white h-100">

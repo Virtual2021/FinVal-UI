@@ -78,6 +78,7 @@ const ForecastInfo = ({ onSave, initialData ,backButton, onPercentChange, orderI
     const years =  [year+1, year+2, year+3, year+4, year+5];
     const [isLoading, setIsLoading] = useState(false);
     const [accumulatedData, setAccumulatedData] = useState([]);
+    const role = localStorage.getItem('role');
     // Initial values for each row
     const initialRows = [
         { label: 'Forecasted Sales Growth Rate (Y-o-Y) (%)', values: ['', '', '', '', ''] },
@@ -198,7 +199,7 @@ const ForecastInfo = ({ onSave, initialData ,backButton, onPercentChange, orderI
             <div className="card-header fw-500 p-15px lh-normal bg-white">
                 <p className="text-blue fw-600 mb-0 fs-16 lh-1 mt-5px mb-5px">
                     New Order: <span className="text-dark-blue">Financial Projections</span>
-                    <SupportLink data={initialData}/>
+                    {editAllowed && (role && role !== 'admin') && <SupportLink data={initialData}/> }
                 </p>
             </div>
             <div

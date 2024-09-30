@@ -83,6 +83,7 @@ const LoginOtp = () => {
             // Store token and name in localStorage
             localStorage.setItem('token', token);
             localStorage.setItem('name', name);
+            localStorage.setItem('role', 'user');
 
             setIsLoading(false);
 

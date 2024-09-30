@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import logo from '../../assets/finimg/logo.png';
 
 const Sidebar = () => {
+    const role = localStorage.getItem('role');
     useEffect(() => {
         const body = document.querySelector('body');
         const mysidebar = body.querySelector('.mysidebar');
@@ -28,6 +29,8 @@ const Sidebar = () => {
         localStorage.clear(); // Clear all data from localStorage
         window.location.href = '/user-login';
     };
+
+
 
     return (
         <>
@@ -85,10 +88,10 @@ const Sidebar = () => {
                     <span className="fs-11 white-space-nowrap lh-1 fw-600">Up-grade</span>
                 </li>
                 <li className="nav-link">
-                    <Link to="/profile">
+                    <a href="#">
                         <i class='bi bi-person icon'></i>
                         <span className="text nav-text">My Profile</span>
-                    </Link>
+                    </a>
                 </li>
                 <li className="nav-link m-0 h-15px justify-content-center gmailtype">
                     <span className="fs-11 white-space-nowrap lh-normal fw-600">Profile</span>

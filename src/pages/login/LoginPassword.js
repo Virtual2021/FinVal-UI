@@ -49,6 +49,7 @@ const LoginPassword = () => {
                 // Store token and name in localStorage
                 localStorage.setItem('token', token);
                 localStorage.setItem('name', name);
+                localStorage.setItem('role', 'user');
 
                 const selectedPlan = localStorage.getItem('selectedPlan');
                 if (selectedPlan) {

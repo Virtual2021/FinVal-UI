@@ -10,6 +10,7 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
     const [errors, setErrors] = useState({});
     const currentYear = new Date().getFullYear();
     const previousYear = currentYear;
+    const role = localStorage.getItem('role');
     
     const [formData, setFormData] = useState({
         financedata: {
@@ -194,7 +195,7 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
   return (
     <div className="card m-0 border-radius-0px border-0 box-shadow h-100" style={{backgroundColor: "#f2f3f6"}}>
         <div className="card-header fw-500 p-15px lh-normal bg-white">
-            <p className="text-blue fw-600 mb-0 fs-16 lh-1 mt-5px mb-5px">New Order: <span className="text-dark-blue">Current Financial Information</span> <SupportLink data={initialData}/></p>
+            <p className="text-blue fw-600 mb-0 fs-16 lh-1 mt-5px mb-5px">New Order: <span className="text-dark-blue">Current Financial Information</span> {editAllowed && (role && role !== 'admin') && <SupportLink data={initialData}/> } </p>
             <div className="divider-style-03 divider-style-03-02 border-color-light-gray mb-10px mt-10px w-100"></div>
             <span className="fw-500 fs-14 lh-1 d-inline-block">Please specify all values in positive number only and up to 2 decimal places</span><br/><span className="fw-400 fs-12 fst-italic lh-1 d-inline-block">(Fields marked with <span className="text-red">*</span> can be negative)</span>
         </div>

@@ -6,9 +6,20 @@ import routes from './routes/Route';
 import CommonLayout from './common/CommonLayout';
 import Loader from './common/Loader';
 
-export const PrivateRoute = ({ children }) => {
+export const PrivateRoute = ({ children, allowedRoles }) => {
   const isAuthenticated = !!localStorage.getItem('token');
-  return isAuthenticated ? children : <Navigate to="/user-login" />;
+  const userRole = localStorage.getItem('role'); // Assuming user role is stored in localStorage
+  
+  if (!isAuthenticated) {
+    return <Navigate to="/user-login" />;
+  }
+
+  // Check if the user's role is in the allowedRoles list
+  if (allowedRoles && !allowedRoles.includes(userRole)) {
+    return <Navigate to="/not-authorised" />; // Navigate to an unauthorized page or any fallback
+  }
+
+  return children;
 };
 
 const App = () => {

@@ -131,7 +131,7 @@ const Form = ({ documents }) => {
         Swal.fire({
           icon: 'success',
           title: 'Document Uploaded',
-          text: 'Your documents have been successfully submitted!',
+          text: 'Thank you for uploading your financial documents. We will analyse the documents and complete the financial input data. We will get in touch with you in case we have questions. Please continue to fill the Business Details, Financial Data and Projections to the best of your knowledge. We will take care of the remaining information wherever you are having difficulty.”',
         }).then(() => {
           if(!orderId){
             const newOrderId = response.data.data.order._id;
