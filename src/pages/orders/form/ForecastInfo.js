@@ -199,7 +199,10 @@ const ForecastInfo = ({ onSave, initialData ,backButton, onPercentChange, orderI
             <div className="card-header fw-500 p-15px lh-normal bg-white">
                 <p className="text-blue fw-600 mb-0 fs-16 lh-1 mt-5px mb-5px">
                     New Order: <span className="text-dark-blue">Financial Projections</span>
-                    {editAllowed && (role && role !== 'admin') && <SupportLink data={initialData}/> }
+                    {initialData && initialData.order.status !== 'Completed' ?
+                        editAllowed && (role && role !== 'admin') && <SupportLink data={initialData}/> 
+                        : <></>
+                    }
                 </p>
             </div>
             <div

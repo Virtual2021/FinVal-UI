@@ -92,7 +92,7 @@ const Listing = () => {
                       
                       <Heading data={filterData} />
 
-                       {filterData && filterData?.activePlanType === 'A' &&
+                       {filterData && filterData?.customers?.activePlanType === 'A' &&
                           <Filter data={filterData} filters={filters} setFilters={setFilters} /> 
                        }
                       

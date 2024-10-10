@@ -14,7 +14,7 @@ const Details = () => {
                     <span className="d-flex align-items-center"><i className="bi bi-diamond-half text-blue fs-14 me-5px"></i> Last audited company financial statement</span>
                 </p>
             </div>
-            <p className="d-flex fs-16 lh-normal"><i className="bi bi-bookmark-star-fill text-blue fs-20 me-5px"></i> Please continue to input, in the next 2 pages, whatever business and financial information you can, even after uploading the documents. Then submit the order.</p>
+            <p className="d-flex fs-16 lh-normal"><i className="bi bi-bookmark-star-fill text-blue fs-20 me-5px"></i> Please continue to input whatever business and financial information you can, even after uploading the documents. Then submit the order.</p>
             <p className="d-flex fs-16 lh-normal mb-0"><i className="bi bi-bookmark-star-fill text-blue fs-20 me-5px"></i> <span>For any other query regarding the valuation process please write to us at <a href="mailto:valuationsupport@fin-advisor.com" className="text-golden">valuationsupport@fin-advisor.com</a></span></p>
         </div>
     </div>

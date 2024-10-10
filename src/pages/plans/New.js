@@ -79,7 +79,7 @@ const New = () => {
       };
 
    return (
-    <section className="position-relative pt-15px pb-15px">
+    <section className="position-relative pt-30px pb-30px">
         <div className="container-fluid">
             <div className="row">
                 <div className="col-lg-12 order-1 order-lg-2 md-mb-50px" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
@@ -137,7 +137,7 @@ const New = () => {
                                                         </div>
                                                         <div class="col-sm-7 text-center d-flex">
                                                             <div class="pricing-table box-shadow rounded-4 rounded-bottom-0">
-                                                                <div class="pricing-header text-center text-golden bg-blue rounded-4 rounded-bottom-0 p-10px d-flex justify-content-between">
+                                                                <div class="pricing-header text-center text-golden bg-blue rounded-4 rounded-bottom-0 ps-10px pe-10px p-5px d-flex justify-content-between">
                                                                     <div class="fw-500 fs-16 lh-1 d-flex align-items-center">
                                                                         <i class="line-icon-Wacom-Tablet fs-26 me-5px lh-1"></i> Plan Includes
                                                                     </div>
@@ -149,8 +149,8 @@ const New = () => {
                                                                 <div class="pricing-body bg-white">
                                                                     <ul class="list-style-01 p-0 mb-0">
                                                                         {contentArray.map((item, index) => (
-                                                                            <li key={index} className="border-color-transparent-dark-very-light ps-2 pt-2 pb-2 fs-16" style={{ display: "flex", alignItems: "flex-start" }}>
-                                                                                <i className="bi bi-check2-circle fs-22 fw-700" style={{ color: "rgb(20, 193, 20)", marginRight: "8px", marginTop: "-4px" }}></i>
+                                                                            <li key={index} className="border-color-transparent-dark-very-light pe-10px ps-10px p-5px fs-14" style={{ display: "flex", alignItems: "flex-start" }}>
+                                                                                <i className="bi bi-check2-circle fs-18 fw-700 lh-1" style={{ color: "rgb(20, 193, 20)", marginRight: "8px", marginTop: "-4px" }}></i>
                                                                                 <span className="text-start lh-sm">{item}</span>
                                                                             </li>
                                                                           ))

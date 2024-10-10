@@ -36,7 +36,7 @@ const Customer  = ({data}) => {
                     </div>
                     <div className="col-8 feature-box-content last-paragraph-no-margin lh-normal text-start">
                         <p className="fs-14 text-light-blue lh-normal">Plan Type</p>
-                        <span className="d-block fw-600 text-black mb-0 fs-18">{customer.planType}</span>
+                        <span className="d-block fw-600 text-black mb-0 fs-18">{data.order.plan?.planType}</span>
                     </div>
                 </div>
             </div>

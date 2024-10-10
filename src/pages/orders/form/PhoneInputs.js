@@ -3,7 +3,7 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import './PhoneInputStyles.css'; // Custom CSS for better design
 
-const PhoneInputs = ({ value, onChange, error, name }) => {
+const PhoneInputs = ({ value, onChange, error, name,disabled }) => {
   const [phone, setPhone] = useState('');
   const [errors, setError] = useState('');
 
@@ -57,6 +57,7 @@ const PhoneInputs = ({ value, onChange, error, name }) => {
         inputClass={`custom-phone-input ${errors ? 'is-invalid' : ''}`} // Apply custom class
         buttonClass="custom-flag-button" // Custom class for the flag dropdown
         dropdownClass="custom-dropdown" // Custom class for the dropdown
+        disabled={disabled}
       />
       {errors && <div className="error-message">{errors}</div>}
       {error && <div className="error-message">{error}</div>}

@@ -6,6 +6,7 @@
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
     "@mui/material": "^5.16.6",
+    "@popperjs/core": "^2.11.8",
     "@stripe/react-stripe-js": "^2.7.3",
     "@stripe/stripe-js": "^4.2.0",
     "@tanstack/react-query": "^5.51.21",
@@ -16,8 +17,10 @@
     "antd": "^5.20.2",
     "axios": "^1.7.3",
     "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
     "classnames": "^2.5.1",
     "date-fns": "^3.6.0",
+    "date-fns-tz": "^3.2.0",
     "highcharts": "^11.4.7",
     "highcharts-react-official": "^3.2.1",
     "jquery": "^3.7.1",
@@ -25,6 +28,7 @@
     "magnific-popup": "^1.2.0",
     "moment": "^2.30.1",
     "path-to-regexp": "^8.1.0",
+    "rc-tooltip": "^6.2.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-dropdown-tree-select": "^2.8.0",
@@ -72,6 +76,7 @@
     ]
   },
   "devDependencies": {
+    "@types/bootstrap": "^5.2.10",
     "stylelint": "^16.8.1",
     "stylelint-config-standard": "^36.0.1"
   }

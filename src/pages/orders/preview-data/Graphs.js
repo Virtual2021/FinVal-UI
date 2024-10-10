@@ -2,8 +2,8 @@ import Cogs from "../Graph/Cogs";
 import EbitdaGraph from "./Graph/EbitdaGraph";
 import SalesChart from "../Graph/Sales";
 import NetProfitGraph from "./Graph/NetProfitGraph";
-import CashGraph from "./Graph/CashGraph";
 import Country from "./Graph/Country";
+import NetProfitMarginGraph from "./Graph/NetProfitMarginGraph";
 
 const Graph = ({data}) => {
   return (
@@ -35,7 +35,7 @@ const Graph = ({data}) => {
 
         <div className="col-sm-4">
             <div className="card mt-30px rounded-bottom-0 border-0 box-shadow">
-               <CashGraph data={data.order.business.business} finData={data.graphData.finData}  />
+               <NetProfitMarginGraph data={data.order.business.business} finData={data.graphData.finData} forecastData={data.graphData.forecastData}  />
             </div>
         </div>
 

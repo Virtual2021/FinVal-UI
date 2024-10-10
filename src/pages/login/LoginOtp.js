@@ -92,7 +92,7 @@ const LoginOtp = () => {
                 window.location.href = '/checkout';// Redirect to checkout page after verification
             } else {
                 // Navigate to the dashboard
-                window.location.href = '/orders';
+                window.location.href = response.data.data.navigate;
             }
         } catch (err) {
             setError('OTP verification failed. Please try again.');

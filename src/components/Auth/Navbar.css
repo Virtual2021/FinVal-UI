@@ -1,13 +1,16 @@
-/* Make dropdown menu visible on hover */
-.nav-item.dropdown.hover-dropdown:hover .dropdown-menu {
-    display: block;
-}
-
-/* Optionally, you can add more styles to improve appearance */
+/* Ensure the dropdown menu is hidden initially */
 .nav-item.dropdown.hover-dropdown .dropdown-menu {
     display: none;
     position: absolute;
     top: 100%;
     left: 0;
     z-index: 1000;
+}
+
+/* Show dropdown on hover */
+.nav-item.dropdown.hover-dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.3s ease-in-out;
 }

@@ -3,7 +3,7 @@ import { TreeSelect } from 'antd';
 
 const { TreeNode } = TreeSelect;
 
-const CustomDropdown = ({ data, value, onChange, error, name }) => {
+const CustomDropdown = ({ data, value, onChange, error, name, disabled }) => {
 
   // Format the tree nodes from the data
   const formatTreeNodes = (data) => {
@@ -19,9 +19,10 @@ const CustomDropdown = ({ data, value, onChange, error, name }) => {
           title={industry} // Title for display
           key={industry}
           selectable={false} // Disable selection of main industry
+          disabled={disabled}
         >
           {data[industry].map(subItem => (
-            <TreeNode value={subItem.name} title={subItem.name} key={subItem.name} />
+            <TreeNode value={subItem.name} title={subItem.name} key={subItem.name} disabled={disabled} />
           ))}
         </TreeNode>
       );
@@ -48,11 +49,12 @@ const CustomDropdown = ({ data, value, onChange, error, name }) => {
   };
 
   return (
-    <div className={`form-group ${error ? 'is-invalid' : ''}`}>
+    <div className={`form-group financial-info-input ${error ? 'is-invalid' : ''}`}>
       <TreeSelect
         style={{ width: '100%' }}
         value={value || undefined}
         placeholder="Select your Industry"
+        className='financial-info-input'
         onChange={handleChangeInternal}
         showSearch // Enable search feature
         filterTreeNode={filterTreeNode} // Apply custom search filter

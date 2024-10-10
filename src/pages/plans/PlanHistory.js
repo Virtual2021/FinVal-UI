@@ -17,7 +17,7 @@ const PlanHistory = ({data}) => {
                 <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue w-50px">Access<br/>Days</th>
                 <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue w-50px">#Reports<br/>Utilized</th>
                 <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue w-110px">Plan Expiry Date</th>
-                <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue w-80px">Status</th>
+                <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue w-100px">Status</th>
                 <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue w-110px">Action</th>
             </tr>
         </thead>
@@ -32,7 +32,7 @@ const PlanHistory = ({data}) => {
                 <td className="fs-14">{item.planId.accessDays}</td>
                 <td className="fs-14">{item.orders.length}</td>
                 <td className="fs-14">{item.expiresAt ? formatDate(item.expiresAt) : 'NA'}</td>
-                <td className="fs-14">{ucfirst(item.planStatusType)}</td>
+                <td className="fs-14">{item.planStatusType ? ucfirst(item.planStatusType) : "NA"}</td>
                 <td className="fs-14">
                     { !item.planStatusType === 'expired' &&
                         <a href="#" className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-file-earmark-pdf"></i> Invoice</a>

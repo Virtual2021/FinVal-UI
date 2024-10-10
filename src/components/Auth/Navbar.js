@@ -2,6 +2,7 @@ import logo from "../../assets/finimg/logo.png";
 import goldenlogo from "../../assets/finimg/logo-golden.png";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from "react-router-dom";
 import './Navbar.css';
 
@@ -96,9 +97,9 @@ const handleLogout = () => {
                                             </li>
                                             <div className="divider-style-03 divider-style-03-01 mt-10px mb-10px w-100" style={{borderColor: 'rgba(0, 0, 0, 0.1)' }}></div>
                                             <li className="mt-10px">
-                                                <a href="#" className="text-golden-hover">
+                                                <Link to="profile" className="text-golden-hover">
                                                     <i class='bi bi-person me-5px text-blue'></i>My Profile
-                                                </a>
+                                                </Link>
                                             </li>
                                             <div className="divider-style-03 divider-style-03-01 mt-10px mb-10px w-100" style={{borderColor: 'rgba(0, 0, 0, 0.1)' }}></div>
                                             <li className="mt-10px">

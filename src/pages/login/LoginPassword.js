@@ -56,7 +56,7 @@ const LoginPassword = () => {
                     window.location.href = '/checkout'; // Redirect to checkout page after verification
                 } else {
                     // Navigate to the dashboard
-                    window.location.href = '/orders';
+                    window.location.href = response.data.data.navigate;
                 }
             }else if(response.data.status === 'alert'){
                 Swal.fire({

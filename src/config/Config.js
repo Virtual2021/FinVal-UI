@@ -2,5 +2,4 @@
 
 const apiURL="http://localhost:5050/api";
 
-
 export {apiURL}

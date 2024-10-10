@@ -19,6 +19,8 @@ const Preview = () => {
     const navigate = useNavigate();
     const [ editAllowed, setEditAllowed ] = useState(false);
     const role = localStorage.getItem('role');
+    const [isLoading, setIsLoading] = useState(false);
+
 
     const handleSave = async (event) => {
         event.preventDefault();
@@ -37,6 +39,7 @@ const Preview = () => {
             cancelButtonText: 'Cancel!'
         }).then(async (result) => {
             if (result.isConfirmed) {
+                setIsLoading(true);
                 try {
                     const response = await axios.put(apiURL + '/order/submit-order', {
                         orderId: id,
@@ -73,6 +76,8 @@ const Preview = () => {
                         title: 'Error',
                         text: error.message || 'Something went wrong',
                     });
+                }finally {
+                    setIsLoading(false);
                 }
             } else {
                 // If canceled, do nothing or handle the cancel event
@@ -93,11 +98,18 @@ const Preview = () => {
         });
     }
 
+    const backOrderButton = async () => {
+        navigate({
+            pathname: `/orders`,
+        });
+    }
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await fetch(apiURL+`/order/preview/${id}`);
                 const result = await response.json();
+                console.log(result);
                 setData(result);
                 setEditAllowed(result.editAllowed);
             } catch (error) {
@@ -156,16 +168,38 @@ const Preview = () => {
                                     {editAllowed &&
                                         <form action="" method="post" className="row contact-form-style-04 myform mt-30px">
                                             <div className="col-sm-12 text-center">
-                                                <button onClick={backButton} className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn">
-                                                    <i className="feather icon-feather-arrow-left-circle m-0 fs-16 align-text-bottom"></i> Back
-                                                </button>
-                                                &nbsp;
-                                                <button onClick={handleSave} className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn">
-                                                    <span>
+                                            {data && 
+                                                (
+                                                    (data.order.status === "Help Requested" && data.order.custody === "Customer" && role === 'user') ||
+                                                    (data.order.status === "Help Requested" && data.order.custody === "Company" && role === 'admin') || 
+                                                    (data.order.status === "Pending Submission" && data.order.custody === "Customer")
+                                                    ||                                                     
+                                                     (data.order.status === "Completed" && data.order.custody === "Customer")
+                                                ) ? (isLoading ? (
+                                                        <span>
+                                                            <span><i className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></span>
+                                                            <span className="btn-double-text ms-3px" data-text="Submitting...">Submitting...</span>
+                                                        </span>
+                                                    ) : (
+                                                    <>
+                                                    <button onClick={backButton} type="button" className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn">
+                                                        <i className="feather icon-feather-arrow-left-circle m-0 fs-16 align-text-bottom"></i> Back
+                                                    </button>
+                                                    &nbsp;
+                                                    <button onClick={handleSave} className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn">
+                                                        <span>
                                                         <span><i className="feather icon-feather-check-circle m-0 fs-16 align-text-bottom"></i></span>
                                                         <span className="btn-double-text">Submit Report Order</span> 
-                                                    </span>
-                                                </button>
+                                                        </span>
+                                                    </button>
+                                                    </>
+                                                    )
+                                                ) : (
+                                                    <button onClick={backOrderButton} type="button" className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn">
+                                                    <i className="feather icon-feather-arrow-left-circle m-0 fs-16 align-text-bottom"></i> Back
+                                                    </button>
+                                                )
+                                                }
                                             </div>
                                         </form>
                                     }

@@ -96,10 +96,14 @@ const SignUpForm = () => {
         if (response.status === 200) {
           resetForm();
           // setBackendSuccess(response.data.message);
+          const userEmail = response.data.data.customer.email; // Example email
+          const maskedEmail = await maskEmail(userEmail);
+
           Swal.fire({
             icon: 'success',
-            title: 'Registration Successful',
-            text: response.data.message,
+            title: 'Sign Up for Fin-Advisor Evaluation',
+            html: `<p>Thank you for submitting your details</p>
+            <p>To complete your registration process, please click on the verification link sent to your email address <strong>${maskedEmail}</strong></p>`,
           })
           setErrors(formErrors);
         }else{
@@ -118,6 +122,18 @@ const SignUpForm = () => {
       setErrors(formErrors);
     }
   };
+
+  // Function to mask the email (first 3 and last letter visible)
+const maskEmail = async (email) => {
+  const emailParts = email.split('@');
+  const localPart = emailParts[0];
+  const domainPart = emailParts[1];
+  
+  // Mask local part (first 3 letters and last letter shown)
+  const maskedLocal = localPart.slice(0, 3) + '****' + localPart.slice(-1);
+
+  return `${maskedLocal}@${domainPart}`;
+}
 
   // Use useEffect to scroll to the error or success message
   useEffect(() => {

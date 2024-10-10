@@ -3,11 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom'; // Import useParams
 import axios from 'axios';
 import { apiURL } from '../../../../../config/Config';
 import Swal from 'sweetalert2';
+import Loader from '../../../../../common/Loader';
 
 const Form = ({ documents }) => {
   const [files, setFiles] = useState([]);
   const [tempFile, setTempFile] = useState(null); // Temporary state for file selection
   const [remarks, setRemarks] = useState(''); // State for additional remarks
+  const [isNewDocumentAdded, setIsNewDocumentAdded] = useState(false);
   const fileInputRef = useRef(null); // useRef to manage file input
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
@@ -54,8 +56,13 @@ const Form = ({ documents }) => {
       setFiles((prevFiles) => [...prevFiles, tempFile]); // Add the file to the main files state
       setTempFile(null); // Clear the temporary file state
       fileInputRef.current.value = ''; // Clear the file input value
+      setIsNewDocumentAdded(true); 
     } else {
-      alert('No file selected!');
+      Swal.fire({
+        icon: 'error',
+        title: '',
+        text: 'No File Added.',
+      });
     }
   };
 
@@ -94,6 +101,7 @@ const Form = ({ documents }) => {
           // If file is newly added and not uploaded yet, just remove from local state
           setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
         }
+        setIsNewDocumentAdded(files.some((file) => !file._id)); // Update isNewDocumentAdded
       }
     });
   };
@@ -141,11 +149,12 @@ const Form = ({ documents }) => {
             });
           }
         });
+        setIsNewDocumentAdded(false);
       } else {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'Something went wrong. Please try again.',
+          text: 'No document to upload.',
         });
       }
     } catch (error) {
@@ -193,7 +202,7 @@ const Form = ({ documents }) => {
                   onClick={handleAddFile}
                   className="bg-blue h-40px lh-40 p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn d-inline-block ls-05px border-radius-4px"
                 >
-                  <i className="feather icon-feather-file-plus m-0 fs-16 align-text-bottom"></i> Add Document
+                  <i className="feather icon-feather-file-plus m-0 fs-16 align-text-bottom"></i> Upload Document
                 </button>
               </div>
             </div>
@@ -229,9 +238,10 @@ const Form = ({ documents }) => {
           <div className="col-12 text-center">
             <button
               type="submit"
-              className="bg-blue h-40px lh-40 p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn d-inline-block ls-05px border-radius-4px"
+              className="bg-blue h-40px lh-40 p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 fin-btn d-inline-block ls-05px border-radius-4px"
+              disabled={!isNewDocumentAdded}
             >
-              <i className="feather icon-feather-upload m-0 fs-16 align-text-bottom"></i> Upload document(s) to get support
+              <i className="feather icon-feather-upload m-0 fs-16 align-text-bottom"></i> Submit Document(s) To Get Support
             </button>
           </div>
         </form>

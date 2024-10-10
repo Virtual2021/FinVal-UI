@@ -55,6 +55,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
     const [currency, setCurrency] = useState([]);
     const [errors, setErrors] = useState({});
     const [documents, setDouments] = useState(false);
+    const [orderStatus, setOrderStatus] = useState(null);
 
     useEffect(() => {
         if (initialData?.order?.business?.business) {
@@ -81,6 +82,9 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
         if (initialData && initialData.documents && initialData.documents.document.length > 0) {
             setDouments(true); // Assume documents is an array of file objects
         }
+        if (initialData && initialData.order) {
+            setOrderStatus(initialData.order.status); // Assume documents is an array of file objects
+        }
     }, [initialData]);
 
     const handleChange = (e) => {
@@ -97,27 +101,25 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
   
     const validateForm = () => {
         const newErrors = {};
-        if(!documents){
-            Object.keys(formData).forEach(field => {
-                // Check for required fields excluding 'similarCompany'
-                if (field !== 'similarCompany' && field !== 'orderId' && !formData[field]) {
-                    newErrors[field] = 'This field is required';
-                }
         
-                // Handle validation for the 'contact' field separately
-                if (field === 'contact') {
-                    if (!formData.contact.dialCode) {
-                      newErrors.contact = 'Dial code is required';
-                    } else if (!formData.contact.phoneNumber) {
-                      newErrors.contact = 'Phone number is required';
-                    }
-                  }
-            });
-            setErrors(newErrors);
-            return Object.keys(newErrors).length === 0;
-        }else{
-            return Object.keys(newErrors).length === 0;
-        }
+        Object.keys(formData).forEach(field => {
+            // Check for required fields excluding 'similarCompany'
+            if (field !== 'similarCompany' && field !== 'orderId' && !formData[field]) {
+                newErrors[field] = 'This field is required';
+            }
+    
+            // Handle validation for the 'contact' field separately
+            if (field === 'contact') {
+                if (!formData.contact.dialCode) {
+                    newErrors.contact = 'Dial code is required';
+                } else if (!formData.contact.phoneNumber) {
+                    newErrors.contact = 'Phone number is required';
+                }
+                }
+        });
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+       
     };
 
     const nextButton = async() => {
@@ -229,7 +231,6 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                     <>
                     <div className="card-header fw-500 p-15px lh-normal bg-white">
                     <p className="text-blue fw-600 mb-0 fs-16 lh-1 mt-5px mb-5px d-inline-block">New Order: <span className="text-dark-blue">Business Details</span></p>
-                        {editAllowed && (role && role !== 'admin') && <SupportLink data={initialData}/> }
                         <div className="divider-style-03 divider-style-03-02 border-color-light-gray mb-10px mt-10px w-100"></div>
                         <span className="fw-400 fs-14">Please provide your business details</span>
                         <span className="fw-400 text-danger fs-12 float-end mt-5px">(All fields are mandatory)</span>
@@ -251,12 +252,13 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                     <div className="col">
                                         <label className="text-black mt-10px mb-10px fw-500 fs-14 d-block lh-normal">Company Name</label>
                                         <input 
-                                            className={`border-radius-0px box-shadow form-control ${errors.companyName ? 'is-invalid' : ''}`} 
+                                            className={`border-radius-0px box-shadow form-control financial-info-input ${errors.companyName ? 'is-invalid' : ''}`} 
                                             type="text" 
                                             name="companyName" 
                                             placeholder="Name of the company" 
                                             value={formData.companyName}
                                             onChange={handleChange} 
+                                            readOnly={orderStatus === "Completed"}
                                         />
                                         {errors.companyName && <div className="invalid-feedback">{errors.companyName}</div>}
                                     </div>
@@ -278,6 +280,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                                 value="Public"
                                                 checked={formData.companyType === 'Public'}
                                                 onChange={handleChange}
+                                                disabled={orderStatus === "Completed"}
                                             />
                                             <label className="text-dark-gray mb-1 fw-400 fs-14 d-block lh-1" htmlFor="inlineRadio1">Public</label>
                                         </div>
@@ -291,6 +294,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                                 checked={formData.companyType === 'Private'}
                                                 onChange={handleChange}
                                                 onBlur={() => handleBlur('companyType', 'Private')}
+                                                disabled={orderStatus === "Completed"}
                                             />
                                             <label className="text-dark-gray mb-1 fw-400 fs-14 d-block lh-1" htmlFor="inlineRadio2">Private</label>
                                         </div>
@@ -311,6 +315,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                                 onChange={handleChange}
                                                 error={errors.industryType}
                                                 name="industryType"
+                                                disabled={orderStatus === "Completed"}
                                                 />
                                     </div>
                                 </div>
@@ -323,12 +328,13 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                     <div className="col">
                                         <label className="text-black mt-10px mb-10px fw-500 fs-14 d-block lh-normal">Similar Public Company</label>
                                         <input 
-                                            className={`border-radius-0px box-shadow form-control`} 
+                                            className={`border-radius-0px box-shadow form-control financial-info-input`} 
                                             type="text" 
                                             name="similarCompany" 
                                             placeholder="Similar Public Company" 
                                             value={formData.similarCompany}
                                             onChange={handleChange} 
+                                            readOnly={orderStatus === "Completed"}
                                         />
                                     </div>
                                 </div>
@@ -350,6 +356,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                                 value={businessYear.display_value}
                                                 checked={formData.companyAge === businessYear.display_value}
                                                 onChange={handleChange}
+                                                disabled={orderStatus === "Completed"}
                                             />
                                             <label className="text-dark-gray mb-1 fw-400 fs-14 d-block lh-1" htmlFor="inlineRadio3">{businessYear.display_value}</label>
                                         </div>
@@ -367,13 +374,14 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                         <label className="text-black mt-10px mb-10px fw-500 fs-14 d-block lh-normal">Country</label>
                                         <div className="select">
                                             <select 
-                                                className={`border-radius-0px box-shadow form-control ${errors.country ? 'is-invalid' : ''}`} 
+                                                className={`border-radius-0px box-shadow form-control ${errors.country ? 'is-invalid' : ''}  ${!formData.country ? 'empty-selected' : ''}`} 
                                                 name="country" 
                                                 aria-label="select-country"
                                                 value={formData.country}
                                                 onChange={handleChange}
+                                                disabled={orderStatus === "Completed"}
                                             >
-                                                <option value="">Select your country</option>
+                                                <option value="" disabled>Select your country</option>
                                                 {countries.map(country => (
                                                     <option key={country.code} value={country.name}>{country.name}</option>
                                                 ))}
@@ -393,8 +401,8 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                         <div className="row">
                                             <div className="col-4">
                                                 <div className="select">
-                                                    <select className={`border-radius-0px box-shadow form-control ${errors.FinYrEndDate ? 'is-invalid' : ''}`} name="FinYrEndDate" aria-label="select-industry" value={formData.FinYrEndDate} onChange={handleChange}>
-                                                        <option value="">Date</option>
+                                                    <select className={`border-radius-0px box-shadow form-control ${errors.FinYrEndDate ? 'is-invalid' : ''} ${!formData.FinYrEndDate ? 'empty-selected' : ''}`} name="FinYrEndDate" aria-label="select-industry" value={formData.FinYrEndDate} onChange={handleChange} disabled={orderStatus === "Completed"}>
+                                                        <option value="" disabled>Date</option>
                                                         <option value="1">1</option>
                                                         <option value="2">2</option>
                                                         <option value="3">3</option>
@@ -432,8 +440,8 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                             </div>
                                             <div className="col-4">
                                                 <div className="select">
-                                                    <select className={`border-radius-0px box-shadow form-control ${errors.FinYrEndMonth ? 'is-invalid' : ''}`} name="FinYrEndMonth" aria-label="select-industry" value={formData.FinYrEndMonth} onChange={handleChange}>
-                                                        <option value="">Month</option>
+                                                    <select className={`border-radius-0px box-shadow form-control ${errors.FinYrEndMonth ? 'is-invalid' : ''}  ${!formData.FinYrEndMonth ? 'empty-selected' : ''}`} name="FinYrEndMonth" aria-label="select-industry" value={formData.FinYrEndMonth} onChange={handleChange} disabled={orderStatus === "Completed"}>
+                                                        <option value="" disabled>Month</option>
                                                         <option value="1">January</option>
                                                         <option value="2">February</option>
                                                         <option value="3">March</option>
@@ -452,8 +460,8 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                             </div>
                                             <div className="col-4">
                                                 <div className="select">
-                                                    <select className={`border-radius-0px box-shadow form-control ${errors.FinYrEnd ? 'is-invalid' : ''}`} name="FinYrEnd" aria-label="select-industry" value={formData.FinYrEnd} onChange={handleChange}>
-                                                        <option value="">Year</option>
+                                                    <select className={`border-radius-0px box-shadow form-control ${errors.FinYrEnd ? 'is-invalid' : ''}  ${!formData.FinYrEnd ? 'empty-selected' : ''}`} name="FinYrEnd" aria-label="select-industry" value={formData.FinYrEnd} onChange={handleChange} disabled={orderStatus === "Completed"}>
+                                                        <option value="" disabled>Year</option>
                                                         {years.map(item => (
                                                             <option key={item} value={item}>{item}</option>
                                                         ))}
@@ -484,6 +492,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                                     value={historicalTrend.value}
                                                     checked={formData.earningTrend === historicalTrend.value}
                                                     onChange={(e) => setFormData({ ...formData, earningTrend: e.target.value })}
+                                                    disabled={orderStatus === "Completed"}
                                                 />
                                                 <label
                                                     className="text-black mb-1 fw-400 fs-14 d-block lh-1"
@@ -507,12 +516,13 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                     <div className="col">
                                         <label className="text-black mt-10px mb-10px fw-500 fs-14 d-block lh-normal">Description</label>
                                         <textarea 
-                                            className={`border-radius-0px box-shadow form-control ${errors.description ? 'is-invalid' : ''}`} 
+                                            className={`border-radius-0px box-shadow form-control financial-info-input ${errors.description ? 'is-invalid' : ''}`} 
                                             name="description" 
                                             placeholder="Description of the business" 
                                             value={formData.description}
                                             onChange={handleChange}
                                             rows="4"
+                                            disabled={orderStatus === "Completed"}
                                         />
                                         {errors.description && <div className="invalid-feedback">{errors.description}</div>}
                                     </div>
@@ -537,7 +547,8 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                                 value={formData.contact} 
                                                 onChange={handleChange}
                                                 error={errors.contact} 
-                                                name="contact"/>
+                                                name="contact"
+                                                disabled={orderStatus === "Completed"}/>
                                     </div>
                                 </div>
                             </div>
@@ -549,12 +560,13 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                     <div className="col">
                                         <label className="text-black mt-10px mb-10px fw-500 fs-14 d-block lh-normal">Email Address</label>
                                         <input 
-                                            className={`border-radius-0px box-shadow form-control ${errors.email ? 'is-invalid' : ''}`} 
+                                            className={`border-radius-0px box-shadow form-control financial-info-input ${errors.email ? 'is-invalid' : ''}`} 
                                             type="email" 
                                             name="email" 
                                             placeholder="Email Address" 
                                             value={formData.email}
                                             onChange={handleChange} 
+                                            readOnly={orderStatus === "Completed"}
                                         />
                                         {errors.email && <div className="invalid-feedback">{errors.email}</div>}
                                     </div>
@@ -569,13 +581,14 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                         <label className="text-black mt-10px mb-10px fw-500 fs-14 d-block lh-normal">Currency Used</label>
                                         <div className="select">
                                             <select 
-                                                className={`border-radius-0px box-shadow form-control ${errors.currency ? 'is-invalid' : ''}`} 
+                                                className={`border-radius-0px box-shadow form-control ${errors.currency ? 'is-invalid' : ''} ${!formData.currency ? 'empty-selected' : ''}`} 
                                                 name="currency" 
                                                 aria-label="select-currency"
                                                 value={formData.currency}
                                                 onChange={handleChange}
+                                                disabled={orderStatus === "Completed"}
                                             >
-                                                <option value="">Select your Currency</option>
+                                                <option value="" disabled>Select your Currency</option>
                                                 {currency.map(item => (
                                                     <option key={item._id} value={item.code}>{item.code}</option>
                                                 ))}
@@ -607,7 +620,11 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                     <button className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn" type="button" onClick={handleSave}>
                                     <span>
                                         <span><i className="feather icon-feather-save m-0"></i></span>
-                                        <span className="btn-double-text"> Save:Go To Financial Info</span> 
+                                        {orderStatus === "Completed" ? 
+                                            <span className="btn-double-text"> Go To Financial Info</span> 
+                                            :
+                                            <span className="btn-double-text"> Save:Go To Financial Info</span> 
+                                        }
                                     </span>
                                 </button>
                             ))}

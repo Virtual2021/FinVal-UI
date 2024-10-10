@@ -70,13 +70,6 @@ const NetProfit = ({data, finData, forecastData}) => {
         color: '#183ea3'
     }));
 
-    const waveData = year.map((yr, index) => ({
-        name: yr,
-        y: Number(updatedNetProfitMarginPercent[index]),
-        drilldown: yr,
-        color: '#183ea3'
-    }));
-
     const options = {
         chart: {
             zooming: {
@@ -117,7 +110,8 @@ const NetProfit = ({data, finData, forecastData}) => {
             gridLineWidth: 1, // Optionally add grid lines here
             gridLineColor: '#e0e0e0', // Optionally set grid line color here
             gridLineDashStyle: 'ShortDash' // Optionally set grid line style here
-        }, { // Secondary yAxis for seriesData (Net Profit)
+        }, 
+        { // Secondary yAxis for seriesData (Net Profit)
             title: {
                 text: ''
             },
@@ -142,33 +136,16 @@ const NetProfit = ({data, finData, forecastData}) => {
             }
         },
         series: [{
-            name: 'Net Profit Margin',
+            name: 'Net Profit',
             type: 'column',
             yAxis: 0, // Associate with primary yAxis (waveData)
-            data: waveData,
-            color:'#183ea3',
-            tooltip: {
-                headerFormat: '',
-                pointFormat: '<span style="color:{point.color};font-size:11px;"><b>{point.y:.0f}%</b></span>',
-            },
-            borderWidth: 0,
-            dataLabels: {
-                enabled: true,
-                format: '<span style="font-size:9px;">{point.y:.1f}</span>'
-            }
-        }, {
-            name: 'Net Profit',
-            type: 'spline',
-            yAxis: 1, // Associate with secondary yAxis (seriesData)
             data: seriesData,
-            marker:{
-                symbol: 'diamond'
-            },
+            color:'#183ea3',
             tooltip: {
                 headerFormat: '',
                 pointFormatter: function() {
                     return `<span style="color:${this.color};font-size:11px;"><b>${formatNumber(this.y)}</b></span>`;
-                }
+                },
             },
             borderWidth: 0,
             dataLabels: {
@@ -198,7 +175,7 @@ const NetProfit = ({data, finData, forecastData}) => {
     
     return(
        <>
-        <div className="card-header fw-700 fs-14 ps-10px pb-0 pt-5px mb-0 h-40px lh-normal border-0 bg-white text-blue">Net Profit<GraphHeading data={data} finData={finData} /> & <br/>Net Profit Margin<span className="fst-italic fw-500 fs-12 ms-1">(%)</span></div>
+        <div className="card-header fw-700 fs-14 ps-10px pb-0 pt-5px mb-0 h-40px lh-normal border-0 bg-white text-blue">Net Profit<GraphHeading data={data} finData={finData} /> </div>
         <div className="card-body p-0 overflow-hidden">
             <HighchartsReact
                 highcharts={Highcharts}
