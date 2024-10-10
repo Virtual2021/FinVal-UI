@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import axios from 'axios'; // Or import axiosInstance if using a custom instance
 import { Link } from 'react-router-dom';
 import { apiURL } from '../../config/Config';
+import Swal from 'sweetalert2';
 
 const LoginOtp = () => {
     const [email, setEmail] = useState('');
@@ -46,12 +47,23 @@ const LoginOtp = () => {
         setIsLoading(true);
 
         try {
-            await axios.post(apiURL + '/front/customer/send_otp', { email });
-            setIsOtpSent(true);
-            setIsLoading(false);
+            const response = await axios.post(apiURL + '/front/customer/send_otp', { email });
+            console.log(response.data.message);
+            if(response.data.status === true){
+                setIsOtpSent(true);
+            }else if(response.data.status === 'alert'){
+                Swal.fire({
+                    icon: 'warning', // Make sure to use a valid icon, e.g., 'warning' instead of 'alert'
+                    title: 'Account Verification Pending',
+                    text: response.data.message,
+                });
+            }else{
+                setError('Failed to send OTP. Please try again.');
+            }
         } catch (err) {
             setError('Failed to send OTP. Please try again.');
             console.error(err);
+        }finally{
             setIsLoading(false);
         }
     };
@@ -69,16 +81,21 @@ const LoginOtp = () => {
             const name = response.data.data.userdata.user.first_name + ' ' + response.data.data.userdata.user.last_name;
 
             // Store token and name in localStorage
-            sessionStorage.setItem('token', token);
-            sessionStorage.setItem('name', name);
+            localStorage.setItem('token', token);
+            localStorage.setItem('name', name);
+            localStorage.setItem('role', 'user');
 
             setIsLoading(false);
 
-            // Navigate to the dashboard
-            window.location.href = '/dashboard';
+            const selectedPlan = localStorage.getItem('selectedPlan');
+            if (selectedPlan) {
+                window.location.href = '/checkout';// Redirect to checkout page after verification
+            } else {
+                // Navigate to the dashboard
+                window.location.href = response.data.data.navigate;
+            }
         } catch (err) {
             setError('OTP verification failed. Please try again.');
-            console.error(err);
             setIsLoading(false);
         }
     };

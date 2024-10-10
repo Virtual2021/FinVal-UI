@@ -1,22 +1,27 @@
-import React, {useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { fetchPlanData } from '../../services/PlanService';
 
 const Dashboard = () => {
-  const navigate = useNavigate();
+  const [planData, setPlanData] = useState(null);
+  const token = localStorage.getItem('token');
 
-    // Retrieve token and name from localStorage
-    const token = localStorage.getItem('token');
-    
-    // If token is not present, redirect to login
-    useEffect(() => {
-        if (!token) {
-            navigate('/login');
-        }
-    }, [token, navigate]);
+  useEffect(() => {
+    const getPlanData = async () => {
+      try {
+        const plan = await fetchPlanData(token);
+        setPlanData(plan);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    getPlanData();
+  }, [token]);
 
   return (
-    <></>
-  )
-}
+    <div>
+      <h1>Dashboard</h1>
+    </div>
+  );
+};
 
 export default Dashboard;

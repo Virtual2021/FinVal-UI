@@ -12,8 +12,7 @@ const Login = () => {
     
     const elementRef1 = useRef(null);
     const elementRef2 = useRef(null);
-
-      
+ 
     useEffect(() => {
         // Multiple animations
     anime.timeline()

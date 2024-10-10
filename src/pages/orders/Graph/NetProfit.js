@@ -10,14 +10,12 @@ const NetProfit = ({data, finData, forecastData}) => {
       }
     
       const { netProfit, year } = finData;
+
+      // Function to format numbers with thousand separators and two decimal places
+    const formatNumber = (number) => {
+        return number.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    };  
     
-      // Check if the sales array is not blank and contains values greater than 0
-    //   const isValidData = netProfit.length > 0;
-    
-    //   // If data is not valid, return null to render nothing
-    //   if (!isValidData) {
-    //     return null;
-    //   }
 
     let updatedNetProfit = [...netProfit];
     
@@ -72,13 +70,6 @@ const NetProfit = ({data, finData, forecastData}) => {
         color: '#183ea3'
     }));
 
-    const waveData = year.map((yr, index) => ({
-        name: yr,
-        y: Number(updatedNetProfitMarginPercent[index]),
-        drilldown: yr,
-        color: '#183ea3'
-    }));
-
     const options = {
         chart: {
             zooming: {
@@ -101,9 +92,26 @@ const NetProfit = ({data, finData, forecastData}) => {
                 style: {
                     fontSize: '10'
                 }
-            }
+            },
+            gridLineWidth: 1, // Add grid lines
+            gridLineColor: '#e0e0e0', // Set grid line color
+            gridLineDashStyle: 'ShortDash' // Set grid line style
         }],
-        yAxis: [{ // Primary yAxis
+        yAxis: [{ // Primary yAxis for waveData (Net Profit Margin)
+            title: {
+                text: ''
+            },
+            labels: {
+                format: '{value}%',
+                enabled: false
+            },
+            visible: false,
+            min: Math.min(0, Math.min(...updatedNetProfitMarginPercent)), // Adjust min to handle negative values
+            gridLineWidth: 1, // Optionally add grid lines here
+            gridLineColor: '#e0e0e0', // Optionally set grid line color here
+            gridLineDashStyle: 'ShortDash' // Optionally set grid line style here
+        }, 
+        { // Secondary yAxis for seriesData (Net Profit)
             title: {
                 text: ''
             },
@@ -111,22 +119,15 @@ const NetProfit = ({data, finData, forecastData}) => {
                 format: '{value}',
                 enabled: false
             },
-            visible: false
-        }, { // Secondary yAxis
-            title: {
-                text: ''
-            },
-            labels: {
-                format: '{value}',
-                enabled: false
-            },
-            visible: false
+            visible: false,
+            min: Math.min(0, Math.min(...updatedNetProfit)), // Adjust min dynamically based on negative values
+            max: Math.max(...updatedNetProfit),
+            gridLineWidth: 1, // Optionally add grid lines here
+            gridLineColor: '#e0e0e0', // Optionally set grid line color here
+            gridLineDashStyle: 'ShortDash' // Optionally set grid line style here
         }],
         tooltip: {
             shared: false
-        },
-        legend: {
-            enabled: false
         },
         plotOptions: {
             column: {
@@ -135,40 +136,28 @@ const NetProfit = ({data, finData, forecastData}) => {
             }
         },
         series: [{
-            name: '',
+            name: 'Net Profit',
             type: 'column',
-            yAxis: 1,
-            data: waveData,
+            yAxis: 0, // Associate with primary yAxis (waveData)
+            data: seriesData,
             color:'#183ea3',
             tooltip: {
                 headerFormat: '',
-                pointFormat: '<span style="color:{point.color};font-size:11px;"><b>{point.y:.0f}%</b></span>'
+                pointFormatter: function() {
+                    return `<span style="color:${this.color};font-size:11px;"><b>${formatNumber(this.y)}</b></span>`;
+                },
             },
             borderWidth: 0,
             dataLabels: {
                 enabled: true,
-                format: '<span style="font-size:9px;">{point.y:.1f}</span>'
-            }
-        },{
-            name: '',
-            type: 'spline',
-            yAxis: 1,
-            data: seriesData,
-            marker:{
-                symbol:'diamond'
-            },
-            tooltip: {
-                //headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                headerFormat: '',
-                pointFormat: '<span style="color:{point.color};font-size:11px;"><b>{point.y:.0f}</b></span>'
-            },
-            borderWidth: 0,
-            dataLabels: {
-                enabled: true,
-                format: '<span style="font-size:9px;">{point.y:.1f}</span>'
+                formatter: function() {
+                    return `<span style="font-size:9px;"><b>${formatNumber(this.y)}</b></span>`;
+                }
             }
         }]
-      };
+    };
+    
+
     
       const containerStyle = {
         position: 'relative',
@@ -186,7 +175,7 @@ const NetProfit = ({data, finData, forecastData}) => {
     
     return(
        <>
-        <div className="card-header fw-700 fs-14 ps-10px pb-0 pt-5px mb-0 h-40px lh-normal border-0 bg-white text-blue">Net Profit<GraphHeading data={data} finData={finData} /> & <br/>Net Profit Margin<span className="fst-italic fw-500 fs-12 ms-1">(%)</span></div>
+        <div className="card-header fw-700 fs-14 ps-10px pb-0 pt-5px mb-0 h-40px lh-normal border-0 bg-white text-blue">Net Profit<GraphHeading data={data} finData={finData} /> </div>
         <div className="card-body p-0 overflow-hidden">
             <HighchartsReact
                 highcharts={Highcharts}

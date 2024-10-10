@@ -15,46 +15,81 @@ import Graph from "./Graphs"
 const Preview = () => {
     const { id } = useParams(); // Extract the ID from the URL
     const [data, setData] = useState(null);
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     const navigate = useNavigate();
-    const { editAllowed, setEditAllowed } = useState(false);
+    const [ editAllowed, setEditAllowed ] = useState(false);
+    const role = localStorage.getItem('role');
+    const [isLoading, setIsLoading] = useState(false);
+
 
     const handleSave = async (event) => {
         event.preventDefault();
-        try {
-            const response = await axios.put(apiURL + '/order/submit-order', {
-                orderId : id,
-            },
-            {
-                headers: {
-                    Authorization: `${token}`
-                }
-            });
 
-            if (response.status === 200) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Order Submitted',
-                    text: 'Your order has been successfully submitted!',
-                }).then(() => {
-                    sessionStorage.removeItem('orderId');
-                    navigate('/order'); // Navigate to /dashboard after success
-                });
+        const text = data.order.status === 'Help Requested' ? 'You will not be able to make any more changes once the order is submitted. Since you have requested for support to complete the input financial data, we will complete and validate the remaining information. Do you wish to continue and submit the order?' : 'Please ensure that all the data being submitted is correct. Once submitted you will not be able to make any more changes. Do you wish to continue and submit the order?';
+    
+        // Show confirmation alert before proceeding
+        Swal.fire({
+            title: 'Are you sure?',
+            text: text,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, submit Order!',
+            cancelButtonText: 'Cancel!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                setIsLoading(true);
+                try {
+                    const response = await axios.put(apiURL + '/order/submit-order', {
+                        orderId: id,
+                        role: role
+                    }, {
+                        headers: {
+                            Authorization: `${token}`
+                        }
+                    });
+                    if (response.status === 200) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Order Submitted',
+                            text: response.data.message,
+                        }).then(() => {
+                            localStorage.removeItem('orderId');
+                            if(role && role !== 'admin'){
+                                navigate('/orders'); // Navigate to /dashboard after success
+                            }else{
+                                localStorage.clear(); 
+                                window.close();
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message || 'Something went wrong',
+                        });
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: error.message || 'Something went wrong',
+                    });
+                }finally {
+                    setIsLoading(false);
+                }
             } else {
+                // If canceled, do nothing or handle the cancel event
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: response.message || 'Something went wrong',
+                    icon: 'info',
+                    title: 'Cancelled',
+                    text: 'Order submission cancelled!',
                 });
             }
-        } catch (error) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: error.message || 'Something went wrong',
-            });
-        }
+        });
     };
+    
 
     const backButton = async () => {
         navigate({
@@ -63,11 +98,18 @@ const Preview = () => {
         });
     }
 
+    const backOrderButton = async () => {
+        navigate({
+            pathname: `/orders`,
+        });
+    }
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await fetch(apiURL+`/order/preview/${id}`);
                 const result = await response.json();
+                console.log(result);
                 setData(result);
                 setEditAllowed(result.editAllowed);
             } catch (error) {
@@ -121,21 +163,43 @@ const Preview = () => {
                                     }
                                     <div className="row mt-30px">
                                         <BalanceSheet data={data}/>
-                                        <Documents />
+                                        <Documents data={data}/>
                                     </div>
                                     {editAllowed &&
                                         <form action="" method="post" className="row contact-form-style-04 myform mt-30px">
                                             <div className="col-sm-12 text-center">
-                                                <button onClick={backButton} className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn">
-                                                    <i className="feather icon-feather-arrow-left-circle m-0 fs-16 align-text-bottom"></i> Back
-                                                </button>
-                                                &nbsp;
-                                                <button onClick={handleSave} className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn">
-                                                    <span>
+                                            {data && 
+                                                (
+                                                    (data.order.status === "Help Requested" && data.order.custody === "Customer" && role === 'user') ||
+                                                    (data.order.status === "Help Requested" && data.order.custody === "Company" && role === 'admin') || 
+                                                    (data.order.status === "Pending Submission" && data.order.custody === "Customer")
+                                                    ||                                                     
+                                                     (data.order.status === "Completed" && data.order.custody === "Customer")
+                                                ) ? (isLoading ? (
+                                                        <span>
+                                                            <span><i className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></span>
+                                                            <span className="btn-double-text ms-3px" data-text="Submitting...">Submitting...</span>
+                                                        </span>
+                                                    ) : (
+                                                    <>
+                                                    <button onClick={backButton} type="button" className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn">
+                                                        <i className="feather icon-feather-arrow-left-circle m-0 fs-16 align-text-bottom"></i> Back
+                                                    </button>
+                                                    &nbsp;
+                                                    <button onClick={handleSave} className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn">
+                                                        <span>
                                                         <span><i className="feather icon-feather-check-circle m-0 fs-16 align-text-bottom"></i></span>
                                                         <span className="btn-double-text">Submit Report Order</span> 
-                                                    </span>
-                                                </button>
+                                                        </span>
+                                                    </button>
+                                                    </>
+                                                    )
+                                                ) : (
+                                                    <button onClick={backOrderButton} type="button" className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn">
+                                                    <i className="feather icon-feather-arrow-left-circle m-0 fs-16 align-text-bottom"></i> Back
+                                                    </button>
+                                                )
+                                                }
                                             </div>
                                         </form>
                                     }

@@ -3,6 +3,7 @@ import { apiURL } from '../../../config/Config';
 import axios from 'axios';
 import { formatNumber } from '../../../common/numberUtils';
 import { useNavigate } from 'react-router-dom';
+import SupportLink from './Modal/SupportLink';
 
 const BalanceSheet = ({ onSave, initialData ,backButton, orderId, editAllowed }) => {
   const year= initialData.order.business.business.FinYrEnd + 1;
@@ -10,6 +11,7 @@ const BalanceSheet = ({ onSave, initialData ,backButton, orderId, editAllowed })
   const valueType = initialData.calculations.finance.valueType;
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const role = localStorage.getItem('role');
   // State to manage forecast balance sheet data
   const [forecastBalSheetData, setForecastBalSheetData] = useState([
     { fixedAssets: "", debtLoan: "" },
@@ -67,7 +69,7 @@ const BalanceSheet = ({ onSave, initialData ,backButton, orderId, editAllowed })
     event.preventDefault();
     setIsLoading(true);
     try {
-        const token = sessionStorage.getItem('token');
+        const token = localStorage.getItem('token');
         const response = await axios.put(apiURL + '/order/update', {
             forcast_bal_sheet_data: forecastBalSheetData,
             forcast_rip_days_data: forecastRipDaysData,
@@ -97,6 +99,10 @@ const BalanceSheet = ({ onSave, initialData ,backButton, orderId, editAllowed })
       <div className="card-header fw-500 p-15px lh-normal bg-white">
         <p className="text-blue fw-600 mb-0 fs-16 lh-1 mt-5px mb-5px">
           New Order: <span className="text-dark-blue">Financial Projections</span>
+          {initialData && initialData.order.status !== 'Completed' ?
+                editAllowed && (role && role !== 'admin') && <SupportLink data={initialData}/> 
+                : <></>
+            }
         </p>
       </div>
       <div className="card-body p-0" style={{ maxHeight: '430px'}} data-scroll-options='{ "theme": "dark" }'>

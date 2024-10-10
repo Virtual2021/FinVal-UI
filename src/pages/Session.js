@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 
 const Session = () => {
   useEffect(() => {
-    // Delete 'orderId' from sessionStorage when the component is loaded
-    // sessionStorage.removeItem('orderId');
-    console.log(sessionStorage);
-    console.log('orderId removed from sessionStorage');
+    // Delete 'orderId' from localStorage when the component is loaded
+    // localStorage.removeItem('orderId');
+    console.log(localStorage);
+    console.log('orderId removed from localStorage');
   }, []); // The empty array ensures this runs only once when the component mounts
 
   return (

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { apiURL } from "../../config/Config";
+import Swal from "sweetalert2";
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
@@ -12,17 +13,18 @@ const SignUpForm = () => {
     last_name: '',
     company: '',
     jobTitle: '',
-    industry: '',
+    // industry: '',
     country: ''
   });
 
   const [errors, setErrors] = useState({});
   const [backendError, setBackendError] = useState('');
-  const [backendSuccess, setBackendSuccess] = useState('');
+  // const [backendSuccess, setBackendSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const [countries, setCountries] = useState([]);
 
   const errorRef = useRef(null);
-  const successRef = useRef(null);
+  // const successRef = useRef(null);
   const resetForm = () => {
     setFormData({
       email: '',
@@ -32,7 +34,7 @@ const SignUpForm = () => {
       last_name: '',
       company: '',
       jobTitle: '',
-      industry: '',
+      // industry: '',
       country: ''
     });
   };
@@ -71,9 +73,9 @@ const SignUpForm = () => {
     if (!formData.jobTitle) {
       formErrors.jobTitle = 'Job Title is required';
     }
-    if (!formData.industry) {
-      formErrors.industry = 'Industry is required';
-    }
+    // if (!formData.industry) {
+    //   formErrors.industry = 'Industry is required';
+    // }
     if (!formData.country) {
       formErrors.country = 'Country is required';
     }
@@ -89,11 +91,20 @@ const SignUpForm = () => {
       setLoading(true);
       try {
         setBackendError('');
-        setBackendSuccess('');
+        // setBackendSuccess('');
         const response = await axios.post(apiURL + '/front/customer/signup', formData);
         if (response.status === 200) {
           resetForm();
-          setBackendSuccess(response.data.message);
+          // setBackendSuccess(response.data.message);
+          const userEmail = response.data.data.customer.email; // Example email
+          const maskedEmail = await maskEmail(userEmail);
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Sign Up for Fin-Advisor Evaluation',
+            html: `<p>Thank you for submitting your details</p>
+            <p>To complete your registration process, please click on the verification link sent to your email address <strong>${maskedEmail}</strong></p>`,
+          })
           setErrors(formErrors);
         }else{
           setBackendError(response.data.message);
@@ -112,14 +123,44 @@ const SignUpForm = () => {
     }
   };
 
+  // Function to mask the email (first 3 and last letter visible)
+const maskEmail = async (email) => {
+  const emailParts = email.split('@');
+  const localPart = emailParts[0];
+  const domainPart = emailParts[1];
+  
+  // Mask local part (first 3 letters and last letter shown)
+  const maskedLocal = localPart.slice(0, 3) + '****' + localPart.slice(-1);
+
+  return `${maskedLocal}@${domainPart}`;
+}
+
   // Use useEffect to scroll to the error or success message
   useEffect(() => {
     if (backendError && errorRef.current) {
       errorRef.current.scrollIntoView({ behavior: 'smooth' });
-    } else if (backendSuccess && successRef.current) {
-      successRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [backendError, backendSuccess]);
+    } 
+    // else if (backendSuccess && successRef.current) {
+    //   successRef.current.scrollIntoView({ behavior: 'smooth' });
+    // }
+
+    // Fetch plan data from API
+    const fetchCountries = async () => {
+      try {
+          const response = await axios.get(apiURL + '/front/countries');
+          const data = response.data;
+          if (data.status) {
+             setCountries(data.data.countries); 
+          }
+      } catch (err) {
+          console.error("Error fetching plan data:", err);
+          // Handle error appropriately here
+      }
+  };
+
+  fetchCountries();
+
+  }, [backendError]);
 
   return (
     <>        
@@ -132,11 +173,11 @@ const SignUpForm = () => {
                 {backendError}
               </div>
             )}
-            {backendSuccess && (
+            {/* {backendSuccess && (
               <div ref={successRef} className="col-md-12 text-center text-success">
                 {backendSuccess}
               </div>
-            )}
+            )} */}
             <div className="col-md-12 mb-30px">
                 <input
                   className="border-radius-4px border-color-white box-shadow form-control"
@@ -221,7 +262,7 @@ const SignUpForm = () => {
                 />
                 {errors.jobTitle && <span className="text-danger">{errors.jobTitle}</span>}
             </div>
-            <div className="col-md-6 mb-30px">
+            {/* <div className="col-md-6 mb-30px">
                 <div className="select">
                     <select
                       className="form-control border-radius-4px border-color-white box-shadow-double-large"
@@ -238,8 +279,8 @@ const SignUpForm = () => {
                     </select>
                     {errors.industry && <span className="text-danger">{errors.industry}</span>}
                 </div>
-            </div>
-            <div className="col-md-6 mb-30px">
+            </div> */}
+            <div className="col-md-12 mb-30px">
                 <div className="select">
                     <select
                       className="form-control border-radius-4px border-color-white box-shadow-double-large"
@@ -249,18 +290,21 @@ const SignUpForm = () => {
                       onChange={handleChange}
                     >
                         <option value="">Select Country</option>
-                        <option value="Country1">Country1</option>
-                        <option value="Country2">Country2</option>
-                        <option value="Country3">Country3</option>
-                        <option value="Country4">Country4</option>
+                        {countries.map(country => (
+                            <option key={country.code} value={country.name}>{country.name}</option>
+                        ))}
                     </select>
                     {errors.country && <span className="text-danger">{errors.country}</span>}
                 </div>
             </div>
 
             <div className="col-md-12 text-center sm-mt-20px">
-                <button className="btn btn-large btn-round-edge bg-blue submit text-white w-100 fin-btn" type="submit">
-                {loading ? (
+                <button 
+                    className="btn btn-large btn-round-edge bg-blue submit text-white w-100 fin-btn" 
+                    type="submit" 
+                    disabled={loading} // Disable the button when loading is true
+                >
+                    {loading ? (
                         <span>
                             <span><i className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></span>
                             <span className="btn-double-text ms-3px" data-text="Signing In...">Signing Up...</span>
@@ -270,10 +314,13 @@ const SignUpForm = () => {
                             <span><i className="bi bi-person-circle align-middle"></i></span>
                             <span className="btn-double-text align-middle" data-text="Sign Up Now">Sign Up Now</span> 
                         </span>
-                  )}
+                    )}
                 </button>
-                <span className="fs-14 lh-22 d-block mt-15px">Already have an account? <Link to="/user-login" className="text-dark-gray text-decoration-line-bottom fw-500">Sign In</Link></span>
+                <span className="fs-14 lh-22 d-block mt-15px">Already have an account? 
+                    <Link to="/user-login" className="text-dark-gray text-decoration-line-bottom fw-500">Sign In</Link>
+                </span>
             </div>
+
         </form>
     </>
   );

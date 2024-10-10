@@ -634,6 +634,17 @@ legend{
     margin-left: 2px; /* Adjust spacing between the input and the % symbol */
 }
 
+/* Apply styles when the placeholder is selected */
+.empty-selected {
+    color: grey;
+    font-style: italic;
+}
+
+/* This ensures the styling is applied when the first option (placeholder) is selected */
+.empty-selected option:first-child {
+    color: grey;
+    font-style: italic;
+}
 
 .new-btn-color{
     background:#4ea8f6;
@@ -682,4 +693,8 @@ legend{
 }
 .image-overlay-light-blue{
     background: linear-gradient(0deg, rgb(137 200 255 / 100%) 5%, rgba(255, 255, 255, 0) 40%);
+}
+
+div:where(.swal2-container) h2:where(.swal2-title){
+    font-size:1.5em !important;
 }

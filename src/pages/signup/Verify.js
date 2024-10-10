@@ -32,13 +32,7 @@ const Verify = () => {
     setLoading(true); // Show loading indicator
 
     try {
-      const response = await axios.post(`${apiURL}/front/customer/verify_account_token`, { token },
-        {
-            headers: {
-              Authorization: `${token}` // Ensure token is sent in the Authorization header
-            }
-          }
-      );
+      const response = await axios.get(`${apiURL}/front/customer/verify_account_token/`+ token );
       if (response.status === 200) {
         Swal.fire({
           icon: 'success',
