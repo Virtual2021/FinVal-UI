@@ -100,15 +100,28 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
 
     const handleSubmit = async (e, buttonName) => {
         e.preventDefault();
-
+    
+        // Convert blank fields to 0.00 before validation
+        const updatedFinancedata = Object.keys(formData.financedata).reduce((acc, field) => {
+            acc[field] = formData.financedata[field] === '' ? '0.00' : formData.financedata[field];
+            return acc;
+        }, {});
+    
+        // Update formData with the updated financedata
+        const updatedFormData = {
+            ...formData,
+            financedata: updatedFinancedata
+        };
+    
         let isValid = true;
         const newErrors = {};
-        
-        if (!formData.financedata.valueType) {
+    
+        // Validate valueType
+        if (!updatedFormData.financedata.valueType) {
             newErrors.financedata.valueType = 'This field is required.';
             isValid = false;
         }
-
+    
         const validateNumber = (value, allowNegative) => {
             if (value === '' || isNaN(value)) return 'Invalid number.';
             const num = parseFloat(value);
@@ -117,7 +130,7 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
             if (num < 0) return '-ve values are not allowed.';
             return null;
         };
-
+    
         const fields = {
             sales: false,
             costOfSales: false,
@@ -133,36 +146,26 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
             payables: false,
             netFixedAssets: false,
         };
-
+    
+        // Validate each field
         Object.keys(fields).forEach(field => {
-            const error = validateNumber(formData.financedata[field], fields[field]);
+            const error = validateNumber(updatedFormData.financedata[field], fields[field]);
             if (error) {
                 newErrors[`financedata.${field}`] = error;
                 isValid = false;
             }
         });
-
-        // Convert blank fields to 0.00
-        const updatedFinancedata = Object.keys(formData.financedata).reduce((acc, field) => {
-            acc[field] = formData.financedata[field] === '' ? '0.00' : formData.financedata[field];
-            return acc;
-        }, {});
-
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            financedata: updatedFinancedata
-        }));
-
+    
         setErrors(newErrors);
-
+    
         if (isValid) {
             setIsLoading(true); // Start loading
-
+    
             try {
                 const token = localStorage.getItem('token');
                 const response = await axios.put(
                     apiURL + '/order/update',
-                    formData,
+                    updatedFormData,  // Use updatedFormData here
                     {
                         headers: {
                             Authorization: `${token}`
@@ -178,11 +181,12 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
                 }
             } catch (error) {
                 console.error('Error saving form:', error);
-            }finally {
-                setIsLoading(false); // Start loading
+            } finally {
+                setIsLoading(false); // Stop loading
             }
         }
     };
+    
 
     const handleButton = async (buttonName) => {
         if (buttonName === 'back') {

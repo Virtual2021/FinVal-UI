@@ -5,12 +5,24 @@ import Tooltip from 'rc-tooltip';
 import 'rc-tooltip/assets/bootstrap.css'; // Optional, for basic styling
 
 const Table = ({data}) => {
- const renderLink = (status, id, submittedOn, custody ,resubmit_time, resubmit_pending) => {
+ const renderLink = (status, id, submittedOn, custody ,resubmit_time, resubmit_pending, orderplan) => {
+    console.log(orderplan);
      
     if (status === 'Help Requested' && custody === "Company") {
         return <Link to={`/preview-data/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px">
             <i className="bi bi-info-circle"></i> View Details
         </Link>;
+    }
+
+    if (status === 'Help Requested' && custody === "Customer") {
+        if(orderplan?.planOrderId?.planStatusType === 'expired'){
+            return <><Link to={`/preview-data/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px">
+                <i className="bi bi-info-circle"></i> View Details
+            </Link>
+            <br/><span class="text-red text-center fs-12">Plan Expired</span></>;
+        }else {
+            return <Link to={`/valuation-form/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-pencil"></i> Edit</Link>;
+        } 
     }
 
     if(status === 'Completed' && resubmit_pending === 1){
@@ -42,12 +54,19 @@ const Table = ({data}) => {
             <i className="bi bi-info-circle"></i> View Details
         </Link>;
     }
+
+    if(status === 'Pending Submission'){
+       if(orderplan?.planOrderId?.planStatusType === 'expired'){
+            return <><Link to={`/preview-data/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px">
+                <i className="bi bi-info-circle"></i> View Details
+            </Link>
+            <br/><span class="text-red text-center fs-12">Plan Expired</span></>;
+       }else {
+            return <Link to={`/valuation-form/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-pencil"></i> Edit</Link>;
+       } 
+    }
     
     switch (status) {
-        
-        case 'Pending Submission':
-           return <Link to={`/valuation-form/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-pencil"></i> Edit</Link>;
-
         case 'Help Requested':
            return <Link to={`/valuation-form/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-pencil"></i> Edit</Link>;    
 
@@ -104,6 +123,7 @@ const Table = ({data}) => {
                 <thead className="border-solid border-1 border-light-blue">
                     <tr>
                         <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue w-50px">Order#</th>
+                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue w-50px">Plan Id</th>
                         <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue">Company Name</th>
                         <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue">Country</th>
                         <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue w-110px">Status</th>
@@ -117,6 +137,7 @@ const Table = ({data}) => {
                     {data.map((order, index) => (
                     <tr key={index}>
                         <th scope="row" className="align-middle text-center fs-14">{order['customerOrderSequence']}</th>
+                        <th scope="row" className="align-middle text-center fs-14"> {order?.orderplan?.planOrderId?.planSeqId ?? ''}</th>
                         <td className="fs-14">{order['companyName']}
                             {order['status'] === 'Completed' && 
                             <>
@@ -168,7 +189,7 @@ const Table = ({data}) => {
                         <td className="fs-14">{formatDate(order['createdAt'])}</td>
                         <td className="fs-14">{order['submittedOn'] !== '' && formatDate(order['submittedOn'])}</td>
                         <td className="fs-14">{order['completedOn'] !== '' && formatDate(order['completedOn'])}</td>
-                        <td className="fs-14">{renderLink(order['status'], order['_id'], order['submittedOn'], order['custody'], order['remaining_hours'], order['resubmit_pending'])}</td>
+                        <td className="fs-14">{renderLink(order['status'], order['_id'], order['submittedOn'], order['custody'], order['remaining_hours'], order['resubmit_pending'], order['orderplan'])}</td>
                     </tr>
                     ))}
                 </tbody>

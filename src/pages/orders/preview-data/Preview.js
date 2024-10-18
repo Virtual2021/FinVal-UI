@@ -145,27 +145,31 @@ const Preview = () => {
                                 <div className="card-header fw-600 mb-0 align-items-center bg-white text-blue">Input Data Preview</div>
                                 <div className="card-body overflow-hidden p-30px pt-15px">
                                     
-                                    {data && <Customer data={data}/>}
+                                    {data && data.customer && <Customer data={data}/>}
 
                                     <div className="w-100 divider-style-03 divider-style-03-02 border-color-light-gray mb-30px mt-30px"></div>
 
-                                    {data &&  
+                                    {data && data.order && data.order.business && 
                                         <div className="row">
                                             <BusinessDetails data={data}/> 
                                             <Financial data={data}/>
                                         </div>
                                     }
-                                    {data &&
-                                    <Projections data={data}/>
-                                    }
+                                    {data && Object.keys(data.calculations || {}).length > 0 && (
+                                        <Projections data={data} />
+                                    )}
                                     {data &&
                                         <Graph data={data}/>
                                     }
+                                    {data && 
                                     <div className="row mt-30px">
-                                        <BalanceSheet data={data}/>
+                                        {data && Object.keys(data.calculations || {}).length > 0 && (
+                                            <BalanceSheet data={data}/>
+                                        )}
                                         <Documents data={data}/>
                                     </div>
-                                    {editAllowed &&
+                                    }
+                                    {editAllowed ?
                                         <form action="" method="post" className="row contact-form-style-04 myform mt-30px">
                                             <div className="col-sm-12 text-center">
                                             {data && 
@@ -202,6 +206,12 @@ const Preview = () => {
                                                 }
                                             </div>
                                         </form>
+                                    :    
+                                    <div className="col-sm-12 text-center">
+                                        <button onClick={backOrderButton} type="button" className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn">
+                                            <i className="feather icon-feather-arrow-left-circle m-0 fs-16 align-text-bottom"></i> Back
+                                        </button>
+                                    </div>
                                     }
                                 </div>
                             </div>

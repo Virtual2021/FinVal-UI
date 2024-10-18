@@ -7,9 +7,9 @@ const Upload = ({documents}) => {
     <div>
       <div className="row">
         <div className="col-11 mx-auto bg-white position-relative">
-          <div className="row">
-            <Details />
-            <Form documents={documents} />
+          <div className="row scrollable-form-container">
+                <Details />
+                <Form documents={documents} />
           </div>
           {/* Close button should be handled by the parent modal */}
         </div>

@@ -16,8 +16,8 @@ const Heading = ({data}) => {
                                 <i className="line-icon-Bulleted-List text-blue text-dark-blue-hover fs-16 fw-600"></i>
                             </div>
                             <div className="col-8 feature-box-content last-paragraph-no-margin lh-normal text-start ps-10px">
-                                <p className="fs-12 text-light-blue lh-normal">Plan Type</p>
-                                <span className="d-block fw-600 text-black mb-0 fs-16">{customer.activePlanType || 'N/A'}</span>
+                                <p className="fs-12 text-light-blue lh-normal">Plan Type / Plan ID</p>
+                                <span className="d-block fw-600 text-black mb-0 fs-16">{customer.activePlanType || ''} {customer.planId ? '/ ' + customer.planId  : 'N/A'}</span>
                             </div>
                         </div>
                     </div>

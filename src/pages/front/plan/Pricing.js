@@ -68,6 +68,7 @@ const Team = () => {
 
     return (
         <>
+
             <section className="page-title-parallax-background half-section ipad-top-space-margin" style={bannerStyle}>
                 <div className="container">
                     <div className="row align-items-center justify-content-center">
@@ -84,6 +85,8 @@ const Team = () => {
                     </div>
                 </div>
             </section>
+
+            <Plans elementRef2={elementRef2} />
 
             <section className="bg-white padding-60-60 " >
                 <div className="container margin-7px" style={{ marginBottom: "-7px" }}>
@@ -110,9 +113,7 @@ const Team = () => {
                     </div>
                 </div>
             </section>
-
-            <Plans elementRef2={elementRef2} />
-
+            
             <section className="big-section padding-60-60 position-relative">
                 <div className="container">
                     <div className="row ">

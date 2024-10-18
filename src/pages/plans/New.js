@@ -27,10 +27,10 @@ const New = () => {
                 });
                 const data = response.data;
                 if (data.status) {
-                    setCurrentPlanData(data.data.current_plan[0]);
+                    setCurrentPlanData(data.data.current_plan);
                     setHistoryPlanData(data.data.old_plans);
-                    if (data.data.current_plan[0] && data.data.current_plan[0].planId && data.data.current_plan[0].planId.description) {
-                        const parsedArray = parseHtmlList(data.data.current_plan[0].planId.userplandescription);
+                    if (data.data.current_plan && data.data.current_plan.planId && data.data.current_plan.planId.description) {
+                        const parsedArray = parseHtmlList(data.data.current_plan.planId.userplandescription);
                         setContentArray(parsedArray);
                     }
                 } else {

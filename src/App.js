@@ -1,5 +1,5 @@
 // src/App.js
-import React, { Suspense } from 'react';
+import React, { Suspense  } from 'react';
 import { BrowserRouter as Router, Navigate } from 'react-router-dom';
 import AppRoutes from './components/AppRoutes';
 import routes from './routes/Route';
@@ -23,6 +23,8 @@ export const PrivateRoute = ({ children, allowedRoles }) => {
 };
 
 const App = () => {
+
+
   return (
     <Router>
       <CommonLayout>
