@@ -1,31 +1,71 @@
+import React, {useEffect} from "react";
 import { formatDate } from "../../../common/numberUtils";
 import { Link } from "react-router-dom";
+import Tooltip from 'rc-tooltip';
+import 'rc-tooltip/assets/bootstrap.css'; // Optional, for basic styling
 
 const Table = ({data}) => {
-  
- const renderLink = (status, id) => {
+ const renderLink = (status, id, submittedOn, custody ,resubmit_time, resubmit_pending) => {
+     
+    if (status === 'Help Requested' && custody === "Company") {
+        return <Link to={`/preview-data/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px">
+            <i className="bi bi-info-circle"></i> View Details
+        </Link>;
+    }
+
+    if(status === 'Completed' && resubmit_pending === 1){
+        return <div className="btn-group text-nowrap">
+                    <Link
+                        to = {`/valuation-form/${id}`}  
+                        className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-80px text-center border-radius-4px"
+                        style={{ borderBottomRightRadius: "0px", borderTopRightRadius: "0px" }}
+                    >
+                        <i className="bi bi-pencil-square"></i> Modify
+                    </Link>
+                    <Tooltip
+                        placement="top" // Tooltip position
+                        overlay={<span>{`${resubmit_time} hours remaining to re-submit`}</span>} // Tooltip content
+                        trigger={['hover']} // Trigger on hover
+                        >
+                        <span
+                            className="bg-red pt-10px pb-10px fw-400 text-white w-30px text-center border-radius-4px"
+                            style={{ borderBottomLeftRadius: "0px", borderTopLeftRadius: "0px" }}
+                        >
+                            <i className="bi bi-clock"></i>
+                        </span>
+                        </Tooltip>
+                </div>
+    }
+
+    if(status === 'Completed' && resubmit_pending === 0){
+        return <Link to={`/preview-data/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px">
+            <i className="bi bi-info-circle"></i> View Details
+        </Link>;
+    }
+    
     switch (status) {
         
         case 'Pending Submission':
            return <Link to={`/valuation-form/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-pencil"></i> Edit</Link>;
 
         case 'Help Requested':
-           return <Link to="/dashboard" className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-pencil"></i> Edit</Link>;   
+           return <Link to={`/valuation-form/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-pencil"></i> Edit</Link>;    
 
         case 'Submitted':
            return <Link to={`/valuation-form/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-info-circle"></i> View Details</Link>;
-
-        case 'Completed':
-           return <Link to="/dashboard" className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-pencil-square"></i> Modify & Re-Submit</Link>;
 
         case 'Re-Submitted':
            return <Link to={`/valuation-form/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-info-circle"></i> View Details</Link>;
         
         case 'Completed (Revised)':
-            return <Link to="/dashboard" className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-info-circle"></i> View Details</Link>;
+        return <Link to={`/preview-data/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px">
+                <i className="bi bi-info-circle"></i> View Details
+            </Link>;
       
         default:
-            return <Link to={`/valuation-form/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-info-circle"></i> View Details</Link>;
+            return <Link to={`/preview-data/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px">
+                <i className="bi bi-info-circle"></i> View Details
+            </Link>;
     }
     };
 
@@ -79,19 +119,48 @@ const Table = ({data}) => {
                         <th scope="row" className="align-middle text-center fs-14">{order['customerOrderSequence']}</th>
                         <td className="fs-14">{order['companyName']}
                             {order['status'] === 'Completed' && 
-                             <><br/>
-                            <Link to="/dashboard" className="bg-green text-nowrap text-white border-radius-5px pe-5px ps-5px pb-1 fs-11 ls-normal"><i className="bi bi-download"></i> Valuation report</Link></>
+                            <>
+                            <br />
+                            <a 
+                                href={order.report_url} 
+                                target="_blank"
+                                className="bg-green text-nowrap text-white border-radius-5px pe-5px ps-5px pb-1 fs-11 ls-normal"  
+                                rel="noopener noreferrer"
+                                download
+                            >
+                                <i className="bi bi-download"></i> Valuation report
+                            </a>
+                            </>
                             }
                             {order['status'] === 'Re-Submitted' && 
                              <><br/>
-                            <Link to="/dashboard" className="bg-green text-nowrap text-white border-radius-5px pe-5px ps-5px pb-1 fs-11 ls-normal"><i className="bi bi-download"></i> Valuation report</Link>
+                               <a 
+                                    href={order.report_url} 
+                                    className="bg-green text-nowrap text-white border-radius-5px pe-5px ps-5px pb-1 fs-11 ls-normal"  
+                                    rel="noopener noreferrer"
+                                    target="_blank"
+                                    download
+                                >
+                                    <i className="bi bi-download"></i> Valuation report
+                                </a>
+
                             <br/>
-                            <Link to="/dashboard" className="bg-red text-nowrap text-white border-radius-5px pe-5px ps-5px pb-1 fs-11 ls-normal d-inline-block mt-5px"><i className="bi bi-arrow-clockwise"></i> Revised valuation report - Pending</Link
-                            ></>
+                            <span className="bg-red text-nowrap text-white border-radius-5px pe-5px ps-5px pb-1 fs-11 ls-normal d-inline-block mt-5px"><i className="bi bi-arrow-clockwise"></i> Revised valuation report - Pending</span>
+                            </>
                             }
                             {order['status'] === 'Completed (Revised)' && 
                              <><br/>
-                            <Link to="/dashboard"  className="bg-white-ice text-nowrap text-jade border-radius-5px pe-5px ps-5px pb-1 fs-11 ls-normal"><i className="bi bi-download"></i> Revised valuation report</Link></>
+                                <a 
+                                    href={order.report_url} 
+                                    className="bg-green text-nowrap text-white border-radius-5px pe-5px ps-5px pb-1 fs-11 ls-normal"  
+                                    rel="noopener noreferrer"
+                                    target="_blank"
+                                    download
+                                    >
+                                    <i className="bi bi-download"></i>Revised Valuation report
+                                    </a>
+
+                            </>    
                             }
                         </td>
                         <td className="fs-14">{order['country']}</td>
@@ -99,7 +168,7 @@ const Table = ({data}) => {
                         <td className="fs-14">{formatDate(order['createdAt'])}</td>
                         <td className="fs-14">{order['submittedOn'] !== '' && formatDate(order['submittedOn'])}</td>
                         <td className="fs-14">{order['completedOn'] !== '' && formatDate(order['completedOn'])}</td>
-                        <td className="fs-14">{renderLink(order['status'], order['_id'])}</td>
+                        <td className="fs-14">{renderLink(order['status'], order['_id'], order['submittedOn'], order['custody'], order['remaining_hours'], order['resubmit_pending'])}</td>
                     </tr>
                     ))}
                 </tbody>

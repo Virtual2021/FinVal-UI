@@ -11,31 +11,12 @@ const EbidtaGraph = ({data, finData, forecastData}) => {
 
     const { ebitda, year } = finData;
 
-    // Check if the sales array is not blank and contains values greater than 0
-    const isValidData = ebitda.length > 0;
+    let updatedEbitda = [...ebitda];
 
-    // If data is not valid, return null to render nothing
-    if (!isValidData) {
-        return null;
-    }
-
-    
-  let updatedEbitda = [...ebitda];
-
-
-//   if (forecastData && forecastData.label ==="Forecasted EBITDA Margin (%)") {
-//     const percentages = forecastData.values;
-//     let currentEbitda = ebitda[0];
-
-//     // Start calculating from the initial sales value
-//     updatedEbitda = [currentEbitda];
-
-//     // Iterate through each percentage and calculate new sales values
-//     percentages.forEach(percentage => {
-//       currentEbitda = currentEbitda * (1 + percentage / 100);
-//       updatedEbitda.push(currentEbitda);
-//     });
-//   }
+    // Function to format numbers with thousand separators and two decimal places
+    const formatNumber = (number) => {
+        return number.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    };
 
    // Find the index of the object with the matching label in forecastData
    const findMatchingForecast = (forecastData, searchString) => {
@@ -120,9 +101,10 @@ const EbidtaGraph = ({data, finData, forecastData}) => {
                 text: ''
             },
             labels: {
-                enabled: false
+                enabled: false // Ensure labels are enabled
             },
-            visible: false
+            visible: true, // Ensure yAxis is visible
+            
         },
         legend: {
             enabled: false
@@ -136,13 +118,17 @@ const EbidtaGraph = ({data, finData, forecastData}) => {
                 borderWidth: 0,
                 dataLabels: {
                     enabled: true,
-                    format: '<span style="font-size:9px;">{point.y:.1f}</span>'
+                    formatter: function() {
+                        return `<span style="font-size:9px;"><b>${formatNumber(this.y)}</b></span>`;
+                      }
                 }
             }
         },
         tooltip: {
             headerFormat: '',
-            pointFormat: '<span style="color:{point.color};font-size:11px;"><b>{point.y:.2f}</b></span>'
+            pointFormatter: function() {
+                return `<span style="color:${this.color};font-size:11px;"><b>${formatNumber(this.y)}</b></span>`; // Use formatted value for tooltips
+            }
         },
         series: [
             {
@@ -169,7 +155,7 @@ const EbidtaGraph = ({data, finData, forecastData}) => {
     
     return(
         <>
-            <div className="card-header fw-700 fs-14 ps-10px pb-0 pt-5px mb-0 h-40px lh-normal border-0 bg-white text-blue">Ebitda
+            <div className="card-header fw-700 fs-14 ps-10px pb-0 pt-5px mb-0 h-40px lh-normal border-0 bg-white text-blue">EBITDA
                 <GraphHeading data={data} finData={finData} />
             </div>
             <div className="card-body p-0 overflow-hidden">

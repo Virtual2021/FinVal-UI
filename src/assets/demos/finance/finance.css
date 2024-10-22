@@ -62,7 +62,8 @@ header .navbar-brand img {
     max-height: 30px;
 }
 .navbar .navbar-nav .dropdown .dropdown-menu a {
-    font-size: 18px;
+    font-size: 15px;
+    font-weight: 600;
     line-height: 32px;
 }
 .navbar .navbar-nav .simple-dropdown .dropdown-menu {

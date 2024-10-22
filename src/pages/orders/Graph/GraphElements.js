@@ -1,4 +1,4 @@
-import Cash from "./Cash";
+import NetProfitMargin from "./NetProfitMargin";
 import Cogs from "./Cogs";
 import CompanyData from "./CompanyData";
 import Country from "./Country";
@@ -52,8 +52,8 @@ const GraphElements = ({data, finData, forecastData}) => {
                 </div>
               </div>      
            }
-          {(finData || (forecastData && hasMatchingLabel(forecastData, "Forecasted COGS (as % of revenue) (%)"))) &&
-             <Cash data={data} finData={finData} />
+          {(finData || (forecastData && hasMatchingLabel(forecastData, "Forecasted Net Profit Margin (%)"))) &&
+             <NetProfitMargin data={data} finData={finData} forecastData={forecastData}/>
           }
           {data && 
              <Country data={data} />

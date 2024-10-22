@@ -3,12 +3,14 @@ import axios from 'axios';
 import { apiURL } from '../../../config/Config';
 import {formatFrontNumber} from "../../../common/numberUtils";
 import { Link } from 'react-router-dom';
+import SupportLink from './Modal/SupportLink';
 
 const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId, editAllowed }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState({});
     const currentYear = new Date().getFullYear();
     const previousYear = currentYear;
+    const role = localStorage.getItem('role');
     
     const [formData, setFormData] = useState({
         financedata: {
@@ -157,7 +159,7 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
             setIsLoading(true); // Start loading
 
             try {
-                const token = sessionStorage.getItem('token');
+                const token = localStorage.getItem('token');
                 const response = await axios.put(
                     apiURL + '/order/update',
                     formData,
@@ -193,7 +195,12 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
   return (
     <div className="card m-0 border-radius-0px border-0 box-shadow h-100" style={{backgroundColor: "#f2f3f6"}}>
         <div className="card-header fw-500 p-15px lh-normal bg-white">
-            <p className="text-blue fw-600 mb-0 fs-16 lh-1 mt-5px mb-5px">New Order: <span className="text-dark-blue">Current Financial Information</span> <Link to="/" className="float-end text-blue text-golden-hover fw-600 fs-12"><i className="bi bi-info-circle-fill"></i> Need Help?</Link></p>
+            <p className="text-blue fw-600 mb-0 fs-16 lh-1 mt-5px mb-5px">New Order: <span className="text-dark-blue">Current Financial Information</span> 
+            {initialData && initialData.order.status !== 'Completed' ?
+                editAllowed && (role && role !== 'admin') && <SupportLink data={initialData}/> 
+                : <></>
+            }
+             </p>
             <div className="divider-style-03 divider-style-03-02 border-color-light-gray mb-10px mt-10px w-100"></div>
             <span className="fw-500 fs-14 lh-1 d-inline-block">Please specify all values in positive number only and up to 2 decimal places</span><br/><span className="fw-400 fs-12 fst-italic lh-1 d-inline-block">(Fields marked with <span className="text-red">*</span> can be negative)</span>
         </div>
@@ -221,7 +228,7 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
                                 </span>
                                 <input type="hidden" name="FinYrEnd" value={formData.FinYrEnd}/>
                                 <div className="select">
-                                    <select className="form-control" name="valueType" value={formData.financedata.valueType} onChange={handleChange} aria-label="select-industry" >
+                                    <select className="form-control" name="valueType" value={formData.financedata.valueType} onChange={handleChange} aria-label="select-industry" disabled={initialData && initialData.order.status === 'Completed'}>
                                         <option value="Absolute">Absolute</option>
                                         <option value="Thousands">Thousands</option>
                                         <option value="Millions">Millions</option>
@@ -239,8 +246,10 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
                     <div className="row align-items-center">
                         <div className="w-130px text-end pe-0">
                             <label className="text-black mb-0 fw-600 fs-13 d-block lh-1">
-                                {field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
-                                {['ebitda', 'netProfit'].includes(field) && <sup className="text-red fs-14">*</sup>}
+                            {field === 'ebitda' 
+                                ? 'EBITDA' 
+                                : field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                            {['ebitda', 'netProfit'].includes(field) && <sup className="text-red fs-14">*</sup>}
                             </label>
                         </div>
                         <div className="col">

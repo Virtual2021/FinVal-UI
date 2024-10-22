@@ -15,7 +15,7 @@ const AppRoutes = ({ routes }) => {
             path={route.path}
             element={
               route.private ? (
-                <PrivateRoute>
+                <PrivateRoute allowedRoles={route.allowedRoles}>
                   <Component />
                 </PrivateRoute>
               ) : (

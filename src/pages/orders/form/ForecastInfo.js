@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { apiURL } from '../../../config/Config';
 import { formatForecastNumber } from '../../../common/numberUtils';
+import SupportLink from './Modal/SupportLink';
 
 // Component to render the YEAR header
 const YearHeader = ({yearList}) => (
@@ -77,6 +78,7 @@ const ForecastInfo = ({ onSave, initialData ,backButton, onPercentChange, orderI
     const years =  [year+1, year+2, year+3, year+4, year+5];
     const [isLoading, setIsLoading] = useState(false);
     const [accumulatedData, setAccumulatedData] = useState([]);
+    const role = localStorage.getItem('role');
     // Initial values for each row
     const initialRows = [
         { label: 'Forecasted Sales Growth Rate (Y-o-Y) (%)', values: ['', '', '', '', ''] },
@@ -141,7 +143,7 @@ const ForecastInfo = ({ onSave, initialData ,backButton, onPercentChange, orderI
         });
 
         try {
-            const token = sessionStorage.getItem('token');
+            const token = localStorage.getItem('token');
             const response = await axios.put(apiURL + '/order/update', {
                 forecast_inc_stmt_data: forecastIncStmtData,
                 orderId : orderId,
@@ -197,6 +199,10 @@ const ForecastInfo = ({ onSave, initialData ,backButton, onPercentChange, orderI
             <div className="card-header fw-500 p-15px lh-normal bg-white">
                 <p className="text-blue fw-600 mb-0 fs-16 lh-1 mt-5px mb-5px">
                     New Order: <span className="text-dark-blue">Financial Projections</span>
+                    {initialData && initialData.order.status !== 'Completed' ?
+                        editAllowed && (role && role !== 'admin') && <SupportLink data={initialData}/> 
+                        : <></>
+                    }
                 </p>
             </div>
             <div
