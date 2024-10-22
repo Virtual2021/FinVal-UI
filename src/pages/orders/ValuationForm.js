@@ -147,14 +147,15 @@ const ValuationForm = () => {
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-lg-12 order-1 order-lg-2 md-mb-50px" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
-                        <div className="row">
-                            <div className="col-sm-5 bg-light-blue ps-15px pe-15px">
-                                {renderStep()}
-                            </div>
-                            <div className="col-sm-7">
-                                <GraphElements data={companyData} finData={finData} forecastData={forecastData}/>
-                            </div>
+                    <div className="row">
+                        <div className="col-12 col-lg-5 bg-light-blue ps-15px pe-15px">
+                            {renderStep()}
                         </div>
+                        <div className="col-12 col-lg-7">
+                            <GraphElements data={companyData} finData={finData} forecastData={forecastData}/>
+                        </div>
+                    </div>
+
                     </div>
                 </div>
             </div> 

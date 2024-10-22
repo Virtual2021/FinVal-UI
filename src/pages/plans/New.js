@@ -142,7 +142,7 @@ const New = () => {
                                                                         <i class="line-icon-Wacom-Tablet fs-26 me-5px lh-1"></i> Plan Includes
                                                                     </div>
                                                                     { currentplanData.planType === "BO" || currentplanData.planType === "A" ?
-                                                                    <Link to="/upgrade-plan" class="fs-12 lh-1 pt-10px pb-10px text-blue fs-12 fw-500 text-capitalize d-inline-block ls-05px w-130px text-center bg-golden bg-light-golden-hover border-radius-4px"><i class="bi bi-box-arrow-up fs-14"></i> Upgrade Plan</Link>
+                                                                    <Link to="/upgrade-plan" class="fs-12 lh-1 pt-10px pb-10px text-blue fs-12 fw-500 text-capitalize d-inline-block ls-05px w-130px text-center bg-golden bg-light-golden-hover border-radius-4px sm-w-100px"><i class="bi bi-box-arrow-up fs-14"></i> Upgrade Plan</Link>
                                                                     : ''
                                                                     }
                                                                 </div>

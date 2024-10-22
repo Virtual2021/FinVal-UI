@@ -42,7 +42,7 @@ const CurrentPlan = ({data}) => {
                 
                 <legend className="fw-600 float-none border-1px col-auto fs-14 ps-15px pe-15px p-5px lh-1 border-radius-4px bg-light-blue text-blue m-0">Current Plan Details</legend>
                 <div className="row justify-content-center mt-15px">
-                    <div className="col-sm-4">
+                    <div className="col-lg-4 md-mb-5px">
                         <div className="border pt-10px pb-10px rounded-4 bg-white h-100">
                             <table className="fs-16 fw-400 lh-normal text-end me-auto ms-auto">
                                 <tbody>
@@ -70,7 +70,7 @@ const CurrentPlan = ({data}) => {
                             </table>
                         </div>
                     </div>
-                    <div className="col-sm-4">
+                    <div className="col-lg-4 md-mb-5px">
                         <div className="border xs-mt-15px pt-10px pb-10px rounded-4 bg-white h-100 xs-h-auto d-flex justify-content-center align-items-center">
                             <table className="fs-16 fw-400 lh-normal text-end me-auto ms-auto">
                                 <tbody>
@@ -93,7 +93,7 @@ const CurrentPlan = ({data}) => {
                             </table>
                         </div>
                     </div>
-                    <div className="col-sm-4">
+                    <div className="col-lg-4 md-mb-5px">
                         <div className="border xs-mt-15px pt-10px pb-10px rounded-4 bg-white h-100 xs-h-auto">
                             <table className="fs-16 fw-400 lh-normal text-end me-auto ms-auto">
                                 <tbody>

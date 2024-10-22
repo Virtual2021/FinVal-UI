@@ -192,10 +192,10 @@ const Profile = () => {
 
                                     <div className="col-sm-12 mt-20px">
                                         <div className="row align-items-center">
-                                            <div className="col-4 text-end">
-                                                <label className="text-black mb-0 fw-600 d-block lh-1">Email</label>
+                                            <div className="col-lg-3">
+                                                <label className="text-black mb-0 fw-600 d-block lh-1 md-mb-5px">Email</label>
                                             </div>
-                                            <div className="col">
+                                            <div className="col-lg-9">
                                                 <div className="input-group">
                                                     <span className="input-group-text p-15px border-radius-0px">
                                                         <i className="bi bi-envelope-at align-middle fs-20 lh-1"></i>
@@ -209,10 +209,10 @@ const Profile = () => {
                                     {/* First Name */}
                                     <div className="col-sm-12 mt-20px">
                                         <div className="row align-items-center">
-                                            <div className="col-4 text-end">
-                                                <label className="text-black mb-0 fw-600 d-block lh-1">First Name</label>
+                                            <div className="col-lg-3">
+                                                <label className="text-black mb-0 fw-600 d-block lh-1 md-mb-5px">First Name</label>
                                             </div>
-                                            <div className="col">
+                                            <div className="col-lg-9">
                                                 <div className="input-group">
                                                     <span className="input-group-text p-15px border-radius-0px">
                                                         <i className="bi bi-person-circle align-middle fs-20 lh-1"></i>
@@ -227,10 +227,10 @@ const Profile = () => {
                                     {/* Last Name */}
                                     <div className="col-sm-12 mt-20px">
                                         <div className="row align-items-center">
-                                            <div className="col-4 text-end">
-                                                <label className="text-black mb-0 fw-600 d-block lh-1">Last Name</label>
+                                            <div className="col-lg-3">
+                                                <label className="text-black mb-0 fw-600 d-block lh-1 md-mb-5px">Last Name</label>
                                             </div>
-                                            <div className="col">
+                                            <div className="col-lg-9">
                                                 <div className="input-group">
                                                     <span className="input-group-text p-15px border-radius-0px">
                                                         <i className="bi bi-person-circle align-middle fs-20 lh-1"></i>
@@ -245,10 +245,10 @@ const Profile = () => {
                                     {/* Company */}
                                     <div className="col-sm-12 mt-20px">
                                         <div className="row align-items-center">
-                                            <div className="col-4 text-end">
-                                                <label className="text-black mb-0 fw-600 d-block lh-1">Company</label>
+                                            <div className="col-lg-3">
+                                                <label className="text-black mb-0 fw-600 d-block lh-1 md-mb-5px">Company</label>
                                             </div>
-                                            <div className="col">
+                                            <div className="col-lg-9">
                                                 <div className="input-group">
                                                     <span className="input-group-text p-15px border-radius-0px">
                                                         <i className="bi bi-buildings align-middle fs-20 lh-1"></i>
@@ -263,10 +263,10 @@ const Profile = () => {
                                     {/* Job Title */}
                                     <div className="col-sm-12 mt-20px">
                                         <div className="row align-items-center">
-                                            <div className="col-4 text-end">
-                                                <label className="text-black mb-0 fw-600 d-block lh-1">Job Title</label>
+                                            <div className="col-lg-3">
+                                                <label className="text-black mb-0 fw-600 d-block lh-1 md-mb-5px">Job Title</label>
                                             </div>
-                                            <div className="col">
+                                            <div className="col-lg-9">
                                                 <div className="input-group">
                                                     <span className="input-group-text p-15px border-radius-0px">
                                                         <i className="bi bi-briefcase align-middle fs-20 lh-1"></i>
@@ -281,8 +281,8 @@ const Profile = () => {
                                     {/* Country */}
                                     <div className="col-sm-12 mt-20px">
                                         <div className="row align-items-center">
-                                            <div className="col-4 text-end">
-                                                <label className="text-black mb-0 fw-600 d-block lh-1">Country</label>
+                                            <div className="col-lg-3">
+                                                <label className="text-black mb-0 fw-600 d-block lh-1 md-mb-5px">Country</label>
                                             </div>
                                             <div className="col">
                                                 <div class="input-group">
@@ -308,10 +308,10 @@ const Profile = () => {
                                     {/* Phone Number */}
                                     <div className="col-sm-12 mt-20px">
                                         <div className="row align-items-center">
-                                            <div className="col-4 text-end">
-                                                <label className="text-black mb-0 fw-600 d-block lh-1">Phone Number</label>
+                                            <div className="col-lg-3">
+                                                <label className="text-black mb-0 fw-600 d-block lh-1 md-mb-5px">Phone Number</label>
                                             </div>
-                                            <div className="col">
+                                            <div className="col-lg-9">
                                                 <div className="input-group">
                                                     <span className="input-group-text p-15px border-radius-0px">
                                                         <i className="bi bi-phone align-middle fs-20 lh-1"></i>

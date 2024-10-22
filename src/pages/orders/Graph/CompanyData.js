@@ -19,7 +19,7 @@ const CompanyData = ({data}) => {
     return (
         <div className="row row-cols-1 row-cols-lg-4 row-cols-md-4 justify-content-center" data-anime='{ "el": "childs", "rotateZ": [5, 0], "translateY": [50, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
         {data.companyName && 
-        <div className="col icon-with-text-style-10 mt-15px pe-5px fin-box">
+        <div className="col icon-with-text-style-10 mt-15px pe-5px fin-box m-panding-left-5">
             <div className="feature-box bg-white justify-content-center box-shadow p-10px ps-5px pe-5px border-radius-5px">
                 <div className="row row-cols-2 align-items-center justify-content-start w-100">
                     <div className="feature-box-icon feature-box-icon-rounded w-40px h-40px rounded-circle p-0">
@@ -64,7 +64,7 @@ const CompanyData = ({data}) => {
         </div>
         }
         {data.companyAge &&
-        <div className="col icon-with-text-style-10 mt-15px ps-5px fin-box">
+        <div className="col icon-with-text-style-10 mt-15px ps-5px fin-box m-panding-right-5">
             <div className="feature-box bg-white justify-content-center box-shadow p-10px ps-5px pe-5px border-radius-5px">
                 <div className="row row-cols-2 align-items-center justify-content-start w-100">
                     <div className="feature-box-icon feature-box-icon-rounded w-40px h-40px rounded-circle p-0">

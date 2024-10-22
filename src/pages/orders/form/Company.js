@@ -244,7 +244,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                         }}
                         data-scroll-options='{ "theme": "dark" }'>
                         <form action="" method="post" className="row myform p-0 border-radius-0px myform-02 justify-content-center">
-                            <div className="col-sm-11 mt-15px mb-10px">
+                            <div className="col-11 mt-15px mb-10px">
                                 <div className="row">
                                     <div className="w-40px pe-0">
                                         <img src={companyLogo} alt="Company Name"/>
@@ -264,7 +264,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-sm-11 mt-15px mb-10px">
+                            <div className="col-11 mt-15px mb-10px">
                                 <div className="row">
                                     <div className="w-40px pe-0">
                                         <img src={companyType} alt="Company Type" />
@@ -302,7 +302,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                     {errors.companyType && <div className="text-danger">{errors.companyType}</div>}
                                 </div>
                             </div>
-                            <div className="col-sm-11 mt-15px mb-10px">
+                            <div className="col-11 mt-15px mb-10px">
                                 <div className="row">
                                     <div className="w-40px pe-0">
                                         <img src={industryTypeImage} alt="Industry" />
@@ -320,7 +320,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-sm-11 mt-15px mb-10px">
+                            <div className="col-11 mt-15px mb-10px">
                                 <div className="row">
                                     <div className="w-40px pe-0">
                                         <img src={companyLogo} alt="Company Name"/>
@@ -339,7 +339,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-sm-11 mt-15px mb-10px">
+                            <div className="col-11 mt-15px mb-10px">
                                 <div className="row">
                                     <div className="w-40px pe-0">
                                         <img src={businessYearImage} alt="Business Years" />
@@ -365,7 +365,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                     {errors.companyAge && <div className="text-danger">{errors.companyAge}</div>}
                                 </div>
                             </div>
-                            <div className="col-sm-11 mt-15px mb-10px">
+                            <div className="col-11 mt-15px mb-10px">
                                 <div className="row">
                                     <div className="w-40px pe-0">
                                         <img src={countryImage} alt="Country" />
@@ -391,7 +391,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-sm-11 mt-15px mb-10px">
+                            <div className="col-11 mt-15px mb-10px">
                                 <div className="row">
                                     <div className="w-40px pe-0">
                                         <img src={financialYearImage} alt="Financial Year" />
@@ -399,8 +399,8 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                     <div className="col">
                                     <label className="text-black mt-10px mb-10px fw-500 fs-14 d-block lh-normal">When did your last financial year end?</label>
                                         <div className="row">
-                                            <div className="col-4">
-                                                <div className="select">
+                                            <div className="col-lg-4 col-10">
+                                                <div className="select w-90">
                                                     <select className={`border-radius-0px box-shadow form-control ${errors.FinYrEndDate ? 'is-invalid' : ''} ${!formData.FinYrEndDate ? 'empty-selected' : ''}`} name="FinYrEndDate" aria-label="select-industry" value={formData.FinYrEndDate} onChange={handleChange} disabled={orderStatus === "Completed"}>
                                                         <option value="" disabled>Date</option>
                                                         <option value="1">1</option>
@@ -438,8 +438,8 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                                 </div>
                                                 {errors.FinYrEndDate && <div className="invalid-feedback">{errors.FinYrEndDate}</div>}
                                             </div>
-                                            <div className="col-4">
-                                                <div className="select">
+                                            <div className="col-lg-4 col-10">
+                                                <div className="select w-90">
                                                     <select className={`border-radius-0px box-shadow form-control ${errors.FinYrEndMonth ? 'is-invalid' : ''}  ${!formData.FinYrEndMonth ? 'empty-selected' : ''}`} name="FinYrEndMonth" aria-label="select-industry" value={formData.FinYrEndMonth} onChange={handleChange} disabled={orderStatus === "Completed"}>
                                                         <option value="" disabled>Month</option>
                                                         <option value="1">January</option>
@@ -458,8 +458,8 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                                 </div>
                                                 {errors.FinYrEndMonth && <div className="invalid-feedback">{errors.FinYrEndMonth}</div>}
                                             </div>
-                                            <div className="col-4">
-                                                <div className="select">
+                                            <div className="col-lg-4 col-10">
+                                                <div className="select w-90">
                                                     <select className={`border-radius-0px box-shadow form-control ${errors.FinYrEnd ? 'is-invalid' : ''}  ${!formData.FinYrEnd ? 'empty-selected' : ''}`} name="FinYrEnd" aria-label="select-industry" value={formData.FinYrEnd} onChange={handleChange} disabled={orderStatus === "Completed"}>
                                                         <option value="" disabled>Year</option>
                                                         {years.map(item => (
@@ -473,7 +473,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-sm-11 mt-15px mb-10px">
+                            <div className="col-11 mt-15px mb-10px">
                                 <div className="row">
                                     <div className="w-40px pe-0">
                                         <img src={historicalYearImage} alt="Historical Earnings Trend" />
@@ -508,7 +508,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-sm-11 mt-15px mb-10px">
+                            <div className="col-11 mt-15px mb-10px">
                                 <div className="row">
                                     <div className="w-40px pe-0">
                                         <img src={descriptionImage} alt="Description" />
@@ -528,7 +528,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-sm-11 mt-15px mb-10px">
+                            <div className="col-11 mt-15px mb-10px">
                                 <div className="row">
                                     <div className="w-40px pe-0">
                                         <img src={contactImage} alt="Contact Number" />
@@ -552,7 +552,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-sm-11 mt-15px mb-10px">
+                            <div className="col-11 mt-15px mb-10px">
                                 <div className="row">
                                     <div className="w-40px pe-0">
                                         <img src={emailImage} alt="Email Address" />
@@ -572,7 +572,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-sm-11 mt-15px mb-10px">
+                            <div className="col-11 mt-15px mb-10px">
                                 <div className="row">
                                     <div className="w-40px pe-0">
                                         <img src={currencyImage} alt="Currency Used" />
