@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { apiURL } from '../../../config/Config';
 import {formatFrontNumber} from "../../../common/numberUtils";
-import { Link } from 'react-router-dom';
 import SupportLink from './Modal/SupportLink';
 
 const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId, editAllowed }) => {
@@ -47,7 +46,21 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
             }));
             handleGraphData(name, value);
         } else {
-            const [category, field] = name.split('.'); // e.g., 'financedata.sales'
+            const isNumeric = (val) => /^-?\d*\.?\d*$/.test(val); // Regex to allow numeric input, including negative values.
+
+            // Split the name to get the category and field
+            const [category, field] = name.split('.');
+        
+            // Allow negative values only for 'ebitda' and 'netProfit', and restrict others to positive values.
+            if (['ebitda', 'netProfit'].includes(field)) {
+                if (!isNumeric(value)) {
+                    return; // Prevent updating the state if the value is not numeric.
+                }
+            } else {
+                if (!isNumeric(value) || value < 0) {
+                    return; // Prevent negative values or non-numeric input.
+                }
+            }
             setFormData(prevFormData => ({
                 ...prevFormData,
                 [category]: {
@@ -216,7 +229,7 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
                 scrollbarWidth: 'thin', // For Firefox, makes the scrollbar thinner
             }}
             data-scroll-options='{ "theme": "dark" }'>
-            <form onSubmit={handleSubmit} className="row contact-form-style-04 myform-01 justify-content-center">
+            <form action="" className="row contact-form-style-04 myform-01 justify-content-center">
                 <div className="col-sm-12 mt-20px ps-15 pe-15 text-center">
                     <p className="mb-0 fw-600 fs-14 lh-1">Provide historical numbers for year <span className="bg-blue text-white ps-10px pe-10px p-1 fw-600">{formData.FinYrEnd}</span></p>
                 </div>
@@ -328,7 +341,7 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
                     <button
                         onClick={(e) => handleSubmit(e, 'back')}
                         className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn"
-                        type="submit"
+                        type="button"
                         name="back"
                     >
                         <span>
@@ -340,7 +353,7 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
                     <button
                         onClick={(e) => handleSubmit(e, 'save')}
                         className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn"
-                        type="submit"
+                        type="button"
                         name="save"
                     >
                         <span>
