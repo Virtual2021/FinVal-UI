@@ -26,10 +26,7 @@ const YearHeader = ({yearList}) => (
 const TableRow = ({ label, values, onValueChange, handleBlur }) => {
     const isNegativeAllowed = label === 'Forecasted Sales Growth Rate (Y-o-Y) (%)' ||
                               label === 'Forecasted EBITDA Margin (%)' ||
-                              label === 'Forecasted Net Profit Margin (%)'||
-                              label === 'Interest Rate (%)'||
-                              label === 'Depreciation Rate (%)'||
-                              label === 'Forecasted COGS (as % of revenue) (%)';
+                              label === 'Forecasted Net Profit Margin (%)';
 
     return (
         <tr>
