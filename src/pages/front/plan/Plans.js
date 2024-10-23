@@ -141,7 +141,7 @@ const Plans = ({ elementRef2 }) => {
                         ))}
                       </ul>
                     </div>
-                    <div className="pricing-footer text-center pb-2 bg-white">
+                    <div className="pricing-footer text-center pb-2 bg-white md-pb-0">
                       <button type="button" onClick={() => handleBuyNow(boPlans[0]['_id'])}  className="btn btn-box-shadow btn-small btn-round-edge" style={{ backgroundColor: "#4ea8f6", color: "white" }}>Buy Now</button>
                     </div>
                   </div>
@@ -178,7 +178,7 @@ const Plans = ({ elementRef2 }) => {
                         ))}
                       </ul>
                     </div>
-                    <div className="pricing-footer text-center pb-2" style={{ backgroundColor: "white" }}>
+                    <div className="pricing-footer text-center pb-2 md-pb-0" style={{ backgroundColor: "white" }}>
                     <button type="button" onClick={() => handleBuyNow(bopPlans[0]['_id'])}  className="btn btn-box-shadow btn-small btn-round-edge" style={{ backgroundColor: "#4ea8f6", color: "white" }}>Buy Now</button>
                     </div>
                   </div>
@@ -211,7 +211,7 @@ const Plans = ({ elementRef2 }) => {
                         ))}
                       </ul>
                     </div>
-                    <div className="pricing-footer text-center pb-2 bg-white">
+                    <div className="pricing-footer text-center pb-2 bg-white md-pb-0">
                       <button 
                         onClick={() => handleBuyNow(selectedAdvisorPlan)} 
                         className="btn btn-box-shadow btn-small btn-round-edge" 

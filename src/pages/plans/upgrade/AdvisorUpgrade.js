@@ -33,7 +33,7 @@ const AdvisorUpgrade = ({ currentPlan, data }) => {
   return (
     <>
       <div className="row">
-        <div className="col-6">
+        <div className="col-lg-6">
           <fieldset className="ps-15px pe-15px pt-10px mt-15px mb-15px">
             <legend className="fw-600 float-none border-1px col-auto fs-14 ps-15px pe-15px p-5px lh-1 border-radius-4px bg-light-blue text-blue m-0 text-center">Select one of the available plan options to upgrade</legend>
             <div className="table-responsive">
@@ -76,7 +76,7 @@ const AdvisorUpgrade = ({ currentPlan, data }) => {
             </div>
           </fieldset>
         </div>
-        <div className="col-6">
+        <div className="col-lg-6">
           <fieldset className="ps-15px pe-15px pt-10px mt-15px mb-15px">
             <legend className="fw-600 float-none border-1px col-auto fs-14 ps-15px pe-15px p-5px lh-1 border-radius-4px bg-light-blue text-blue m-0 text-center">Your current plan gets converted to following</legend>
             <div className="table-responsive">

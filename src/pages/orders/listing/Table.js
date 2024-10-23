@@ -107,7 +107,7 @@ const Table = ({data}) => {
                         <span className="input-group-text p-5px h-30px justify-content-center border-radius-0px fs-14">entries</span>
                     </div>
                 </div>
-                <div className="col-sm-3">
+                <div className="col-12 col-md-6 col-lg-3">
                     <div className="input-group mb-10px">
                         <span className="input-group-text p-0 w-35px h-30px justify-content-center border-radius-0px">
                             <i className="bi bi-search align-middle fs-18 lh-1"></i>
