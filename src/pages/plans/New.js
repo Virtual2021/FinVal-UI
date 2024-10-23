@@ -27,10 +27,10 @@ const New = () => {
                 });
                 const data = response.data;
                 if (data.status) {
-                    setCurrentPlanData(data.data.current_plan[0]);
+                    setCurrentPlanData(data.data.current_plan);
                     setHistoryPlanData(data.data.old_plans);
-                    if (data.data.current_plan[0] && data.data.current_plan[0].planId && data.data.current_plan[0].planId.description) {
-                        const parsedArray = parseHtmlList(data.data.current_plan[0].planId.userplandescription);
+                    if (data.data.current_plan && data.data.current_plan.planId && data.data.current_plan.planId.description) {
+                        const parsedArray = parseHtmlList(data.data.current_plan.planId.userplandescription);
                         setContentArray(parsedArray);
                     }
                 } else {
@@ -142,7 +142,7 @@ const New = () => {
                                                                         <i class="line-icon-Wacom-Tablet fs-26 me-5px lh-1"></i> Plan Includes
                                                                     </div>
                                                                     { currentplanData.planType === "BO" || currentplanData.planType === "A" ?
-                                                                    <Link to="/upgrade-plan" class="fs-12 lh-1 pt-10px pb-10px text-blue fs-12 fw-500 text-capitalize d-inline-block ls-05px w-130px text-center bg-golden bg-light-golden-hover border-radius-4px"><i class="bi bi-box-arrow-up fs-14"></i> Upgrade Plan</Link>
+                                                                    <Link to="/upgrade-plan" class="fs-12 lh-1 pt-10px pb-10px text-blue fs-12 fw-500 text-capitalize d-inline-block ls-05px w-130px text-center bg-golden bg-light-golden-hover border-radius-4px sm-w-100px"><i class="bi bi-box-arrow-up fs-14"></i> Upgrade Plan</Link>
                                                                     : ''
                                                                     }
                                                                 </div>

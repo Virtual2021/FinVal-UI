@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { apiURL } from '../../../config/Config';
 import {formatFrontNumber} from "../../../common/numberUtils";
-import { Link } from 'react-router-dom';
 import SupportLink from './Modal/SupportLink';
 
 const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId, editAllowed }) => {
@@ -47,7 +46,21 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
             }));
             handleGraphData(name, value);
         } else {
-            const [category, field] = name.split('.'); // e.g., 'financedata.sales'
+            const isNumeric = (val) => /^-?\d*\.?\d*$/.test(val); // Regex to allow numeric input, including negative values.
+
+            // Split the name to get the category and field
+            const [category, field] = name.split('.');
+        
+            // Allow negative values only for 'ebitda' and 'netProfit', and restrict others to positive values.
+            if (['ebitda', 'netProfit'].includes(field)) {
+                if (!isNumeric(value)) {
+                    return; // Prevent updating the state if the value is not numeric.
+                }
+            } else {
+                if (!isNumeric(value) || value < 0) {
+                    return; // Prevent negative values or non-numeric input.
+                }
+            }
             setFormData(prevFormData => ({
                 ...prevFormData,
                 [category]: {
@@ -100,15 +113,28 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
 
     const handleSubmit = async (e, buttonName) => {
         e.preventDefault();
-
+    
+        // Convert blank fields to 0.00 before validation
+        const updatedFinancedata = Object.keys(formData.financedata).reduce((acc, field) => {
+            acc[field] = formData.financedata[field] === '' ? '0.00' : formData.financedata[field];
+            return acc;
+        }, {});
+    
+        // Update formData with the updated financedata
+        const updatedFormData = {
+            ...formData,
+            financedata: updatedFinancedata
+        };
+    
         let isValid = true;
         const newErrors = {};
-        
-        if (!formData.financedata.valueType) {
+    
+        // Validate valueType
+        if (!updatedFormData.financedata.valueType) {
             newErrors.financedata.valueType = 'This field is required.';
             isValid = false;
         }
-
+    
         const validateNumber = (value, allowNegative) => {
             if (value === '' || isNaN(value)) return 'Invalid number.';
             const num = parseFloat(value);
@@ -117,7 +143,7 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
             if (num < 0) return '-ve values are not allowed.';
             return null;
         };
-
+    
         const fields = {
             sales: false,
             costOfSales: false,
@@ -133,36 +159,26 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
             payables: false,
             netFixedAssets: false,
         };
-
+    
+        // Validate each field
         Object.keys(fields).forEach(field => {
-            const error = validateNumber(formData.financedata[field], fields[field]);
+            const error = validateNumber(updatedFormData.financedata[field], fields[field]);
             if (error) {
                 newErrors[`financedata.${field}`] = error;
                 isValid = false;
             }
         });
-
-        // Convert blank fields to 0.00
-        const updatedFinancedata = Object.keys(formData.financedata).reduce((acc, field) => {
-            acc[field] = formData.financedata[field] === '' ? '0.00' : formData.financedata[field];
-            return acc;
-        }, {});
-
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            financedata: updatedFinancedata
-        }));
-
+    
         setErrors(newErrors);
-
+    
         if (isValid) {
             setIsLoading(true); // Start loading
-
+    
             try {
                 const token = localStorage.getItem('token');
                 const response = await axios.put(
                     apiURL + '/order/update',
-                    formData,
+                    updatedFormData,  // Use updatedFormData here
                     {
                         headers: {
                             Authorization: `${token}`
@@ -178,11 +194,12 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
                 }
             } catch (error) {
                 console.error('Error saving form:', error);
-            }finally {
-                setIsLoading(false); // Start loading
+            } finally {
+                setIsLoading(false); // Stop loading
             }
         }
     };
+    
 
     const handleButton = async (buttonName) => {
         if (buttonName === 'back') {
@@ -212,7 +229,7 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
                 scrollbarWidth: 'thin', // For Firefox, makes the scrollbar thinner
             }}
             data-scroll-options='{ "theme": "dark" }'>
-            <form onSubmit={handleSubmit} className="row contact-form-style-04 myform-01 justify-content-center">
+            <form action="" className="row contact-form-style-04 myform-01 justify-content-center">
                 <div className="col-sm-12 mt-20px ps-15 pe-15 text-center">
                     <p className="mb-0 fw-600 fs-14 lh-1">Provide historical numbers for year <span className="bg-blue text-white ps-10px pe-10px p-1 fw-600">{formData.FinYrEnd}</span></p>
                 </div>
@@ -324,7 +341,7 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
                     <button
                         onClick={(e) => handleSubmit(e, 'back')}
                         className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn"
-                        type="submit"
+                        type="button"
                         name="back"
                     >
                         <span>
@@ -336,7 +353,7 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
                     <button
                         onClick={(e) => handleSubmit(e, 'save')}
                         className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn"
-                        type="submit"
+                        type="button"
                         name="save"
                     >
                         <span>

@@ -1,4 +1,6 @@
 import { formatDate } from "../../common/dateUtils";
+import { invoiceURL } from "../../config/Config";
+import { Link } from "react-router-dom";
 
 const PlanHistory = ({data}) => {
     function ucfirst(string) {
@@ -34,8 +36,15 @@ const PlanHistory = ({data}) => {
                 <td className="fs-14">{item.expiresAt ? formatDate(item.expiresAt) : 'NA'}</td>
                 <td className="fs-14">{item.planStatusType ? ucfirst(item.planStatusType) : "NA"}</td>
                 <td className="fs-14">
-                    { !item.planStatusType === 'expired' &&
-                        <a href="#" className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px"><i className="bi bi-file-earmark-pdf"></i> Invoice</a>
+                    { item.planStatusType === 'expired' &&
+                       <Link
+                        to={`${invoiceURL}${item.invoicePath}`} // Replace with the actual URL of the PDF
+                        className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px" 
+                        target="_blank"
+                        download // This attribute triggers the download
+                        >
+                        <i className="bi bi-file-earmark-pdf"></i> Invoice
+                        </Link>
                     }
                 </td>
             </tr>

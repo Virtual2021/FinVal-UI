@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios'; // Or import axiosInstance if using a custom instance
 import { Link } from 'react-router-dom';
 import { apiURL } from '../../config/Config';
@@ -92,7 +92,8 @@ const LoginOtp = () => {
                 window.location.href = '/checkout';// Redirect to checkout page after verification
             } else {
                 // Navigate to the dashboard
-                window.location.href = response.data.data.navigate;
+                // console.log(response.data.data.userdata.navigate);
+                window.location.href = response.data.data.userdata.navigate;
             }
         } catch (err) {
             setError('OTP verification failed. Please try again.');
@@ -103,7 +104,7 @@ const LoginOtp = () => {
     return (
         <form className="row contact-form-style-02 bg-very-light-gray border-radius-10px p-10 pt-5">
             <div className="col-md-12 text-center">
-                <h6 className="alt-font text-dark-gray fw-600 ls-minus-1px">Log In with OTP on Email</h6>
+                <h6 className="alt-font text-dark-gray fw-600 ls-minus-1px">Login with OTP on Email</h6>
             </div>
             <div className="col-md-12 mb-30px">
                 <input

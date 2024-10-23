@@ -61,7 +61,7 @@ const Filter = ({ data, filters, setFilters }) => {
                 <legend className="fw-600 float-none border-1px col-auto fs-14 ps-15px pe-15px p-5px lh-1 border-radius-4px bg-light-blue text-blue m-0">Search your order</legend>
                 <form onSubmit={handleSearch} className="contact-form-style-04 myform-01 justify-content-center">
                     <div className="row align-items-center">
-                        <div className="col-sm-3">
+                        <div className="col-12 col-lg-3">
                             <label className="text-black fw-500 fs-14 d-block lh-1 mb-2">Order</label>
                             <div className="input-group mb-10px">
                                 <span className="input-group-text p-0 w-35px h-30px justify-content-center border-radius-0px">
@@ -70,7 +70,7 @@ const Filter = ({ data, filters, setFilters }) => {
                                 <input className="mb-0 form-control bg-white h-30px fs-13" type="text" name="orderId" value={localFilters.orderId} onChange={handleInputChange}/>
                             </div>
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-12 col-lg-3">
                             <label className="text-black fw-500 fs-14 d-block lh-1 mb-2">Company</label>
                             <div className="input-group mb-10px">
                                 <span className="input-group-text p-0 w-35px h-30px justify-content-center border-radius-0px">
@@ -86,7 +86,7 @@ const Filter = ({ data, filters, setFilters }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-12 col-lg-3">
                             <label className="text-black fw-500 fs-14 d-block lh-1 mb-2">Country</label>
                             <div className="input-group mb-10px">
                                 <span className="input-group-text p-0 w-35px h-30px justify-content-center border-radius-0px">
@@ -102,7 +102,7 @@ const Filter = ({ data, filters, setFilters }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-12 col-lg-3">
                             <label className="text-black fw-500 fs-14 d-block lh-1 mb-2">Order Status</label>
                             <div className="input-group mb-10px">
                                 <span className="input-group-text p-0 w-35px h-30px justify-content-center border-radius-0px">
@@ -121,7 +121,7 @@ const Filter = ({ data, filters, setFilters }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-12 col-lg-3">
                             <label className="text-black fw-500 fs-14 d-block lh-1 mb-2">Date Created From</label>
                             <div className="input-group mb-10px">
                                 <span className="input-group-text p-0 w-35px h-30px justify-content-center border-radius-0px">
@@ -130,7 +130,7 @@ const Filter = ({ data, filters, setFilters }) => {
                                 <input className="mb-0 form-control bg-white h-30px fs-13" type="date" name="startDate" aria-label="date" value={localFilters.startDate} onChange={handleInputChange}/> 
                             </div>
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-12 col-lg-3">
                             <label className="text-black fw-500 fs-14 d-block lh-1 mb-2">Date Created To</label>
                             <div className="input-group mb-10px">
                                 <span className="input-group-text p-0 w-35px h-30px justify-content-center border-radius-0px">
@@ -139,7 +139,7 @@ const Filter = ({ data, filters, setFilters }) => {
                                 <input className="mb-0 form-control bg-white h-30px fs-13" type="date" name="endDate" aria-label="date"  value={localFilters.endDate} onChange={handleInputChange} /> 
                             </div>
                         </div>
-                        <div className="col-sm-6">
+                        <div className="col-12 col-lg-3">
                             <button className="border-radius-4px btn btn-round-edge bg-blue submit h-30px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn" type="submit">
                                 <i className="feather icon-feather-search m-0 fs-16 align-text-bottom"></i> Search
                             </button>

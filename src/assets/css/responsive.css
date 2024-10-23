@@ -75,6 +75,19 @@
     padding-right: 10px;
     padding-left: 10px;
   }
+  .width-responsive-100{
+    width:100%!important;
+  }
+  .width-responsive-88{
+    width:88%!important;
+  }
+  .m-panding-left-5{
+    padding-left:5px ;
+  }
+  .m-panding-right-5{
+    padding-right:5px ;
+  }
+  
 }
 @media (max-width: 767px) {
   html {
@@ -19808,6 +19821,8 @@
     animation: none !important;
     background-color: transparent;
     box-shadow: none;
+    position: relative;
+    text-align: left;
     border-top: 0 !important;
     padding: 0 15px 15px;
     width: 100%;

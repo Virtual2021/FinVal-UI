@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom'; // Import useParams
+import { useParams } from 'react-router-dom'; // Import useParams
 import axios from 'axios';
 import { apiURL } from '../../../../../config/Config';
 import Swal from 'sweetalert2';
-import Loader from '../../../../../common/Loader';
 
 const Form = ({ documents }) => {
   const [files, setFiles] = useState([]);
@@ -12,8 +11,8 @@ const Form = ({ documents }) => {
   const [isNewDocumentAdded, setIsNewDocumentAdded] = useState(false);
   const fileInputRef = useRef(null); // useRef to manage file input
   const token = localStorage.getItem('token');
-  const navigate = useNavigate();
   const { orderId } = useParams(); // Extract orderId from the URL
+  const [isLoading, setIsLoading] = useState(false);
 
   // Initialize files with document data if documents prop exists
   useEffect(() => {
@@ -125,6 +124,7 @@ const Form = ({ documents }) => {
     if(orderId) {
       formData.append('orderId', orderId);
     }
+    setIsLoading(true);
     try {
       const response = await axios({
         url: apiURL + '/order/store-documents',
@@ -139,15 +139,16 @@ const Form = ({ documents }) => {
         Swal.fire({
           icon: 'success',
           title: 'Document Uploaded',
-          text: 'Thank you for uploading your financial documents. We will analyse the documents and complete the financial input data. We will get in touch with you in case we have questions. Please continue to fill the Business Details, Financial Data and Projections to the best of your knowledge. We will take care of the remaining information wherever you are having difficulty.”',
+          html: '<p>Thank you for uploading your financial documents. We will analyse the documents and complete the financial input data. We will get in touch with you in case we have questions.</p><p> Please continue to fill the Business Details, Financial Data and Projections to the best of your knowledge. We will take care of the remaining information wherever you are having difficulty.</p>',
         }).then(() => {
-          if(!orderId){
-            const newOrderId = response.data.data.order._id;
-            navigate({
-              pathname: `/valuation-form/${newOrderId}`,
-              search: `?step=1`,
-            });
-          }
+          // if(!orderId){
+          //   const newOrderId = response.data.data.order._id;
+          //   navigate({
+          //     pathname: `/valuation-form/${newOrderId}`,
+          //     search: `?step=1`,
+          //   });
+          // }
+          window.location.reload();
         });
         setIsNewDocumentAdded(false);
       } else {
@@ -163,6 +164,8 @@ const Form = ({ documents }) => {
         title: 'Error',
         text: 'Something went wrong. Please try again.',
       });
+    }finally {
+      setIsLoading(false);
     }
   };
 
@@ -236,13 +239,22 @@ const Form = ({ documents }) => {
           </div>
 
           <div className="col-12 text-center">
-            <button
-              type="submit"
-              className="bg-blue h-40px lh-40 p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 fin-btn d-inline-block ls-05px border-radius-4px"
-              disabled={!isNewDocumentAdded}
-            >
-              <i className="feather icon-feather-upload m-0 fs-16 align-text-bottom"></i> Submit Document(s) To Get Support
-            </button>
+            {isLoading ?
+              <div className="col-sm-12 text-center">
+                  <span>
+                      <span><i className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></span>
+                      <span className="btn-double-text ms-3px" data-text="Submitting...">Submitting...</span>
+                  </span>
+              </div> 
+            :
+              <button
+                type="submit"
+                className="bg-blue h-40px lh-40 p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 fin-btn d-inline-block ls-05px border-radius-4px"
+                disabled={!isNewDocumentAdded}
+              >
+                <i className="feather icon-feather-upload m-0 fs-16 align-text-bottom"></i> Submit Document(s) To Get Support
+              </button>
+            }
           </div>
         </form>
       </div>

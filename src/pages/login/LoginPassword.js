@@ -77,7 +77,7 @@ const LoginPassword = () => {
     return (
         <form onSubmit={handleSubmit} className="row contact-form-style-02 bg-very-light-gray border-radius-10px p-10 pt-5">
             <div className="col-md-12 text-center">
-                <h6 className="alt-font text-dark-gray fw-600 ls-minus-1px">Sign In with password</h6>
+                <h6 className="alt-font text-dark-gray fw-600 ls-minus-1px">Login with password</h6>
             </div>
             <div className="col-md-12 mb-30px">
                 <input

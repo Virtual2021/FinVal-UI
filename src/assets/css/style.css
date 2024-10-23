@@ -8973,7 +8973,7 @@ button:focus {
   box-shadow: none;
 }
 .navbar-toggler-line {
-  background: var(--dark-gray);
+  background: var(--crusoe-green);
   height: 2px;
   width: 22px;
   content: "";

@@ -68,7 +68,8 @@ const Team = () => {
 
     return (
         <>
-            <section className="page-title-parallax-background half-section ipad-top-space-margin" style={bannerStyle}>
+
+            <section className="page-title-parallax-background half-section" style={bannerStyle}>
                 <div className="container">
                     <div className="row align-items-center justify-content-center">
                         <div className="col-12 text-center position-relative page-title-extra-large mt-15px">
@@ -85,12 +86,14 @@ const Team = () => {
                 </div>
             </section>
 
+            <Plans elementRef2={elementRef2} />
+
             <section className="bg-white padding-60-60 " >
                 <div className="container margin-7px" style={{ marginBottom: "-7px" }}>
                     <div className="row text-center text-lg-start justify-content-center" useRef={elementRef1}>
                         <div className="col-xl-4 col-lg-5 md-mb-30px">
                             <h2 className="alt-font fw-600 text-base-color ls-minus-1px mb-0 shadow-none" data-shadow-animation="true" data-animation-delay="700">Everything is
-                                <span className="text-sky-blue">included.
+                                <span className="text-sky-blue"> included.
                                     <span className="bg-base-color h-10px sm-h-8px bottom-20px md-bottom-17px opacity-5 separator-animation"></span>
                                 </span>
                             </h2>
@@ -110,9 +113,7 @@ const Team = () => {
                     </div>
                 </div>
             </section>
-
-            <Plans elementRef2={elementRef2} />
-
+            
             <section className="big-section padding-60-60 position-relative">
                 <div className="container">
                     <div className="row ">

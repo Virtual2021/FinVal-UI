@@ -33,3 +33,20 @@
   font-size: 24px;
   cursor: pointer;
 }
+
+
+.scrollable-form-container {
+  max-height: 90vh; /* Adjust as needed based on your layout */
+  overflow-y: auto;
+  padding-right: 5px; /* To prevent scrollbar from overlapping content */
+}
+
+/* Optional: Styling for better scrollbar appearance */
+.scrollable-form-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollable-form-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}

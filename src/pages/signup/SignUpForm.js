@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { apiURL } from "../../config/Config";
 import Swal from "sweetalert2";
+import ReCAPTCHA from "react-google-recaptcha";  // Import reCAPTCHA
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +18,7 @@ const SignUpForm = () => {
     country: ''
   });
 
+  const [recaptchaToken, setRecaptchaToken] = useState("");  // State for reCAPTCHA
   const [errors, setErrors] = useState({});
   const [backendError, setBackendError] = useState('');
   // const [backendSuccess, setBackendSuccess] = useState('');
@@ -24,6 +26,7 @@ const SignUpForm = () => {
   const [countries, setCountries] = useState([]);
 
   const errorRef = useRef(null);
+  const recaptchaRef = useRef(null);  // Create a ref for reCAPTCHA
   // const successRef = useRef(null);
   const resetForm = () => {
     setFormData({
@@ -37,6 +40,10 @@ const SignUpForm = () => {
       // industry: '',
       country: ''
     });
+    setRecaptchaToken(''); // Clear reCAPTCHA token
+    if (recaptchaRef.current) {
+      recaptchaRef.current.reset(); // Reset the reCAPTCHA
+    }
   };
 
   const handleChange = (e) => {
@@ -79,6 +86,8 @@ const SignUpForm = () => {
     if (!formData.country) {
       formErrors.country = 'Country is required';
     }
+
+    if (!recaptchaToken) formErrors.recaptcha = 'Please complete the reCAPTCHA';
 
     return formErrors;
   };
@@ -161,6 +170,11 @@ const maskEmail = async (email) => {
   fetchCountries();
 
   }, [backendError]);
+
+   // Function to handle reCAPTCHA
+  const onRecaptchaChange = (token) => {
+    setRecaptchaToken(token);  // Set the token when reCAPTCHA is completed
+  };
 
   return (
     <>        
@@ -297,6 +311,15 @@ const maskEmail = async (email) => {
                     {errors.country && <span className="text-danger">{errors.country}</span>}
                 </div>
             </div>
+
+            <div className="col-md-12 mb-30px">
+            <ReCAPTCHA
+              sitekey="6Le5iGcqAAAAAP_BvzirVJGT1TFzdb1g0clH078r"  // Replace with your actual site key
+              onChange={onRecaptchaChange}
+              ref={recaptchaRef}
+            />
+            {errors.recaptcha && <span className="text-danger">{errors.recaptcha}</span>}
+          </div>
 
             <div className="col-md-12 text-center sm-mt-20px">
                 <button 

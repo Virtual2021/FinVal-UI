@@ -22,11 +22,12 @@ const SupportLink = ({data}) => {
         <>
             {planData ? (
             <>
-                {/* Conditional rendering based on the 'upgrade' value */}
-                {planData.upgrade ? (
-                <NeedHelp data={planData} />
+                {planData.currentPlan === "BO" ? (
+                  <NeedHelp data={planData} />
+                ) : planData.currentPlan === "BOP" ? (
+                   <Support documents={data} />
                 ) : (
-                <Support documents={data} />
+                  <></>
                 )}
             </>
             ) : (

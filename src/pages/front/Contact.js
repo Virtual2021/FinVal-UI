@@ -70,7 +70,7 @@ const Contact = () => {
 
     return (
         <>
-            <section className="page-title-parallax-background half-section ipad-top-space-margin" style={bannerStyle}>
+            <section className="d-none page-title-parallax-background half-section ipad-top-space-margin" style={bannerStyle}>
                 <div className="container">
                     <div className="row align-items-center justify-content-center">
                         <div className="col-12 text-center position-relative page-title-extra-large">
