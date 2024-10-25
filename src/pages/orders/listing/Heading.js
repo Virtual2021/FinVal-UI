@@ -9,7 +9,7 @@ const Heading = ({data}) => {
         <fieldset className="ps-15px w-75 pe-15px pb-10px h-100 d-block width-responsive-88" style={{background:'#f2f3f6'}}>
             <legend className="fw-600 float-none border-1px col-auto fs-14 ps-15px pe-15px p-5px lh-1 border-radius-4px bg-light-blue text-blue m-0">Current Active Plan</legend>
             <div className="row">
-                <div className="col icon-with-text-style-10 mt-15px fin-box">
+                <div className="col-lg-4  icon-with-text-style-10 mt-15px fin-box">
                     <div className="feature-box bg-white justify-content-center box-shadow p-5px border-radius-5px border-1 border-solid border-light-blue">
                         <div className="row row-cols-2 align-items-center justify-content-start w-100">
                             <div className="feature-box-icon feature-box-icon-rounded w-35px h-35px rounded-circle p-0">
@@ -22,20 +22,20 @@ const Heading = ({data}) => {
                         </div>
                     </div>
                 </div>
-                <div className="col icon-with-text-style-10 mt-15px fin-box">
+                <div className="col-lg-4  icon-with-text-style-10 mt-15px fin-box">
                     <div className="feature-box bg-white justify-content-center box-shadow p-5px  border-radius-5px border-1 border-solid border-light-blue">
                         <div className="row row-cols-2 align-items-center justify-content-start w-100">
                             <div className="feature-box-icon feature-box-icon-rounded w-35px h-35px rounded-circle">
                                 <i className="line-icon-Box-Close text-blue text-dark-blue-hover fs-16 fw-600"></i>
                             </div>
-                            <div className="col-12 col-md-8 feature-box-content last-paragraph-no-margin lh-normal text-start ps-10px">
+                            <div className="col-12 col-md-8 feature-box-content last-paragraph-no-margin lh-normal text-start ps-10px ">
                                 <p className="fs-12  lh-normal">New Orders Available</p>
                                 <span className="d-block fw-600 text-black mb-0 fs-16">{customer.TotalPlanOrderedCount || 0}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="col icon-with-text-style-10 mt-15px fin-box">
+                <div className="col-lg-4 icon-with-text-style-10 mt-15px fin-box">
                     <div className="feature-box bg-white justify-content-center box-shadow p-5px border-radius-5px border-1 border-solid border-light-blue">
                         <div className="row row-cols-2 align-items-center justify-content-start w-100">
                             <div className="feature-box-icon feature-box-icon-rounded w-35px h-35px rounded-circle">

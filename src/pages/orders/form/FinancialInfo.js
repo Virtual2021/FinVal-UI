@@ -238,7 +238,7 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
                         <div className="w-130px text-end pe-0">
                             <label className="text-black mb-0 fw-600 fs-13 d-block lh-1">All values are in</label>
                         </div>
-                        <div className="col">
+                        <div className="col-7">
                             <div className="input-group">
                                 <span className="input-group-text p-0 pt-5 pb-5 w-35px h-40px justify-content-center border-radius-0px">
                                     <i className="fa fa-coins align-middle fs-20 lh-1"></i>
@@ -261,7 +261,7 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
                 {['sales', 'costOfSales', 'ebitda', 'depreciation', 'interestExpense', 'netProfit', 'cashBalance', 'debtLoan', 'equity', 'receivables', 'inventories', 'payables', 'netFixedAssets'].map((field, index) => (
                   <div className="col-sm-7 mt-20px ps-0" key={index}>
                     <div className="row align-items-center">
-                        <div className="w-130px text-end pe-0">
+                        <div className="w-130px text-end pe-0 sm-ps-25px">
                             <label className="text-black mb-0 fw-600 fs-13 d-block lh-1">
                             {field === 'ebitda' 
                                 ? 'EBITDA' 
@@ -269,7 +269,7 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
                             {['ebitda', 'netProfit'].includes(field) && <sup className="text-red fs-14">*</sup>}
                             </label>
                         </div>
-                        <div className="col">
+                        <div className="col-7">
                             <div className="input-group">
                                 <span className="input-group-text p-0 pt-5 pb-5 w-35px h-40px justify-content-center border-radius-0px">
                                     <i className={`fa ${{
@@ -340,7 +340,7 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
                     <div className="col-sm-12 mt-20px mb-15px text-center">
                     <button
                         onClick={(e) => handleSubmit(e, 'back')}
-                        className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn"
+                        className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px sm-mb-5px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn"
                         type="button"
                         name="back"
                     >

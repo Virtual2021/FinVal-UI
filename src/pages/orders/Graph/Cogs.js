@@ -138,7 +138,7 @@ const Cogs = ({data, finData , forecastData}) => {
   const containerStyle = {
     position: 'relative',
     overflow: 'hidden',
-    width: '359px',
+    width: window.innerWidth <= 768 ? '320px' : '359px',
     height: '170px',
     textAlign: 'left',
     lineHeight: 'normal',
