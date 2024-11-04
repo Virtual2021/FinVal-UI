@@ -1,10 +1,17 @@
-import React, {useEffect} from "react";
+import React, { useState } from 'react';
 import { formatDate } from "../../../common/numberUtils";
 import { Link } from "react-router-dom";
 import Tooltip from 'rc-tooltip';
 import 'rc-tooltip/assets/bootstrap.css'; // Optional, for basic styling
 
+
+  
 const Table = ({data}) => {
+    const [expandedRows, setExpandedRows] = React.useState({});
+
+    const toggleRow = (index) => {
+        setExpandedRows((prev) => ({ ...prev, [index]: !prev[index] }));
+    };
  const renderLink = (status, id, submittedOn, custody ,resubmit_time, resubmit_pending, orderplan) => {
     console.log(orderplan);
      
@@ -122,79 +129,116 @@ const Table = ({data}) => {
             <table className="table table-striped table-bordered fs-14 lh-normal mytable border-light-blue align-middle">
                 <thead className="border-solid border-1 border-light-blue">
                     <tr>
-                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue w-50px">Order#</th>
-                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue w-50px">Plan Id</th>
+                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue">Order#</th>
+                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue desktop-only">Plan Id</th>
                         <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue">Company Name</th>
-                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue">Country</th>
-                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue w-110px">Status</th>
-                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue w-110px">Created On</th>
-                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue w-110px">Submitted On</th>
-                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue w-110px">Completed On</th>
-                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue w-110px">Invoice</th>
+                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue">Status</th>
+                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue w-50px mobile-only">Details</th>
+                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue desktop-only">Country</th>
+                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue desktop-only">Created On</th>
+                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue desktop-only">Submitted On</th>
+                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue desktop-only">Completed On</th>
+                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue desktop-only">Invoice</th>
                     </tr>
                 </thead>
                 <tbody>
                     {data.map((order, index) => (
-                    <tr key={index}>
-                        <th scope="row" className="align-middle text-center fs-14">{order['customerOrderSequence']}</th>
-                        <th scope="row" className="align-middle text-center fs-14"> {order?.orderplan?.planOrderId?.planSeqId ?? ''}</th>
-                        <td className="fs-14">{order['companyName']}
-                            {order['status'] === 'Completed' && 
-                            <>
-                            <br />
-                            <a 
-                                href={order.report_url} 
-                                target="_blank"
-                                className="bg-green text-nowrap text-white border-radius-5px pe-5px ps-5px pb-1 fs-11 ls-normal"  
-                                rel="noopener noreferrer"
-                                download
-                            >
-                                <i className="bi bi-download"></i> Valuation report
-                            </a>
-                            </>
-                            }
-                            {order['status'] === 'Re-Submitted' && 
-                             <><br/>
-                               <a 
-                                    href={order.report_url} 
-                                    className="bg-green text-nowrap text-white border-radius-5px pe-5px ps-5px pb-1 fs-11 ls-normal"  
-                                    rel="noopener noreferrer"
-                                    target="_blank"
-                                    download
-                                >
-                                    <i className="bi bi-download"></i> Valuation report
-                                </a>
-
-                            <br/>
-                            <span className="bg-red text-nowrap text-white border-radius-5px pe-5px ps-5px pb-1 fs-11 ls-normal d-inline-block mt-5px"><i className="bi bi-arrow-clockwise"></i> Revised valuation report - Pending</span>
-                            </>
-                            }
-                            {order['status'] === 'Completed (Revised)' && 
-                             <><br/>
-                                <a 
-                                    href={order.report_url} 
-                                    className="bg-green text-nowrap text-white border-radius-5px pe-5px ps-5px pb-1 fs-11 ls-normal"  
-                                    rel="noopener noreferrer"
-                                    target="_blank"
-                                    download
+                        <React.Fragment key={index}>
+                            <tr>
+                                {/* Show "Order#" in all views */}
+                                <td className="align-middle text-center fs-14">
+                                    {order['customerOrderSequence']}
+                                </td>
+                                {/* "Plan Id" visible only on desktop */}
+                                <td className="align-middle text-center fs-14 desktop-only">
+                                    {order?.orderplan?.planOrderId?.planSeqId ?? ''}
+                                </td>
+                                <td className="fs-14">
+                                    {order['companyName']}
+                                    {order['status'] === 'Completed' && (
+                                        <>
+                                            <br />
+                                            <a 
+                                                href={order.report_url} 
+                                                target="_blank" 
+                                                className="bg-green text-nowrap text-white border-radius-5px pe-5px ps-5px pb-1 fs-11 ls-normal mobile-text-wrap-normal"  
+                                                rel="noopener noreferrer"
+                                                download
+                                            >
+                                                <i className="bi bi-download"></i> Valuation report
+                                            </a>
+                                        </>
+                                    )}
+                                    {order['status'] === 'Re-Submitted' && (
+                                        <>
+                                            <br />
+                                            <a 
+                                                href={order.report_url} 
+                                                className="bg-green text-nowrap text-white border-radius-5px pe-5px ps-5px pb-1 fs-11 ls-normal mobile-text-wrap-normal"  
+                                                rel="noopener noreferrer"
+                                                target="_blank"
+                                                download
+                                            >
+                                                <i className="bi bi-download"></i> Valuation report
+                                            </a>
+                                            <br/>
+                                            <span className="bg-red text-nowrap text-white border-radius-5px pe-5px ps-5px pb-1 fs-11 ls-normal d-inline-block mt-5px mobile-text-wrap-normal">
+                                                <i className="bi bi-arrow-clockwise"></i> Revised valuation report - Pending
+                                            </span>
+                                        </>
+                                    )}
+                                    {order['status'] === 'Completed (Revised)' && (
+                                        <>
+                                            <br />
+                                            <a 
+                                                href={order.report_url} 
+                                                className="bg-green text-nowrap text-white border-radius-5px pe-5px ps-5px pb-1 fs-11 ls-normal mobile-text-wrap-normal"  
+                                                rel="noopener noreferrer"
+                                                target="_blank"
+                                                download
+                                            >
+                                                <i className="bi bi-download"></i> Revised Valuation report
+                                            </a>
+                                        </>
+                                    )}
+                                </td>
+                                <td className="fs-14 status-cell">{order['status']}</td>
+                                {/* Mobile toggle button for details */}
+                                <td className="align-middle text-center mobile-only">
+                                    <button 
+                                        onClick={() => toggleRow(index)} 
+                                        className="btn btn-link p-0 border-0 toggle-details"
                                     >
-                                    <i className="bi bi-download"></i>Revised Valuation report
-                                    </a>
-
-                            </>    
-                            }
-                        </td>
-                        <td className="fs-14">{order['country']}</td>
-                        <td className="fs-14">{order['status']}</td>
-                        <td className="fs-14">{formatDate(order['createdAt'])}</td>
-                        <td className="fs-14">{order['submittedOn'] !== '' && formatDate(order['submittedOn'])}</td>
-                        <td className="fs-14">{order['completedOn'] !== '' && formatDate(order['completedOn'])}</td>
-                        <td className="fs-14">{renderLink(order['status'], order['_id'], order['submittedOn'], order['custody'], order['remaining_hours'], order['resubmit_pending'], order['orderplan'])}</td>
-                    </tr>
+                                        {expandedRows[index] ? <i className="bi bi-dash"></i> : <i className="bi bi-plus"></i>}
+                                    </button>
+                                </td>
+                                <td className="fs-14 desktop-only">{order['country']}</td>
+                                <td className="fs-14 desktop-only">{formatDate(order['createdAt'])}</td>
+                                <td className="fs-14 desktop-only">{order['submittedOn'] && formatDate(order['submittedOn'])}</td>
+                                <td className="fs-14 desktop-only">{order['completedOn'] && formatDate(order['completedOn'])}</td>
+                                <td className="fs-14 desktop-only">{renderLink(order['status'], order['_id'], order['submittedOn'], order['custody'], order['remaining_hours'], order['resubmit_pending'], order['orderplan'])}</td>
+                            </tr>
+                            {expandedRows[index] && (
+                                <tr className="bg-light mobile-only">
+                                    <td colSpan="5">
+                                        <div className="p-3">
+                                            {/* Replace "Order#" with "Plan Id" in expanded details */}
+                                            <p><strong>Plan Id:</strong> {order?.orderplan?.planOrderId?.planSeqId ?? 'N/A'}</p>
+                                            <p><strong>Country:</strong> {order['country']}</p>
+                                            <p><strong>Created On:</strong> {formatDate(order['createdAt'])}</p>
+                                            <p><strong>Submitted On:</strong> {order['submittedOn'] && formatDate(order['submittedOn'])}</p>
+                                            <p><strong>Completed On:</strong> {order['completedOn'] && formatDate(order['completedOn'])}</p>
+                                            <p><strong>Invoice:</strong> {renderLink(order['status'], order['_id'], order['submittedOn'], order['custody'], order['remaining_hours'], order['resubmit_pending'], order['orderplan'])}</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            )}
+                        </React.Fragment>
                     ))}
                 </tbody>
             </table>
-        </div>  
+        </div>
+        
     </>
   )
 }

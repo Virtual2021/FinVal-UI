@@ -142,7 +142,7 @@ const Preview = () => {
                         <div className="col-md-11">
                             <div className="card mt-15px rounded-bottom-0 border-0 box-shadow">
                                 <div className="card-header fw-600 mb-0 align-items-center bg-white text-blue">Input Data Preview</div>
-                                <div className="card-body overflow-hidden p-30px pt-15px">
+                                <div className="card-body overflow-hidden p-30px pt-15px md-p-10px">
                                     
                                     {data && data.customer && <Customer data={data}/>}
 

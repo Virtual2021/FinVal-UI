@@ -19256,3 +19256,79 @@ footer .footer-navbar .nav-item:last-child a {
   color:#ffc30f;
   background-color:#050315;
 }
+.table .status-cell {
+  word-break: normal; /* Allow normal word breaking */
+  overflow-wrap: break-word; /* Allow long words to break */
+  white-space: normal; /* Allow wrapping */
+  max-width: 150px; 
+  
+}
+/* For mobile responsiveness */
+@media (max-width: 768px) {
+  /* Styling for the year row */
+  .table-year-row-mobile {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color: #e0e0e0; /* Optional: background color for clarity */
+    padding: 8px;
+  }
+
+  /* Flex container for inputs under the "Year" heading */
+  .table-year-input-container-mobile {
+    display: flex;
+    gap: 10px; /* Space between each input */
+    flex-wrap: wrap;
+    margin-left: auto; /* Pushes inputs to the right in the row */
+  }
+
+  /* Ensure inputs have a consistent, compact size on mobile */
+  .table-year-input-mobile {
+    width: 60px; /* Adjust based on your design */
+    text-align: center;
+  }
+}
+
+
+/* Mobile styling - Use these new classes for mobile adjustments */
+@media (max-width: 768px) {
+  .table-responsive-mobile {
+    display: block;
+    width: 100%;
+  }
+
+  .table-header-hidden-mobile {
+    display: none; /* Hide the table header on mobile */
+  }
+
+  .table-row-mobile {
+    display: block;
+    width: 100%;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .table-cell-mobile {
+    display: block;
+    width: 100%;
+    padding: 8px 10px;
+    text-align: left;
+    position: relative;
+  }
+
+  .table-cell-mobile:before {
+    /* Add labels for each row on mobile using data-label */
+    content: attr(data-label);
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    width: 50px;
+  }
+
+  .table-heading-mobile {
+    font-weight: bold;
+    background-color: #e0e0e0;
+    padding: 10px;
+  }
+}

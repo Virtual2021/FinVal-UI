@@ -230,7 +230,7 @@ const FinancialInfo = ({ onSave, initialData ,backButton, onFieldChange, orderId
             }}
             data-scroll-options='{ "theme": "dark" }'>
             <form action="" className="row contact-form-style-04 myform-01 justify-content-center">
-                <div className="col-sm-12 mt-20px ps-15 pe-15 text-center">
+                <div className="col-sm-12 mt-20px ps-15 pe-15 text-center md-ps-0 md-pe-0">
                     <p className="mb-0 fw-600 fs-14 lh-1">Provide historical numbers for year <span className="bg-blue text-white ps-10px pe-10px p-1 fw-600">{formData.FinYrEnd}</span></p>
                 </div>
                 <div className="col-sm-7 mt-20px ps-0">
