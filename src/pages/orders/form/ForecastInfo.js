@@ -214,30 +214,34 @@ const ForecastInfo = ({ onSave, initialData ,backButton, onPercentChange, orderI
                 data-scroll-options='{ "theme": "dark" }'
             >
                 <div className="row">
-                    <div className="col-sm-12 p-15px ps-30px pe-30px">
-                        <table className="table table-striped table-bordered fs-12 mytable">
-                            <thead>
-                                <tr>
-                                    <th scope="col" colSpan="6" className="fs-14 fw-400 pt-0 pb-0 bg-blue text-white">
-                                        Income Statement Assumptions
-                                    </th>
-                                </tr>
-                                <YearHeader yearList={years} />
-                            </thead>
-                            <tbody className="align-middle lh-sm">
-                                {rows.map((row, rowIndex) => (
-                                    <TableRow
-                                        key={rowIndex}
-                                        label={row.label}
-                                        values={row.values}
-                                        onValueChange={(colIndex, newValue) => handleValueChange(rowIndex, colIndex, newValue)}
-                                        handleBlur = {handleBlur}
-                                    />
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+    <div className="col-sm-12 p-15px ps-30px pe-30px">
+        {/* Add the 'table-responsive' class to enable responsiveness */}
+        <div className="table-responsive">
+            <table className="table table-striped table-bordered fs-12 mytable">
+                <thead>
+                    <tr>
+                        <th scope="col" colSpan="6" className="fs-14 fw-400 pt-0 pb-0 bg-blue text-white">
+                            Income Statement Assumptions
+                        </th>
+                    </tr>
+                    <YearHeader yearList={years} />
+                </thead>
+                <tbody className="align-middle lh-sm">
+                    {rows.map((row, rowIndex) => (
+                        <TableRow
+                            key={rowIndex}
+                            label={row.label}
+                            values={row.values}
+                            onValueChange={(colIndex, newValue) => handleValueChange(rowIndex, colIndex, newValue)}
+                            handleBlur={handleBlur}
+                        />
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
                 {!editAllowed ? (
                     <div className="col-sm-12 mt-20px mb-15px text-center">
                         <button

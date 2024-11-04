@@ -15,8 +15,8 @@ const BalanceSheet = ({ data }) => {
   const payableDays = ripDaysData.payableDays ?? defaultValue;
 
   return (
-    <div className="col-sm-6">
-      <fieldset className="bg-white p-15px mt-0 mt-sm-30px h-100">
+    <div className="col-lg-6">
+      <fieldset className="bg-white p-15px mt-0 mt-sm-30px h-100 md-p-0">
         <legend className="fw-600 float-none border-1px col-auto fs-18 ps-15px pe-15px p-5px lh-1 border-radius-4px bg-blue text-golden">
           Financial Projections
         </legend>

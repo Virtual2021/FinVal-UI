@@ -22,7 +22,7 @@ const Customer  = ({data}) => {
                         <i className="line-icon-User text-blue text-dark-blue-hover fs-30 fw-500"></i>
                     </div>
                     <div className="col-8 feature-box-content last-paragraph-no-margin lh-normal text-start">
-                        <p className="text-light-blue lh-normal fs-14">Name</p>
+                        <p className=" lh-normal fs-14">Name</p>
                         <span className="d-block fw-600 text-black mb-0 fs-18">{customer.customerName}</span>
                     </div>
                 </div>
@@ -35,7 +35,7 @@ const Customer  = ({data}) => {
                         <i className="line-icon-Bulleted-List text-blue text-dark-blue-hover fs-30 fw-500"></i>
                     </div>
                     <div className="col-8 feature-box-content last-paragraph-no-margin lh-normal text-start">
-                        <p className="fs-14 text-light-blue lh-normal">Plan Type</p>
+                        <p className="fs-14  lh-normal">Plan Type</p>
                         <span className="d-block fw-600 text-black mb-0 fs-18">{data.order.plan?.planType}</span>
                     </div>
                 </div>
@@ -48,7 +48,7 @@ const Customer  = ({data}) => {
                         <i className="line-icon-File-ClipboardFileText text-blue text-dark-blue-hover fs-30 fw-500"></i>
                     </div>
                     <div className="col-8 feature-box-content last-paragraph-no-margin lh-normal text-start">
-                        <p className="fs-14 text-light-blue lh-normal text-nowrap">Report Order Sequence</p>
+                        <p className="fs-14  lh-normal ">Report Order Sequence</p>
                         <span className="d-block fw-600 text-black mb-0 fs-18">{data.order.customerSequence}</span>
                     </div>
                 </div>

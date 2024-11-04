@@ -150,7 +150,8 @@ const Ebidta = ({data, finData, forecastData}) => {
       const containerStyle = {
         position: 'relative',
         overflow: 'hidden',
-        width: '232px',
+        width: window.innerWidth <= 768 ? '100%' : '232px',
+        
         height: '170px',
         textAlign: 'left',
         lineHeight: 'normal',
