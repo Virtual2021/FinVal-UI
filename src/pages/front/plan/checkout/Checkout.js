@@ -78,6 +78,21 @@ const Checkout = () => {
       );
   
       const stripe = await stripePromise;
+
+      if (data.data.setupIntentClientSecret) {
+        // Use the client secret from the setup intent to save the payment method
+        const setupIntentResult = await stripe.confirmCardSetup(data.data.setupIntentClientSecret);
+        if (setupIntentResult.error) {
+          console.error("Error saving payment method:", setupIntentResult.error.message);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Something went wrong.Please try again.',
+          });
+          return;
+        }
+      }
+
       const { error } = await stripe.redirectToCheckout({ sessionId: data.data.stripeToken });
 
       if (error) {

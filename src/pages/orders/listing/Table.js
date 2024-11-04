@@ -6,8 +6,7 @@ import 'rc-tooltip/assets/bootstrap.css'; // Optional, for basic styling
 
 const Table = ({data}) => {
  const renderLink = (status, id, submittedOn, custody ,resubmit_time, resubmit_pending, orderplan) => {
-    console.log(orderplan);
-     
+    
     if (status === 'Help Requested' && custody === "Company") {
         return <Link to={`/preview-data/${id}`} className="fs-12 m-0 lh-1 pt-10px pb-10px text-white fs-12 fw-400 text-capitalize fin-btn d-inline-block ls-05px w-110px text-center border-radius-4px">
             <i className="bi bi-info-circle"></i> View Details

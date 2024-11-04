@@ -1,7 +1,7 @@
 import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { CalculateGraphData } from './Calculation';
+import { CalculateGraphData, roundOffNumber } from './Calculation';
 import GraphHeading from '../form/GraphHeading';
 
 const Cogs = ({data, finData , forecastData}) => {
@@ -55,11 +55,14 @@ const Cogs = ({data, finData , forecastData}) => {
     }
   }  
 
+    // Round off the values which is too large
+    let roundedValues = roundOffNumber(updatedCogs, finData);
+    let valueTypes = roundedValues.valueType;
 
   // Prepare the data for the chart
   const seriesData = year.map((yr, index) => ({
     name: yr,
-    y: Number(updatedCogs[index]),
+    y: Number(roundedValues.roundedNumbers[index]),
     drilldown: yr,
     color: '#183ea3'
   }));
@@ -153,7 +156,7 @@ const Cogs = ({data, finData , forecastData}) => {
     <>  
       <div className="card-header fw-700 fs-14 ps-10px pt-5px pb-0 mb-0 lh-normal border-0 bg-white text-blue">
         COGS
-        <GraphHeading data={data} finData={finData} />
+        <GraphHeading data={data} finData={finData} valueType={valueTypes} />
       </div>
       <div className="card-body p-0 overflow-hidden">
         <HighchartsReact

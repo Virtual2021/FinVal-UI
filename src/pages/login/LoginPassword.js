@@ -44,7 +44,7 @@ const LoginPassword = () => {
             // Handle successful response, e.g., store token, redirect
             if(response.data.status === true){
                 const token = response.data.data.token;
-                const name = response.data.data.user.first_name + ' ' + response.data.data.user.last_name;
+                const name = response.data.data.user.first_name;
 
                 // Store token and name in localStorage
                 localStorage.setItem('token', token);

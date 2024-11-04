@@ -1,7 +1,7 @@
 import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { CalculateGraphData } from '../../Graph/Calculation';
+import { CalculateGraphData, roundOffNumber } from '../../Graph/Calculation';
 import GraphHeading from '../../form/GraphHeading';
 
 const NetProfitGraph = ({data, finData, forecastData}) => {
@@ -62,10 +62,14 @@ const NetProfitGraph = ({data, finData, forecastData}) => {
         }
     }  
 
+        // Round off the values which is too large
+        let roundedValues = roundOffNumber(updatedNetProfit, finData);
+        let valueTypes = roundedValues.valueType;
+
     // Prepare the data for the chart
     const seriesData = year.map((yr, index) => ({
         name: yr,
-        y: Number(updatedNetProfit[index]),
+        y: Number(roundedValues.roundedNumbers[index]),
         drilldown: yr,
         color: '#183ea3'
     }));
@@ -174,7 +178,7 @@ const NetProfitGraph = ({data, finData, forecastData}) => {
     
     return(
        <>
-        <div className="card-header fw-700 fs-14 ps-10px pb-0 pt-5px mb-0 h-40px lh-normal border-0 bg-white text-blue">Net Profit<GraphHeading data={data} finData={finData} /></div>
+        <div className="card-header fw-700 fs-14 ps-10px pb-0 pt-5px mb-0 h-40px lh-normal border-0 bg-white text-blue">Net Profit<GraphHeading data={data} finData={finData} valueType={valueTypes}/></div>
         <div className="card-body p-0 overflow-hidden">
             <HighchartsReact
                 highcharts={Highcharts}

@@ -78,7 +78,7 @@ const LoginOtp = () => {
             const response = await axios.post(apiURL + '/front/customer/login_with_otp', { email, otp });
             // Handle successful response, e.g., store token, redirect
             const token = response.data.data.userdata.token;
-            const name = response.data.data.userdata.user.first_name + ' ' + response.data.data.userdata.user.last_name;
+            const name = response.data.data.userdata.user.first_name;
 
             // Store token and name in localStorage
             localStorage.setItem('token', token);

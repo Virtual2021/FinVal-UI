@@ -1,7 +1,7 @@
 import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { CalculateGraphData } from './Calculation';
+import { CalculateGraphData, roundOffNumber } from './Calculation';
 
 const NetProfitMargin = ({data, finData, forecastData}) => {
     if (!finData || !finData.netProfit) {
@@ -59,11 +59,14 @@ const NetProfitMargin = ({data, finData, forecastData}) => {
             });
         }
     }  
+
+    // Round off the values which is too large
+    let roundedValues = roundOffNumber(updatedNetProfitMarginPercent, finData);
     
       // Prepare the data for the chart
       const seriesData = year.map((yr, index) => ({
         name: yr,
-        y: Number(updatedNetProfitMarginPercent[index]),
+        y: Number(roundedValues.roundedNumbers[index]),
         drilldown: yr,
         color: '#021a5b'
       }));

@@ -1,16 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import anime from 'animejs';
-import { Link } from 'react-router-dom';
 import CurrentPlan from './CurrentPlan';
 import { apiURL } from '../../../config/Config';
 import axios from 'axios';
 import BopCheckout from './BopCheckout';
 import AdvisorUpgrade from './AdvisorUpgrade';
+import Loader from '../../../common/Loader';
 
 const Upgrade = () => {
     let [currentPlan, setCurrentPlan] = useState(null);
     let [upgradePlan, setUpgradePlan] = useState(null);
-    const token = sessionStorage.getItem('token');
+    const [isScreenLoading, setScreenLoading] = useState(true);
 
 useEffect(() => {
     // Handle anime.js animations
@@ -47,19 +47,22 @@ useEffect(() => {
           },
         });
         const data = await response;
-        if (data.status) {
-            setCurrentPlan(data.data.data.current_plan);
-            setUpgradePlan(data.data.data.upgrade_data);
+        if (data && data.status) {
+            setCurrentPlan(data.data.data.current_plan || []);
+            setUpgradePlan(data.data.data.upgrade_data || null);
         } else {
           console.error('Failed to fetch table data:', data.message);
         }
       } catch (error) {
         console.error('Error fetching table data:', error);
+      }finally{
+        setScreenLoading(false);
       }
     };
 
     fetchTableData();
   }, []);
+
 
    return (
     <section className="position-relative pt-15px pb-15px">
