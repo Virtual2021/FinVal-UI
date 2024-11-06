@@ -17,7 +17,7 @@ export function roundOffNumber(numbers, finData) {
   }
 
   // Find the largest number in the array
-  const largestNumber = Math.max(...numbers);
+  const largestNumber = Math.max(...numbers.filter(num => !isNaN(num)));
   const digitCount = Math.floor(Math.log10(Math.abs(largestNumber))) + 1;
 
   let currencyValues = finData.valueType[0];
@@ -54,7 +54,10 @@ export function roundOffNumber(numbers, finData) {
   }
 
   // Divide all numbers by the divisor
-  const roundedNumbers = numbers.map(num => Math.round((num / divisor) * 100) / 100);
+  const roundedNumbers = numbers.map(num => {
+    const validNum = isNaN(num) ? 0 : num;
+    return Math.round((validNum / divisor) * 100) / 100;
+  });
 
   // Return multiple values in an object
   return {
