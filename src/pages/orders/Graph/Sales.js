@@ -2,6 +2,7 @@ import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import GraphHeading from '../form/GraphHeading';
+import { roundOffNumber } from './Calculation';
 
 const SalesChart = ({ data, finData, forecastData }) => {
   if (!finData || !finData.sales) {
@@ -46,16 +47,21 @@ const SalesChart = ({ data, finData, forecastData }) => {
     }
   }  
 
+  // Round off the values which is too large
+  let roundedValues = roundOffNumber(updatedSales, finData);
+  let valueTypes = roundedValues.valueType;
+
   // Prepare the data for the chart
   const seriesData = year.map((yr, index) => ({
     name: yr,
-    y: Number(updatedSales[index] || 0), // Use raw numeric value for charting
+    y: Number(roundedValues.roundedNumbers[index] || 0), // Use raw numeric value for charting
     drilldown: yr,
     color: '#183ea3'
   }));
 
-  const maxSales = Math.max(...updatedSales);
+  const maxSales = Math.max(...roundedValues.roundedNumbers);
   const maxSalesValue = maxSales * 1.5;
+
 
   const maxData = year.map((yr, index) => ({
     name: yr,
@@ -159,7 +165,7 @@ const SalesChart = ({ data, finData, forecastData }) => {
     <>
       <div className="card-header fw-700 fs-14 ps-10px pt-5px pb-0 mb-0 lh-normal border-0 bg-white text-blue">
         Sales
-        <GraphHeading data={data} finData={finData}/>
+        <GraphHeading data={data} finData={finData} valueType={valueTypes}/>
       </div>
       <div className="card-body p-0 overflow-hidden">
         <HighchartsReact

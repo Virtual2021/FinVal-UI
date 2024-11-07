@@ -53,7 +53,11 @@ const GraphElements = ({data, finData, forecastData}) => {
               </div>      
            }
           {(finData || (forecastData && hasMatchingLabel(forecastData, "Forecasted Net Profit Margin (%)"))) &&
-             <NetProfitMargin data={data} finData={finData} forecastData={forecastData}/>
+              <div className="col-sm-4 pe-5px sm-ps-5px">
+                <div className="card mt-15px rounded-bottom-0 border-0 box-shadow">
+                    <NetProfitMargin data={data} finData={finData} forecastData={forecastData}/>
+                </div>
+              </div>  
           }
           {data && 
              <Country data={data} />

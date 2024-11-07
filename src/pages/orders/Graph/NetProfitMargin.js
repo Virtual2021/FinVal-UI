@@ -1,7 +1,7 @@
 import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { CalculateGraphData } from './Calculation';
+import { CalculateGraphData, roundOffNumber } from './Calculation';
 
 const NetProfitMargin = ({data, finData, forecastData}) => {
     if (!finData || !finData.netProfit) {
@@ -59,11 +59,14 @@ const NetProfitMargin = ({data, finData, forecastData}) => {
             });
         }
     }  
+
+    // Round off the values which is too large
+    let roundedValues = roundOffNumber(updatedNetProfitMarginPercent, finData);
     
       // Prepare the data for the chart
       const seriesData = year.map((yr, index) => ({
         name: yr,
-        y: Number(updatedNetProfitMarginPercent[index]),
+        y: Number(roundedValues.roundedNumbers[index]),
         drilldown: yr,
         color: '#021a5b'
       }));
@@ -154,19 +157,17 @@ const NetProfitMargin = ({data, finData, forecastData}) => {
   };
 
     return (
-        <div className="col-sm-4 ps-5px">
-            <div className="card mt-15px rounded-bottom-0 border-0 box-shadow">
-                <div className="card-header fw-700 fs-14 ps-10px pb-0 pt-5px mb-0 h-40px lh-normal border-0 bg-white text-blue">Net Profit Margin<span className="fst-italic fw-500 fs-12 ms-1">(%)</span>
-                    </div>
-                <div className="card-body p-0 overflow-hidden">
-                    <HighchartsReact
-                        highcharts={Highcharts}
-                        options={options}
-                        containerProps={{ style: containerStyle }}  // Apply the style here
-                        />
+        <>
+            <div className="card-header fw-700 fs-14 ps-10px pb-0 pt-5px mb-0 h-40px lh-normal border-0 bg-white text-blue">Net Profit Margin<span className="fst-italic fw-500 fs-12 ms-1">(%)</span>
                 </div>
+            <div className="card-body p-0 overflow-hidden">
+                <HighchartsReact
+                    highcharts={Highcharts}
+                    options={options}
+                    containerProps={{ style: containerStyle }}  // Apply the style here
+                    />
             </div>
-        </div>
+        </>
     )
 }
 

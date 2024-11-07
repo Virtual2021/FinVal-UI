@@ -178,7 +178,7 @@ const maskEmail = async (email) => {
 
   return (
     <>        
-        <form onSubmit={handleSubmit} className="row contact-form-style-02 bg-very-light-gray border-radius-10px p-10 pt-5">
+        <form onSubmit={handleSubmit} className="row contact-form-style-02 bg-very-light-gray border-radius-10px p-10 pt-2">
             <div className="col-md-12 text-center">
                 <h6 className="alt-font text-dark-gray fw-600 ls-minus-1px">Sign Up for Fin-Advisor Evaluation</h6>
             </div>

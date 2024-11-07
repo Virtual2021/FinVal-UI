@@ -43,7 +43,7 @@ const Heading = ({data}) => {
                             </div>
                             <div className="col-12 col-md-8 feature-box-content last-paragraph-no-margin lh-normal text-start ps-10px">
                                 <p className="fs-12  lh-normal text-nowrap">Days Remaining in plan</p>
-                                <span className="d-block fw-600 text-black mb-0 fs-16">{customer.daysLeft || 0}</span>
+                                <span className="d-block fw-600 text-black mb-0 fs-16">{customer.daysLeft+1 || 0}</span>
                             </div>
                         </div>
                     </div>
