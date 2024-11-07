@@ -17,7 +17,7 @@ const BusinessDetails = ({ data }) => {
             <table className="fs-16 fw-400 lh-normal text-end">
             <tbody>
               <tr>
-                <td className="p-5px w-220px align-top">Company Name</td>
+                <td className="p-5px align-top">Company Name</td>
                 <td className="center p-5px align-top">:</td>
                 <td className="fw-600 p-5px text-start align-top">{businessData.companyName || 'N/A'}</td>
               </tr>

@@ -61,7 +61,7 @@ const handleLogout = () => {
                                 </ul>
                             </div>
                         </div>
-                        <div className="col-auto text-end d-none d-sm-flex">
+                        <div className="col-auto text-end d-flex">
                             <div className="header-icon lh-1">
                                 <div className="header-button fs-16">Hi, {localStorage.getItem('name')}</div>
                             </div>

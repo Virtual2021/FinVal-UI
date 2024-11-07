@@ -36,7 +36,7 @@ const Signup = () => {
 
   return(
     <>
-        <section className="page-title-parallax-background bg-dark-gray half-section ipad-top-space-margin" data-parallax-background-ratio="0.5"  style={bannerStyle} >
+        {/* <section className="page-title-parallax-background bg-dark-gray half-section ipad-top-space-margin" data-parallax-background-ratio="0.5"  style={bannerStyle} >
             <div className="opacity-extra-medium bg-gradient-fin-val-blue"></div>
             <div className="container">
                 <div className="row align-items-center justify-content-center">
@@ -45,19 +45,17 @@ const Signup = () => {
                             <div className="mt-auto" ref={elementRef1}>
                                 <h1 className="text-white mb-0 text-shadow-extra-large fw-600 ls-minus-1px fs-50">Sign Up</h1>
                             </div>
-                            {/* <!-- start breadcrumb --> */}
                             <div className="mt-auto justify-content-center breadcrumb breadcrumb-style-01 alt-font text-white">
                                 <ul  ref={elementRef1}>
                                     <li><Link to="/" className="text-white">Home</Link></li>
                                     <li>Sign Up</li>
                                 </ul>
                             </div>
-                            {/* <!-- end breadcrumb --> */}
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </section> */}
         {/* <!-- end page title --> */}
         {/* <!-- start section --> */}
         <section className="position-relative bg-white">

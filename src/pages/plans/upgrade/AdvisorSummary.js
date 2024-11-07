@@ -152,10 +152,10 @@ const handleClick = async () => {
                                     </div>
                                     <div className="row">
                                         <div className="col-sm-12 text-center">
-                                            <Link to="/upgrade-plan" className="bg-blue h-40px lh-40 p-0 fs-12 mb-15px text-white fs-12 fw-600 text-capitalize fin-btn d-inline-block ls-05px w-100px border-radius-4px">
+                                            <Link to="/upgrade-plan" className="bg-blue h-40px lh-40 p-0 fs-12 mb-15px sm-mb-5px sm-pt-5px text-white fs-12 fw-600 text-capitalize fin-btn d-inline-block ls-05px w-100px border-radius-4px">
                                                 <i className="feather icon-feather-arrow-left-circle m-0 fs-16 align-text-bottom"></i> Back
                                             </Link>
-                                            <button onClick={handleClick} type="button" className="bg-blue h-40px lh-40 p-0 ps-15px pe-15px fs-12 m-15px text-white fs-12 fw-600 text-capitalize fin-btn d-inline-block ls-05px border-radius-4px">
+                                            <button onClick={handleClick} type="button" className="bg-blue h-40px lh-40 p-0 ps-15px pe-15px fs-12 m-15px sm-mt-5px text-white fs-12 fw-600 text-capitalize fin-btn d-inline-block ls-05px border-radius-4px border-none">
                                                 Continue to Payment <i className="feather icon-feather-arrow-right-circle m-0 fs-16 align-text-bottom"></i>
                                             </button>
                                         </div>
