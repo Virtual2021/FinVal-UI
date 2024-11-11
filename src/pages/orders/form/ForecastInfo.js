@@ -7,7 +7,7 @@ import SupportLink from './Modal/SupportLink';
 // Component to render the YEAR header
 const YearHeader = ({yearList}) => (
     
-    <tr>
+    <tr className="sm-d-none">
         <th scope="col" className="fw-400 w-150px ls-1px bg-blue text-white">YEAR</th>
         {yearList.map(year => (
             <th scope="col" className="bg-blue" key={year}>
@@ -23,50 +23,54 @@ const YearHeader = ({yearList}) => (
 );
 
 // Component to render a single table row with inputs
-const TableRow = ({ label, values, onValueChange, handleBlur }) => {
+const TableRow = ({ label, values, yearList, onValueChange, handleBlur }) => {
     const isNegativeAllowed = label === 'Forecasted Sales Growth Rate (Y-o-Y) (%)' ||
                               label === 'Forecasted EBITDA Margin (%)' ||
                               label === 'Forecasted Net Profit Margin (%)';
 
     return (
-        <tr>
-        <th scope="row">{label}</th>
-        {values.map((value, index) => (
-            <td key={index}>
-                <div className="financial-info-input-container">
-                    <input
-                        type="text"
-                        className="form-control p-0 text-center border-radius-0px financial-info-input"
-                        placeholder="0.0"
-                        value={value}
-                        onChange={(e) => {
-                            const newValue = e.target.value;
-                            // Allow negative values only for specific rows, otherwise allow only positive values
-                            const regex = isNegativeAllowed ? /^-?\d*\.?\d{0,2}$/ : /^\d*\.?\d{0,2}$/;
-                            if (regex.test(newValue)) {
-                                onValueChange(index, newValue);
-                            }
-                        }}
-                        onBlur={(e) => {
-                            const sanitizedValue = e.target.value.trim();
-                            if (sanitizedValue === '') {
-                                onValueChange(index, '0.0');
-                            } else {
-                                const formattedValue = sanitizedValue.includes('.')
-                                    ? parseFloat(sanitizedValue).toFixed(1)
-                                    : `${sanitizedValue}.0`;
-                                onValueChange(index, formattedValue);
-                            }
-                            handleBlur(label, values);
-                        }}
-                    />
-                    <span>%</span>
-                </div>
-            </td>
-        ))}
-    </tr>
+        <tr className="table-row">
+            {/* Row label as the first cell */}
+            <th scope="row" className="year-label-cell">{label}</th>
+
+            {/* Input cells for each value, with corresponding year for mobile view */}
+            {values.map((value, index) => (
+                <td key={index} className="input-cell">
+                    <div className="input-wrapper">
+                        <span className="year-text d-none sm-d-block">{yearList[index]}</span>
+                        <input
+                            type="text"
+                            className="form-control p-0 text-center border-radius-0px financial-info-input"
+                            placeholder="0.0"
+                            value={value}
+                            onChange={(e) => {
+                                const newValue = e.target.value;
+                                const regex = isNegativeAllowed ? /^-?\d*\.?\d{0,2}$/ : /^\d*\.?\d{0,2}$/;
+                                if (regex.test(newValue)) {
+                                    onValueChange(index, newValue);
+                                }
+                            }}
+                            onBlur={(e) => {
+                                const sanitizedValue = e.target.value.trim();
+                                if (sanitizedValue === '') {
+                                    onValueChange(index, '0.0');
+                                } else {
+                                    const formattedValue = sanitizedValue.includes('.')
+                                        ? parseFloat(sanitizedValue).toFixed(1)
+                                        : `${sanitizedValue}.0`;
+                                    onValueChange(index, formattedValue);
+                                }
+                                handleBlur(label, values);
+                            }}
+                        />
+                        <span className="percentage-symbol">%</span>
+                    </div>
+                </td>
+            ))}
+        </tr>
     );
 };
+
 
 
 // Main component
@@ -224,7 +228,8 @@ const ForecastInfo = ({ onSave, initialData ,backButton, onPercentChange, orderI
                             Income Statement Assumptions
                         </th>
                     </tr>
-                    <YearHeader yearList={years} />
+
+                    <YearHeader yearList={years}/>
                 </thead>
                 <tbody className="align-middle lh-sm">
                     {rows.map((row, rowIndex) => (
@@ -232,11 +237,13 @@ const ForecastInfo = ({ onSave, initialData ,backButton, onPercentChange, orderI
                             key={rowIndex}
                             label={row.label}
                             values={row.values}
+                            yearList={years}  // Pass the year list to each row
                             onValueChange={(colIndex, newValue) => handleValueChange(rowIndex, colIndex, newValue)}
                             handleBlur={handleBlur}
                         />
                     ))}
-                </tbody>
+                 </tbody>
+
             </table>
         </div>
     </div>

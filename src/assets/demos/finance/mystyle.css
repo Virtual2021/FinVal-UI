@@ -698,3 +698,77 @@ legend{
 div:where(.swal2-container) h2:where(.swal2-title){
     font-size:1.5em !important;
 }
+@media (max-width: 566px) {
+   
+    .golden-btn, .golden-btn.btn.show{
+      padding: 8px 8px!important;
+    }
+}
+.tab-btn-new{
+    width: 50%;
+    margin-top: 10px;
+    color: white;
+    border-radius: 10px;
+    border: 1px solid #fff;
+    background: #021a5b;
+}
+.tab-btn-new.active{
+    color: #fad66b!important;
+    font-weight: 600;
+}
+@media (max-width: 768px) {
+    .table-row {
+      display: block;
+      margin-bottom: 10px; /* Spacing between rows */
+    }
+    
+    
+    .data-cell {
+      display: block;
+      width: 100%;
+    }
+    
+    .label-cell {
+      margin-bottom: 5px;
+      text-align: left;
+    }
+   
+    .colon-cell,
+    .data-cell {
+      padding-left: 20px;
+      text-align: left;
+    }
+    .input-cell {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .year-text {
+        font-size: 15px;
+        font-weight: bold;
+        color: #007bff;
+        margin-right: 8px;
+    }
+    .mytable td input{
+        height: 30px;
+        font-size: 15px;
+    }
+    .financial-info-input {
+        flex: 2;
+    }
+    .input-wrapper{
+        width: 100%;
+    }
+    .balanceSheet-table td{
+        display: flex!important;
+    }
+    .balanceSheet-table td input{
+        text-align: center!important;
+    }
+   
+  }
+  /* Styles for input and year text in each cell */
+.input-wrapper {
+    display: flex;
+    align-items: center;
+}

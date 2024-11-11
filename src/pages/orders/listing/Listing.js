@@ -88,7 +88,7 @@ const Listing = () => {
               <div className="row align-items-center justify-content-center position-relative z-index-1">
                 <div className="col-md-11">
                   <div className="card mt-15px rounded-bottom-0 border-0 box-shadow">
-                    <div className="card-body overflow-hidden ps-15px pe-15px pt-0 pb-0">
+                    <div className="card-body overflow-hidden ps-15px pe-15px pt-0 pb-0 sm-ps-5px sm-pe-5px">
                       
                       <Heading data={filterData} />
 
