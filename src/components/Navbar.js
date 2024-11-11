@@ -47,7 +47,7 @@ const Navbar = () => {
                             </ul>
                         </div>
                     </div>
-                    <div className="col-auto text-end d-none d-sm-flex"> 
+                    <div className="col-auto text-end d-none d-xs-flex d-sm-flex"> 
                         <div className="header-icon lh-1">
                             <div className="header-button">
                                 <Link to="/payment" className="btn text-transform-none golden-btn lh-1"><i className="feather icon-feather-shopping-bag m-0"></i> BUY NOW</Link>

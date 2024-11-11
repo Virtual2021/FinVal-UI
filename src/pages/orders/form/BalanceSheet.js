@@ -105,10 +105,10 @@ const BalanceSheet = ({ onSave, initialData ,backButton, orderId, editAllowed })
             }
         </p>
       </div>
-      <div className="card-body p-0" style={{ maxHeight: '430px'}} data-scroll-options='{ "theme": "dark" }'>
+      <div className="card-body p-0 lg-max-height-430px"data-scroll-options='{ "theme": "dark" }'>
         <div className="row">
           <div className="col-sm-12 p-15px ps-30px pe-30px">
-            <table className="table table-striped table-bordered fs-12 mytable">
+            <table className="table table-striped table-bordered fs-12 mytable balanceSheet-table">
               <thead>
                 <tr>
                   <th scope="col" colSpan="5" className="fs-14 fw-400 pt-0 pb-0 bg-blue text-white">
@@ -122,7 +122,7 @@ const BalanceSheet = ({ onSave, initialData ,backButton, orderId, editAllowed })
                 </tr>
                 <tr>
                   {forecastBalSheetData.map((item, index) => (
-                    <td key={index} align="right">
+                    <td key={index} align="right" class>
                       <input type="text" className="w-50px form-control p-0 text-center border-radius-0px bg-light-blue text-blue fw-600 mb-5px border-1 border-blue" value={year + index} disabled />
                       <input
                         type="text"
@@ -140,7 +140,7 @@ const BalanceSheet = ({ onSave, initialData ,backButton, orderId, editAllowed })
                 </tr>
                 <tr>
                   {forecastBalSheetData.map((item, index) => (
-                    <td key={index} align="right">
+                    <td key={index} align="right" >
                       <input type="text" className="w-50px form-control p-0 text-center border-radius-0px bg-light-blue text-blue fw-600 mb-5px border-1 border-blue" value={year + index} disabled />
                       <input
                         type="text"

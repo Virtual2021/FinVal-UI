@@ -28,7 +28,16 @@ const ValuationForm = () => {
       });
     const [editAllowed, setEdit] = useState(true);
     const [finData, setFinData] = useState([]);  
-    const [forecastData, setForecastData] = useState([]);  
+    const [forecastData, setForecastData] = useState([]); 
+    const [activeTab, setActiveTab] = useState("step"); // Default tab is 'step'
+
+    const renderTabContent = () => {
+        if (activeTab === "step") {
+            return <div className="bg-light-blue ps-15px pe-15px">{renderStep()}</div>;
+        } else if (activeTab === "graph") {
+            return <GraphElements data={companyData} finData={finData} forecastData={forecastData} />;
+        }
+    }; 
 
     const queryParams = new URLSearchParams(location.search);
     const step = parseInt(queryParams.get('step'), 10) || 0;
@@ -144,22 +153,51 @@ const ValuationForm = () => {
    return (
      <>
         <section className="position-relative p-0">
-            <div className="container-fluid">
-                <div className="row">
-                    <div className="col-lg-12 order-1 order-lg-2 md-mb-50px" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
-                    <div className="row">
-                        <div className="col-12 col-lg-5 bg-light-blue ps-15px pe-15px">
-                            {renderStep()}
-                        </div>
-                        <div className="col-12 col-lg-7">
-                            <GraphElements data={companyData} finData={finData} forecastData={forecastData}/>
-                        </div>
-                    </div>
+    <div className="container-fluid">
+        <div className="row">
+            <div className="col-lg-12 order-1 order-lg-2 md-mb-50px" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
 
+                {/* Mobile Tabs */}
+                <div className="d-block d-lg-none">
+                    <button
+                        className={`tab-button tab-btn-new ${activeTab === "step" ? "active" : ""}`}
+                        onClick={() => setActiveTab("step")}
+                    >
+                        Input Values
+                    </button>
+                    <button
+                        className={`tab-button tab-btn-new ${activeTab === "graph" ? "active" : ""}`}
+                        onClick={() => setActiveTab("graph")}
+                    >
+                        Your Details
+                    </button>
+                </div>
+
+                {/* Mobile View: Conditional rendering without reloading */}
+                <div className="d-block d-lg-none mt-3">
+                    <div style={{ display: activeTab === "step" ? "block" : "none" }}>
+                        {renderStep()}
+                    </div>
+                    <div style={{ display: activeTab === "graph" ? "block" : "none" }}>
+                        <GraphElements data={companyData} finData={finData} forecastData={forecastData} />
                     </div>
                 </div>
-            </div> 
-        </section>
+
+                {/* Desktop View: Show both components side-by-side */}
+                <div className="row d-none d-lg-flex">
+                    <div className="col-12 col-lg-5 bg-light-blue ps-15px pe-15px">
+                        {renderStep()}
+                    </div>
+                    <div className="col-12 col-lg-7">
+                        <GraphElements data={companyData} finData={finData} forecastData={forecastData} />
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</section>
+
         <div className="scroll-progress d-none d-xxl-block">
             <a href="#" className="scroll-top" aria-label="scroll">
                 <span className="scroll-text">Scroll</span><span className="scroll-line"><span className="scroll-point"></span></span>

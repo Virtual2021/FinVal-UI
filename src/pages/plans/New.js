@@ -87,7 +87,7 @@ const New = () => {
                     <Loader /> // Loader shown while fetching data
                 ) : (
                     <div className="row align-items-center justify-content-center position-relative z-index-1">
-                        <div className="col-md-11">
+                        <div className="col-md-11 sm-ps-0 sm-pe-0">
                             <div className="card mt-15px rounded-bottom-0 border-0 box-shadow">
                                 <div className="card-header fw-600 mb-0 align-items-center bg-white text-blue">Plans & Billings</div>
                                 <div className="card-body overflow-hidden ps-15px pe-15px pt-0 pb-0">

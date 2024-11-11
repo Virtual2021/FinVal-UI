@@ -137,7 +137,7 @@ const Table = ({data}) => {
                         <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue desktop-only">Created On</th>
                         <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue desktop-only">Submitted On</th>
                         <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue desktop-only">Completed On</th>
-                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue desktop-only">Invoice</th>
+                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue desktop-only">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -208,7 +208,7 @@ const Table = ({data}) => {
                                         onClick={() => toggleRow(index)} 
                                         className="btn btn-link p-0 border-0 toggle-details"
                                     >
-                                        {expandedRows[index] ? <i className="bi bi-dash"></i> : <i className="bi bi-plus"></i>}
+                                        {expandedRows[index] ? <i className="bi bi-dash-circle-fill sm-fs-15"></i> : <i className="bi bi-plus-circle-fill sm-fs-15"></i>}
                                     </button>
                                 </td>
                                 <td className="fs-14 desktop-only">{order['country']}</td>
@@ -227,7 +227,7 @@ const Table = ({data}) => {
                                             <p><strong>Created On:</strong> {formatDate(order['createdAt'])}</p>
                                             <p><strong>Submitted On:</strong> {order['submittedOn'] && formatDate(order['submittedOn'])}</p>
                                             <p><strong>Completed On:</strong> {order['completedOn'] && formatDate(order['completedOn'])}</p>
-                                            <p><strong>Invoice:</strong> {renderLink(order['status'], order['_id'], order['submittedOn'], order['custody'], order['remaining_hours'], order['resubmit_pending'], order['orderplan'])}</p>
+                                            <p><strong>Action:</strong> {renderLink(order['status'], order['_id'], order['submittedOn'], order['custody'], order['remaining_hours'], order['resubmit_pending'], order['orderplan'])}</p>
                                         </div>
                                     </td>
                                 </tr>

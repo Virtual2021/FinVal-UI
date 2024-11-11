@@ -70,7 +70,7 @@ useEffect(() => {
             <div className="row">
                 <div className="col-lg-12 order-1 order-lg-2 md-mb-50px" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
                     <div className="row align-items-center justify-content-center position-relative z-index-1">
-                        <div className="col-md-11">
+                        <div className="col-md-11 sm-ps-0 sm-pe-0">
                             <div className="card mt-15px rounded-bottom-0 border-0 box-shadow">
                                 <div className="card-header fw-600 mb-0 align-items-center bg-white text-blue">Upgrade Plan</div>
                                 <div className="card-body overflow-hidden ps-15px pe-15px pt-0 pb-0">
