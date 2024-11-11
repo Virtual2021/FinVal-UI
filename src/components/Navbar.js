@@ -50,12 +50,12 @@ const Navbar = () => {
                     <div className="col-auto text-end d-none d-sm-flex"> 
                         <div className="header-icon lh-1">
                             <div className="header-button">
-                                <Link to="/payment" className="btn text-transform-none golden-btn lh-1"><i className="feather icon-feather-shopping-bag m-0"></i> BUY NOW</Link>
+                                <Link to="/pricing" className="btn text-transform-none golden-btn lh-1"><i className="feather icon-feather-shopping-bag m-0"></i> BUY NOW</Link>
                             </div>
                         </div>&nbsp;
                         <div className="header-icon lh-1">
                             <div className="header-button">
-                                <Link to="/payment" className="btn text-transform-none golden-btn lh-1"><i className="bi bi-person-circle m-0"></i> LOGIN</Link>
+                                <Link to="/user-login" className="btn text-transform-none golden-btn lh-1"><i className="bi bi-person-circle m-0"></i> LOGIN</Link>
                             </div>
                         </div>
                         {/* <div className="header-icon lh-1 ms-15px">

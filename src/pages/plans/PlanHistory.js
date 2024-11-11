@@ -32,7 +32,7 @@ const PlanHistory = ({data}) => {
                         <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue desktop-only w-50px">#Reports<br/>Utilized</th>
                         <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue desktop-only w-110px">Plan Expiry Date</th>
                         <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue w-100px">Status</th>
-                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue desktop-only w-110px">Action</th>
+                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue desktop-only w-110px">Invoice</th>
                         <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue mobile-only text-center">Details</th>
                     </tr>
                 </thead>

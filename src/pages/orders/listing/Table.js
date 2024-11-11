@@ -137,7 +137,7 @@ const Table = ({data}) => {
                         <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue desktop-only">Created On</th>
                         <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue desktop-only">Submitted On</th>
                         <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue desktop-only">Completed On</th>
-                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue desktop-only">Invoice</th>
+                        <th scope="col" className="text-nowrap bg-blue text-white fw-600 border-solid border-1 border-light-blue desktop-only">Action</th>
                     </tr>
                 </thead>
                 <tbody>
