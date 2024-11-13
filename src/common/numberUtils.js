@@ -11,6 +11,15 @@ export function formatNumber(num) {
     return number < 0 ? `(${formattedNum})` : formattedNum;
   }
 
+export function formatPreviewNumber(num) {
+  if (num === undefined || num === null) return "";
+  const number = parseFloat(num);
+  if (isNaN(number)) return "";
+  
+  const formattedNum = Math.abs(number).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return number < 0 ? `(${formattedNum})` : formattedNum;
+}  
+
 export function formatFrontNumber(num) {
     if (num === undefined || num === null) return "";
     const number = parseFloat(num);

@@ -9,6 +9,7 @@ import './ValuationForm.css';
 import axios from 'axios';
 import { apiURL } from '../../config/Config';
 import GraphElements from './Graph/GraphElements';
+import Loader from '../../common/Loader';
 
 const ValuationForm = () => {
     const { orderId } = useParams();
@@ -29,15 +30,15 @@ const ValuationForm = () => {
     const [editAllowed, setEdit] = useState(true);
     const [finData, setFinData] = useState([]);  
     const [forecastData, setForecastData] = useState([]); 
-    const [activeTab, setActiveTab] = useState("step"); // Default tab is 'step'
+    // const [activeTab, setActiveTab] = useState("step"); // Default tab is 'step'
 
-    const renderTabContent = () => {
-        if (activeTab === "step") {
-            return <div className="bg-light-blue ps-15px pe-15px">{renderStep()}</div>;
-        } else if (activeTab === "graph") {
-            return <GraphElements data={companyData} finData={finData} forecastData={forecastData} />;
-        }
-    }; 
+    // const renderTabContent = () => {
+    //     if (activeTab === "step") {
+    //         return <div className="bg-light-blue ps-15px pe-15px">{renderStep()}</div>;
+    //     } else if (activeTab === "graph") {
+    //         return <GraphElements data={companyData} finData={finData} forecastData={forecastData} />;
+    //     }
+    // }; 
 
     const queryParams = new URLSearchParams(location.search);
     const step = parseInt(queryParams.get('step'), 10) || 0;
@@ -122,7 +123,7 @@ const ValuationForm = () => {
 
     const renderStep = () => {
         if (isLoading) {
-            return <div>Loading...</div>; // Display loading indicator
+            return <Loader /> // Display loading indicator
         }
       
         switch (currentStep) {
@@ -158,7 +159,7 @@ const ValuationForm = () => {
             <div className="col-lg-12 order-1 order-lg-2 md-mb-50px" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
 
                 {/* Mobile Tabs */}
-                <div className="d-block d-lg-none">
+                {/* <div className="d-block d-lg-none">
                     <button
                         className={`tab-button tab-btn-new ${activeTab === "step" ? "active" : ""}`}
                         onClick={() => setActiveTab("step")}
@@ -171,17 +172,17 @@ const ValuationForm = () => {
                     >
                         Your Details
                     </button>
-                </div>
+                </div> */}
 
                 {/* Mobile View: Conditional rendering without reloading */}
-                <div className="d-block d-lg-none mt-3">
+                {/* <div className="d-block d-lg-none mt-3">
                     <div style={{ display: activeTab === "step" ? "block" : "none" }}>
                         {renderStep()}
                     </div>
                     <div style={{ display: activeTab === "graph" ? "block" : "none" }}>
                         <GraphElements data={companyData} finData={finData} forecastData={forecastData} />
                     </div>
-                </div>
+                </div> */}
 
                 {/* Desktop View: Show both components side-by-side */}
                 <div className="row d-none d-lg-flex">
@@ -198,11 +199,6 @@ const ValuationForm = () => {
     </div>
 </section>
 
-        <div className="scroll-progress d-none d-xxl-block">
-            <a href="#" className="scroll-top" aria-label="scroll">
-                <span className="scroll-text">Scroll</span><span className="scroll-line"><span className="scroll-point"></span></span>
-            </a>
-        </div>
      </>
    );
 }
