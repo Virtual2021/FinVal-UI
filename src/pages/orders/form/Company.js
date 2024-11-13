@@ -16,7 +16,6 @@ import { apiURL } from '../../../config/Config';
 import CustomDropdown from './CustomDropdown';
 import PhoneInputs from './PhoneInputs';
 import "./Form.css";
-import SupportLink from './Modal/SupportLink';
 import Swal from 'sweetalert2';
 import Loader from "../../../common/Loader";
 

@@ -35,6 +35,12 @@ const Thanks = () => {
     navigate('/my-plan');
   };
 
+  const newOrder = async () => {
+    navigate({
+        pathname: `/valuation-form`,
+    });
+  }
+
   return (
     <section className="position-relative pt-15px pb-15px">
      
@@ -78,10 +84,13 @@ const Thanks = () => {
                         {/* Continue to Payment */}
                         <div className="row">
                             <div className="col-sm-12 text-center mt-2">
-                            <button type="button" onClick={handleClick} className="bg-blue h-40px lh-40 p-0 fs-12 mb-15px text-white fs-12 fw-600 text-capitalize fin-btn d-inline-block ls-05px w-100px border-radius-4px">
-                                <i className="feather icon-feather-arrow-left-circle m-0 fs-16 align-text-bottom"></i> My Plan
-                            </button>
-                            
+                              <button type="button" onClick={handleClick} className="bg-blue h-40px lh-40 p-0 fs-12 mb-15px text-white fs-12 fw-600 text-capitalize fin-btn d-inline-block ls-05px w-150px border-radius-4px">
+                                  <i className="feather icon-feather-arrow-left-circle m-0 fs-16 align-text-bottom"></i> Go To My Plans
+                              </button>
+                              &nbsp;&nbsp;
+                              <button type="button" onClick={newOrder} className="bg-blue h-40px lh-40 p-0 fs-12 mb-15px text-white fs-12 fw-600 text-capitalize fin-btn d-inline-block ls-05px w-200px border-radius-4px">
+                                  <i className="feather icon-feather-arrow-left-circle m-0 fs-16 align-text-bottom"></i> Create New Report Order
+                              </button>
                             </div>
                         </div>
                         </div>
