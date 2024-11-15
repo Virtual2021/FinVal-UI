@@ -22,7 +22,7 @@ const Navbar = () => {
 
     // Initial dropdown state, all set to closed
     const initialDropdownState = {
-        myAccount: false,
+        myAccount: true,
         product: false,
     };
 
@@ -80,7 +80,7 @@ const Navbar = () => {
                             <div className={`collapse navbar-collapse justify-content-center ${isNavbarCollapsed ? '' : 'show'}`} id="navbarNav">
                                 <ul className="navbar-nav">
                                     {/* My Account Dropdown */}
-                                    <li className="nav-item dropdown simple-dropdown hover-dropdown d-none sm-d-block">
+                                    <li className="nav-item dropdown d-none sm-d-block">
                                         <a
                                             href="#!"
                                             className="nav-link my-account-click"
@@ -95,7 +95,7 @@ const Navbar = () => {
                                             onClick={() => toggleDropdown('myAccount')}
                                         ></i>
                                         {dropdownOpen.myAccount && (
-                                            <ul className="dropdown-menu menu-li-hover my-account-ul">
+                                            <ul className="dropdown-menu menu-li-hover my-account-ul d-block">
                                                 <li><Link to="/valuation-form" onClick={closeNavbar}><i class='bi bi-pencil-square me-5px text-blue'></i>New Order</Link></li>
                                                 <li><Link to="/orders" onClick={closeNavbar}><i class='bi bi-box-seam me-5px text-blue'></i>My Orders</Link></li>
                                                 <li><Link to="/my-plan" onClick={closeNavbar}><i class='bi bi-clipboard-check me-5px text-blue'></i>Plans & Billing</Link></li>

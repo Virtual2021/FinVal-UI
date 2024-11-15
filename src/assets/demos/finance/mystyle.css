@@ -745,9 +745,13 @@ div:where(.swal2-container) h2:where(.swal2-title){
     }
     .year-text {
         font-size: 15px;
-        font-weight: bold;
-        color: #007bff;
+        /* font-weight: bold;
+        color: #007bff; */
         margin-right: 8px;
+    }
+    .year-label-cell{
+        font-size: 15px!important;
+        font-weight: 600;
     }
     .mytable td input{
         height: 30px;

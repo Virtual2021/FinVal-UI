@@ -208,7 +208,7 @@ const Table = ({data}) => {
                                         onClick={() => toggleRow(index)} 
                                         className="btn btn-link p-0 border-0 toggle-details"
                                     >
-                                        {expandedRows[index] ? <i className="bi bi-dash-circle-fill sm-fs-15"></i> : <i className="bi bi-plus-circle-fill sm-fs-15"></i>}
+                                        {expandedRows[index] ? <i className="bi bi-dash-circle-fill sm-fs-15 text-blue"></i> : <i className="bi bi-plus-circle-fill sm-fs-15 text-blue"></i>}
                                     </button>
                                 </td>
                                 <td className="fs-14 desktop-only">{order['country']}</td>

@@ -27,7 +27,7 @@ const CompanyData = ({data}) => {
                     </div>
                     <div className="col-8 p-0 ps-5px feature-box-content last-paragraph-no-margin lh-normal text-start">
                         <span className="d-block fw-600 text-black mb-0 fs-13 lh-1">{data.companyName}</span>
-                        <p className="fs-11 text-light-blue lh-normal">Company Name</p>
+                        <p className="fs-11 lh-normal">Company Name</p>
                     </div>
                 </div>
             </div>
@@ -42,7 +42,7 @@ const CompanyData = ({data}) => {
                     </div>
                     <div className="col-8 p-0 ps-5px feature-box-content last-paragraph-no-margin lh-normal text-start">
                         <span className="d-block fw-600 text-black mb-0 fs-13 lh-1">{data.companyType}</span>
-                        <p className="fs-11 text-light-blue lh-normal">Company Type</p>
+                        <p className="fs-11 lh-normal">Company Type</p>
                     </div>
                 </div>
             </div>
@@ -57,7 +57,7 @@ const CompanyData = ({data}) => {
                     </div>
                     <div className="col-8 p-0 ps-5px feature-box-content last-paragraph-no-margin lh-normal text-start">
                         <span className="d-block fw-600 text-black mb-0 fs-13 lh-1">{data.industryType}</span>
-                        <p className="fs-11 text-light-blue lh-normal">Industry</p>
+                        <p className="fs-11 lh-normal">Industry</p>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@ const CompanyData = ({data}) => {
                     </div>
                     <div className="col-8 p-0 ps-5px feature-box-content last-paragraph-no-margin lh-normal text-start">
                         <span className="d-block fw-600 text-black mb-0 fs-13 lh-1">{data.companyAge}</span>
-                        <p className="fs-11 text-light-blue lh-normal text-nowrap">Years in Business</p>
+                        <p className="fs-11 lh-normal text-nowrap">Years in Business</p>
                     </div>
                 </div>
             </div>

@@ -13,68 +13,68 @@ const Financial = ({data}) => {
                 <table className="fs-16 fw-400 lh-normal text-end">
                 <tbody>
                     <tr className="table-row">
-                        <td className="label-cell p-5px">Sales</td>
-                        <td className="colon-cell p-5px">:</td>
+                        <td className="label-cell p-5px sm-pe-0">Sales</td>
+                        <td className="colon-cell p-5px sm-ps-0">:</td>
                         <td className="data-cell fw-600 p-5px">{formatPreviewNumber(finance.sales)}</td>
                     </tr>
                     <tr className="table-row">
-                        <td className="label-cell p-5px">Cost of Sales</td>
-                        <td className="colon-cell p-5px">:</td>
+                        <td className="label-cell p-5px sm-pe-0">Cost of Sales</td>
+                        <td className="colon-cell p-5px sm-ps-0">:</td>
                         <td className="data-cell fw-600 p-5px">{formatPreviewNumber(finance.costOfSales)}</td>
                     </tr>
                     <tr className="table-row">
-                        <td className="label-cell p-5px">EBITDA</td>
-                        <td className="colon-cell p-5px">:</td>
+                        <td className="label-cell p-5px sm-pe-0">EBITDA</td>
+                        <td className="colon-cell p-5px sm-ps-0">:</td>
                         <td className="data-cell fw-600 p-5px">{formatPreviewNumber(finance.ebitda)}</td>
                     </tr>
                     <tr className="table-row">
-                        <td className="label-cell p-5px">Depreciation</td>
-                        <td className="colon-cell p-5px">:</td>
+                        <td className="label-cell p-5px sm-pe-0">Depreciation</td>
+                        <td className="colon-cell p-5px sm-ps-0">:</td>
                         <td className="data-cell fw-600 p-5px">{formatPreviewNumber(finance.depreciation)}</td>
                     </tr>
                     <tr className="table-row">
-                        <td className="label-cell p-5px">Interest Expense</td>
-                        <td className="colon-cell p-5px">:</td>
+                        <td className="label-cell p-5px sm-pe-0">Interest Expense</td>
+                        <td className="colon-cell p-5px sm-ps-0">:</td>
                         <td className="data-cell fw-600 p-5px">{formatPreviewNumber(finance.interestExpense)}</td>
                     </tr>
                     <tr className="table-row">
-                        <td className="label-cell p-5px">Cash Balance</td>
-                        <td className="colon-cell p-5px">:</td>
+                        <td className="label-cell p-5px sm-pe-0">Cash Balance</td>
+                        <td className="colon-cell p-5px sm-ps-0">:</td>
                         <td className="data-cell fw-600 p-5px">{formatPreviewNumber(finance.cashBalance)}</td>
                     </tr>
                     <tr className="table-row">
-                        <td className="label-cell p-5px">Net Profit</td>
-                        <td className="colon-cell p-5px">:</td>
+                        <td className="label-cell p-5px sm-pe-0">Net Profit</td>
+                        <td className="colon-cell p-5px sm-ps-0">:</td>
                         <td className="data-cell fw-600 p-5px">{formatPreviewNumber(finance.netProfit)}</td>
                     </tr>
                     <tr className="table-row">
-                        <td className="label-cell p-5px">Debt / Loan</td>
-                        <td className="colon-cell p-5px">:</td>
+                        <td className="label-cell p-5px sm-pe-0">Debt / Loan</td>
+                        <td className="colon-cell p-5px sm-ps-0">:</td>
                         <td className="data-cell fw-600 p-5px">{formatPreviewNumber(finance.debtLoan)}</td>
                     </tr>
                     <tr className="table-row">
-                        <td className="label-cell p-5px">Equity</td>
-                        <td className="colon-cell p-5px">:</td>
+                        <td className="label-cell p-5px sm-pe-0">Equity</td>
+                        <td className="colon-cell p-5px sm-ps-0">:</td>
                         <td className="data-cell fw-600 p-5px">{formatPreviewNumber(finance.equity)}</td>
                     </tr>
                     <tr className="table-row">
-                        <td className="label-cell p-5px">Receivables</td>
-                        <td className="colon-cell p-5px">:</td>
+                        <td className="label-cell p-5px sm-pe-0">Receivables</td>
+                        <td className="colon-cell p-5px sm-ps-0">:</td>
                         <td className="data-cell fw-600 p-5px">{formatPreviewNumber(finance.receivables)}</td>
                     </tr>
                     <tr className="table-row">
-                        <td className="label-cell p-5px">Inventories</td>
-                        <td className="colon-cell p-5px">:</td>
+                        <td className="label-cell p-5px sm-pe-0">Inventories</td>
+                        <td className="colon-cell p-5px sm-ps-0">:</td>
                         <td className="data-cell fw-600 p-5px">{formatPreviewNumber(finance.inventories)}</td>
                     </tr>
                     <tr className="table-row">
-                        <td className="label-cell p-5px">Payables</td>
-                        <td className="colon-cell p-5px">:</td>
+                        <td className="label-cell p-5px sm-pe-0">Payables</td>
+                        <td className="colon-cell p-5px sm-ps-0">:</td>
                         <td className="data-cell fw-600 p-5px">{formatPreviewNumber(finance.payables)}</td>
                     </tr>
                     <tr className="table-row">
-                        <td className="label-cell p-5px">Net Fixed Assets</td>
-                        <td className="colon-cell p-5px">:</td>
+                        <td className="label-cell p-5px sm-pe-0">Net Fixed Assets</td>
+                        <td className="colon-cell p-5px sm-ps-0">:</td>
                         <td className="data-cell fw-600 p-5px">{formatPreviewNumber(finance.netFixedAssets)}</td>
                     </tr>
                 </tbody>

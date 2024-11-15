@@ -118,7 +118,7 @@ const BalanceSheet = ({ onSave, initialData ,backButton, orderId, editAllowed })
               </thead>
               <tbody className="align-middle lh-sm">
                 <tr>
-                  <th scope="row" colSpan="5">Forecasted Net Addition in CAPEX/Fixed Assets</th>
+                  <th scope="row" colSpan="5" className="year-label-cell">Forecasted Net Addition in CAPEX/Fixed Assets</th>
                 </tr>
                 <tr>
                   {forecastBalSheetData.map((item, index) => (
@@ -136,7 +136,7 @@ const BalanceSheet = ({ onSave, initialData ,backButton, orderId, editAllowed })
                   ))}
                 </tr>
                 <tr>
-                  <th scope="row" colSpan="6">Forecasted Debt/Loan</th>
+                  <th scope="row" colSpan="6" className="year-label-cell">Forecasted Debt/Loan</th>
                 </tr>
                 <tr>
                   {forecastBalSheetData.map((item, index) => (

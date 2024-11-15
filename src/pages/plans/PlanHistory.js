@@ -68,7 +68,7 @@ const PlanHistory = ({data}) => {
                                         className="btn btn-link p-0 border-0 toggle-details"
                                     >
                                         
-                                        {expandedRows.includes(index) ? <i className="bi bi-dash-circle-fill sm-fs-15"></i> : <i class="bi bi-plus-circle-fill sm-fs-15"></i>}
+                                        {expandedRows.includes(index) ? <i className="bi bi-dash-circle-fill sm-fs-15 text-blue"></i> : <i class="bi bi-plus-circle-fill sm-fs-15 text-blue"></i>}
                                     </button>
                                 </td>
                             </tr>

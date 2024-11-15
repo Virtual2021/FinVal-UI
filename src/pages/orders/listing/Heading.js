@@ -15,7 +15,7 @@ const Heading = ({data}) => {
                             <div className="feature-box-icon feature-box-icon-rounded w-35px h-35px rounded-circle p-0">
                                 <i className="line-icon-Bulleted-List text-blue text-dark-blue-hover fs-16 fw-600"></i>
                             </div>
-                            <div className="col-12 col-md-8 feature-box-content last-paragraph-no-margin lh-normal text-start ps-10px">
+                            <div className="col-12 col-sm-8 col-md-8 feature-box-content last-paragraph-no-margin lh-normal text-start ps-10px">
                                 <p className="fs-12  lh-normal">Plan Type / Plan ID</p>
                                 <span className="d-block fw-600 text-black mb-0 fs-16">{customer.activePlanType || ''} {customer.planId ? '/ ' + customer.planId  : 'N/A'}</span>
                             </div>
@@ -28,7 +28,7 @@ const Heading = ({data}) => {
                             <div className="feature-box-icon feature-box-icon-rounded w-35px h-35px rounded-circle">
                                 <i className="line-icon-Box-Close text-blue text-dark-blue-hover fs-16 fw-600"></i>
                             </div>
-                            <div className="col-12 col-md-8 feature-box-content last-paragraph-no-margin lh-normal text-start ps-10px ">
+                            <div className="col-12 col-md-8 col-sm-8 feature-box-content last-paragraph-no-margin lh-normal text-start ps-10px ">
                                 <p className="fs-12  lh-normal">New Orders Available</p>
                                 <span className="d-block fw-600 text-black mb-0 fs-16">{customer.TotalPlanOrderedCount || 0}</span>
                             </div>
@@ -41,7 +41,7 @@ const Heading = ({data}) => {
                             <div className="feature-box-icon feature-box-icon-rounded w-35px h-35px rounded-circle">
                                 <i className="line-icon-Time-Backup text-blue text-dark-blue-hover fs-16 fw-600"></i>
                             </div>
-                            <div className="col-12 col-md-8 feature-box-content last-paragraph-no-margin lh-normal text-start ps-10px">
+                            <div className="col-12 col-md-8 col-sm-8 feature-box-content last-paragraph-no-margin lh-normal text-start ps-10px">
                                 <p className="fs-12  lh-normal text-nowrap">Days Remaining in plan</p>
                                 <span className="d-block fw-600 text-black mb-0 fs-16">{customer.daysLeft+1 || 0}</span>
                             </div>
