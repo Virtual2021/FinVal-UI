@@ -18883,6 +18883,9 @@
   .sm-min-h-100px {
     min-height: 100px !important;
   }
+  .sm-align-items-normal{
+    align-items: normal!important;
+  }
 }
 @media (max-width: 575px) {
   /* No margin */

@@ -47,7 +47,7 @@ const Support = ({documents}) => {
         className="modal-popup-main"
         overlayClassName="modal-overlay"
       >
-        <button onClick={closeModal} className="close-modal-btn">
+        <button onClick={closeModal} className="close-modal-btn z-index-9">
           &times;
         </button>
         <Upload documents={documents} />
