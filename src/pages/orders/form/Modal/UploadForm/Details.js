@@ -1,6 +1,7 @@
 const Details = () => {
   return (
     <div className="col-sm-6 sm-pe-0 sm-ps-0">
+        <p className="text-green d-none sm-d-block fs-13 mb-0 fw-600">Your plan offers help from our financial experts.</p>
         <fieldset className="ps-15px pe-15px pb-10px h-80 d-block">
         <legend className="fw-600 float-none border-1px col-auto fs-14 ps-15px pe-15px p-5px lh-1 border-radius-4px bg-light-blue text-blue m-0">How you can get support?</legend>
             <div className="p-15px sm-p-5px">

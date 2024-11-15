@@ -22,7 +22,7 @@ const Support = ({documents}) => {
           >
             <i className="bi bi-info-circle-fill"></i> Get Support?
           </a>
-          <ul className="cart-item-list p-15px bg-light-blue">
+          <ul className="cart-item-list p-15px bg-light-blue sm-d-none">
             <li className="cart-item align-items-center fs-12 p-0">
               <span>
                 Your plan offers help from our financial experts.
