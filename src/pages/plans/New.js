@@ -150,7 +150,7 @@ const New = () => {
                                                                     <ul class="list-style-01 p-0 mb-0">
                                                                         {contentArray.map((item, index) => (
                                                                             <li key={index} className="border-color-transparent-dark-very-light pe-10px ps-10px p-5px fs-14" style={{ display: "flex", alignItems: "flex-start" }}>
-                                                                                <i className="bi bi-check2-circle fs-18 fw-700 lh-1" style={{ color: "rgb(20, 193, 20)", marginRight: "8px", marginTop: "-4px" }}></i>
+                                                                                <i className="bi bi-check2-circle fs-18 fw-700 lh-1" style={{ color: "rgb(20, 193, 20)", marginRight: "8px" }}></i>
                                                                                 <span className="text-start lh-sm">{item}</span>
                                                                             </li>
                                                                           ))

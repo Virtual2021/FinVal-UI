@@ -963,7 +963,7 @@
     font-size: 11px;
   }
   .sm-fs-12 {
-    font-size: 12px;
+    font-size: 12px!important;
   }
   .sm-fs-13 {
     font-size: 13px;

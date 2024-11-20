@@ -161,7 +161,7 @@ const BalanceSheet = ({ onSave, initialData ,backButton, orderId, editAllowed })
                   <p className="fs-12 fw-600 m-0 pe-5px lh-1 w-110px text-end">Receivable Days</p>
                   <input
                     id="receivableDaysRange"
-                    className="range"
+                    className="range sm-width-range"
                     type="range"
                     value={forecastRipDaysData.receivableDays}
                     min="0"
@@ -186,7 +186,7 @@ const BalanceSheet = ({ onSave, initialData ,backButton, orderId, editAllowed })
                   <p className="fs-12 fw-600 m-0 pe-5px lh-1 w-110px text-end">Inventory Days</p>
                   <input
                     id="inventoryDaysRange"
-                    className="range"
+                    className="range sm-width-range"
                     type="range"
                     value={forecastRipDaysData.inventoryDays}
                     min="0"
@@ -211,7 +211,7 @@ const BalanceSheet = ({ onSave, initialData ,backButton, orderId, editAllowed })
                   <p className="fs-12 fw-600 m-0 pe-5px lh-1 w-110px text-end">Payable Days</p>
                   <input
                     id="payableDaysRange"
-                    className="range"
+                    className="range sm-width-range"
                     type="range"
                     value={forecastRipDaysData.payableDays}
                     min="0"
