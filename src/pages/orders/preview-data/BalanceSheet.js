@@ -79,11 +79,11 @@ const BalanceSheet = ({ data }) => {
         </table>
         <div className="col-sm-12">
           <div className="row">
-            <div className="col d-flex justify-content-center align-items-center">
+            <div className="col d-flex justify-content-center align-items-center sm-ps-0 sm-pe-0">
               <p className="fs-14 fw-600 m-0 pe-5px lh-1 w-120px text-end">Receivable Days</p>
               <input
                 id="receivableDaysRange"
-                className="range"
+                className="range sm-width-range"
                 type="range"
                 value={receivableDays}
                 min="0"
@@ -104,11 +104,11 @@ const BalanceSheet = ({ data }) => {
         </div>
         <div className="col-sm-12 mt-15px">
           <div className="row">
-            <div className="col d-flex justify-content-center align-items-center">
+            <div className="col d-flex justify-content-center align-items-center sm-ps-0 sm-pe-0">
               <p className="fs-14 fw-600 m-0 pe-5px lh-1 w-120px text-end">Inventory Days</p>
               <input
                 id="inventoryDaysRange"
-                className="range"
+                className="range sm-width-range"
                 type="range"
                 value={inventoryDays}
                 min="0"
@@ -129,11 +129,11 @@ const BalanceSheet = ({ data }) => {
         </div>
         <div className="col-sm-12 mt-15px">
           <div className="row">
-            <div className="col d-flex justify-content-center align-items-center">
+            <div className="col d-flex justify-content-center align-items-center sm-ps-0 sm-pe-0">
               <p className="fs-14 fw-600 m-0 pe-5px lh-1 w-120px text-end">Payable Days</p>
               <input
                 id="payableDaysRange"
-                className="range"
+                className="range sm-width-range"
                 type="range"
                 value={payableDays}
                 min="0"

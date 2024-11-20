@@ -29,13 +29,13 @@ const TableRow = ({ label, values, yearList, onValueChange, handleBlur }) => {
                               label === 'Forecasted Net Profit Margin (%)';
 
     return (
-        <tr className="table-row">
+        <tr className="table-row table-row-mobile-forecastinfo">
             {/* Row label as the first cell */}
-            <th scope="row" className="year-label-cell">{label}</th>
+            <th scope="row" className="year-label-cell table-heading-mobile">{label}</th>
 
             {/* Input cells for each value, with corresponding year for mobile view */}
             {values.map((value, index) => (
-                <td key={index} className="input-cell">
+            <td key={index} className="input-cell table-cell-mobile-forecastinfo">
                     <div className="input-wrapper">
                         <span className="year-text d-none sm-d-block">{yearList[index]}</span>
                         <input
@@ -218,7 +218,7 @@ const ForecastInfo = ({ onSave, initialData ,backButton, onPercentChange, orderI
                 data-scroll-options='{ "theme": "dark" }'
             >
                 <div className="row">
-    <div className="col-sm-12 p-15px ps-30px pe-30px">
+    <div className="col-sm-12 p-15px ps-30px pe-30px sm-bg-white-special">
         {/* Add the 'table-responsive' class to enable responsiveness */}
         <div className="table-responsive">
             <table className="table table-striped table-bordered fs-12 mytable">

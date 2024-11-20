@@ -40,15 +40,15 @@ const PlanHistory = ({data}) => {
                     {data.map((item, index) => (
                         <React.Fragment key={index}>
                             <tr>
-                                <td className="fs-14">{formatDate(item.createdAt)}</td>
-                                <td className="fs-14">{item.planId && item.planId.name}</td>
+                                <td className="fs-14 sm-fs-12">{formatDate(item.createdAt)}</td>
+                                <td className="fs-14 sm-fs-12">{item.planId && item.planId.name}</td>
                                 <td className="fs-14 desktop-only">{item.planSeqId}</td>
                                 <td className="fs-14 desktop-only">{item.orderType === "new" ? "New Order" : "Upgrade Order"}</td>
                                 <td className="fs-14 desktop-only">{item.balanceQuota}</td>
                                 <td className="fs-14 desktop-only">{item.planId.accessDays}</td>
                                 <td className="fs-14 desktop-only">{item.orders.length}</td>
                                 <td className="fs-14 desktop-only">{item.expiresAt ? formatDate(item.expiresAt) : 'NA'}</td>
-                                <td className="fs-14">{item.planStatusType ? ucfirst(item.planStatusType) : "NA"}</td>
+                                <td className="fs-14 sm-fs-12">{item.planStatusType ? ucfirst(item.planStatusType) : "NA"}</td>
                                 <td className="fs-14 desktop-only">
                                     {item.planStatusType === 'expired' && (
                                         <Link
@@ -77,9 +77,9 @@ const PlanHistory = ({data}) => {
                                 <tr className="bg-light mobile-only">
                                     <td colSpan="10">
                                         <div className="p-3">
-                                            <p><strong>Order Date:</strong> {formatDate(item.createdAt)}</p>
-                                            <p><strong>Plan Type:</strong> {item.planId && item.planId.name}</p>
-                                            <p><strong>Status:</strong> {item.planStatusType ? ucfirst(item.planStatusType) : "NA"}</p>
+                                            <p className="sm-mb-10px"><strong>Order Date:</strong> {formatDate(item.createdAt)}</p>
+                                            <p className="sm-mb-10px"><strong>Plan Type:</strong> {item.planId && item.planId.name}</p>
+                                            <p className="sm-mb-10px"><strong>Status:</strong> {item.planStatusType ? ucfirst(item.planStatusType) : "NA"}</p>
                                             {item.planStatusType === 'expired' && (
                                                 <Link
                                                     to={`${invoiceURL}${item.invoicePath}`} // Replace with the actual URL of the PDF

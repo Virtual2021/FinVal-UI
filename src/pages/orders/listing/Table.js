@@ -222,12 +222,12 @@ const Table = ({data}) => {
                                     <td colSpan="5">
                                         <div className="p-3">
                                             {/* Replace "Order#" with "Plan Id" in expanded details */}
-                                            <p><strong>Plan Id:</strong> {order?.orderplan?.planOrderId?.planSeqId ?? 'N/A'}</p>
-                                            <p><strong>Country:</strong> {order['country']}</p>
-                                            <p><strong>Created On:</strong> {formatDate(order['createdAt'])}</p>
-                                            <p><strong>Submitted On:</strong> {order['submittedOn'] && formatDate(order['submittedOn'])}</p>
-                                            <p><strong>Completed On:</strong> {order['completedOn'] && formatDate(order['completedOn'])}</p>
-                                            <p><strong>Action:</strong> {renderLink(order['status'], order['_id'], order['submittedOn'], order['custody'], order['remaining_hours'], order['resubmit_pending'], order['orderplan'])}</p>
+                                            <p className="sm-mb-10px"><strong>Plan Id:</strong> {order?.orderplan?.planOrderId?.planSeqId ?? 'N/A'}</p>
+                                            <p className="sm-mb-10px"><strong>Country:</strong> {order['country']}</p>
+                                            <p className="sm-mb-10px"><strong>Created On:</strong> {formatDate(order['createdAt'])}</p>
+                                            <p className="sm-mb-10px"><strong>Submitted On:</strong> {order['submittedOn'] && formatDate(order['submittedOn'])}</p>
+                                            <p className="sm-mb-10px"><strong>Completed On:</strong> {order['completedOn'] && formatDate(order['completedOn'])}</p>
+                                            <p className="sm-mb-10px"><strong>Action:</strong> {renderLink(order['status'], order['_id'], order['submittedOn'], order['custody'], order['remaining_hours'], order['resubmit_pending'], order['orderplan'])}</p>
                                         </div>
                                     </td>
                                 </tr>
