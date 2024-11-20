@@ -66,86 +66,99 @@ const Ebidta = ({data, finData, forecastData}) => {
         name: yr,
         y: Number(roundedValues.roundedNumbers[index]),
         drilldown: yr,
-        color: '#183ea3'
     }));
 
-
     const options = {
-        chart: {
-            type: 'bar'
-        },
-        title: {
-            align: 'left',
-            text: ''
-        },
-        credits: {
-            href: '',
-            mapText: '',
-            enabled: false
-        },
-        subtitle: {
-            align: 'left',
-            text: ''
-        },
-        accessibility: {
-            announceNewData: {
-                enabled: true
-            }
-        },
-        xAxis: {
-            type: 'category',
-            labels: {
-                style: {
-                    fontSize: '10' // Added 'px' for consistency
-                }
-            }
-        },
-        yAxis: {
-            title: {
-                text: ''
-            },
-            labels: {
-                enabled: false // Ensure labels are enabled
-            },
-            visible: true, // Ensure yAxis is visible
-            
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            bar: {
+      chart: {
+          type: 'bar' // Horizontal bar chart
+      },
+      title: {
+          align: 'left',
+          text: ''
+      },
+      credits: {
+          href: '',
+          mapText: '',
+          enabled: false
+      },
+      subtitle: {
+          align: 'left',
+          text: ''
+      },
+      accessibility: {
+          announceNewData: {
+              enabled: true
+          }
+      },
+      xAxis: {
+          type: 'category',
+          labels: {
+              style: {
+                  fontSize: '10px' // Ensure proper font size with units
+              }
+          }
+          
+      },
+      yAxis: {
+          title: {
+              text: ''
+          },
+          labels: {
+              enabled: false // Keep labels disabled
+          },
+          visible: true, // Ensure yAxis is visible
+          min: Math.min(0, Math.min(...roundedValues.roundedNumbers)), // Ensure it includes negative values
+          max: Math.max(...roundedValues.roundedNumbers),
+          plotLines: [
+              {
+                  value: 0, // Position the line at zero
+                  color: '#000', // Light grey color for the line
+                  dashStyle: 'Solid', // Dotted line style
+                  width: 1, // Thickness of the line
+                  zIndex: 3 // Ensure the line is above the bars
+              }
+          ]
+      },
+      legend: {
+          enabled: false
+      },
+      plotOptions: {
+          bar: {
               borderWidth: 0,
               borderRadius: 0
-            },
-            series: {
+          },
+          series: {
               borderWidth: 0,
               dataLabels: {
-                enabled: true,
-                formatter: function() {
-                  return `<span style="font-size:9px;color:#000000;">${formatNumber(this.y)}</span>`; // Set the color explicitly
-                },
-                style: {
-                  color: '#000000' // Ensure the text color is black
-                }
+                  enabled: true,
+                  formatter: function () {
+                      return `<span style="font-size:9px;color:#000000;">${formatNumber(this.y)}</span>`;
+                  },
+                  style: {
+                      color: '#000000'
+                  }
               }
-            }
           }
-,          
-        tooltip: {
-            headerFormat: '',
-            pointFormatter: function() {
-                return `<span style="color:${this.color};font-size:11px;"><b>${formatNumber(this.y)}</b></span>`;
-            }
-        },
-        series: [
-            {
-                name: 'EBITDA',
-                colorByPoint: true,
-                data: seriesData,
-            }
-        ]
-    };    
+      },
+      tooltip: {
+          headerFormat: '',
+          pointFormatter: function () {
+              return `<span style="color:${this.color};font-size:11px;"><b>${formatNumber(this.y)}</b></span>`;
+          }
+      },
+      series: [
+          {
+              name: 'EBITDA',
+              colorByPoint: false, // Disable default color assignment for each bar
+              data: year.map((yr, index) => ({
+                  name: yr, // Use corresponding year
+                  y: Number(roundedValues.roundedNumbers[index]), // Assign rounded value
+                  color: Number(roundedValues.roundedNumbers[index]) < 0 ? '#d9534f' : '#183ea3' // Red for negative, blue for positive
+              }))
+          }
+      ]
+  };
+  
     
       const containerStyle = {
         position: 'relative',

@@ -76,7 +76,7 @@ export function countries() {
         { name: "Honduras", code: "HN", lat: 15.199, lon: -86.2419 },
         { name: "Hungary", code: "HU", lat: 47.1625, lon: 19.5033 },
         { name: "Iceland", code: "IS", lat: 64.9631, lon: -19.0208 },
-        { name: "India", code: "IN", lat: 20.5937, lon: 78.9629 },
+        { name: "India", code: "IN", lat: 22, lon: 78.9629 },
         { name: "Indonesia", code: "ID", lat: -0.7893, lon: 113.9213 },
         { name: "Iran", code: "IR", lat: 32.4279, lon: 53.688 },
         { name: "Iraq", code: "IQ", lat: 33.2232, lon: 43.6793 },

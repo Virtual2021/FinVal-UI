@@ -68,10 +68,9 @@ const NetProfitMargin = ({data, finData, forecastData}) => {
         name: yr,
         y: Number(roundedValues.roundedNumbers[index]),
         drilldown: yr,
-        color: '#021a5b'
       }));
 
-      const options = {
+    const options = {
         chart: {
             type: 'spline'
         },
@@ -127,7 +126,8 @@ const NetProfitMargin = ({data, finData, forecastData}) => {
                 dataLabels: {
                     enabled: true,
                     formatter: function() {
-                        return `<span style="font-size:9px;"><b>${formatNumber(this.y)}</b></span>`;
+                        const color = this.y < 0 ? '#d9534f' : '#021a5b'; // Check if the value is negative
+                        return `<span style="font-size:9px; color:${color};"><b>${formatNumber(this.y)}</b></span>`;
                     }
                 },
                 enableMouseTracking: true  // Set to true to allow tooltip display
@@ -138,6 +138,15 @@ const NetProfitMargin = ({data, finData, forecastData}) => {
             marker: {
                 symbol: 'square'
             },
+            zones: [
+                {
+                    value: 0, // Below this value, the style applies
+                    color: '#d9534f' // Red marker for negative values
+                },
+                {
+                    color: '#021a5b' // Default marker color for non-negative values
+                }
+            ],
             data: seriesData,
         }],
     };

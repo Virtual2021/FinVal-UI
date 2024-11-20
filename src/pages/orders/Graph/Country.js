@@ -18,6 +18,8 @@ const Country = ({ data }) => {
                 'https://code.highcharts.com/mapdata/custom/world.topo.json'
             ).then(response => response.json());
 
+            console.log(topology);
+
             Highcharts.mapChart('finCountry', {
                 chart: {
                     map: topology
