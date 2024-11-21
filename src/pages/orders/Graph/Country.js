@@ -1,12 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Highcharts from 'highcharts/highmaps';
 import { countries } from '../../../common/Country';
+import indiaMapImage from '../../../assets/finimg/India-map-new.png'; // Import the India map image
+
+// Import FontAwesome Icons for zoom buttons
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
 const Country = ({ data }) => {
-    // Define the countries array with name, code, latitude, and longitude
     const countriesList = countries();
+    const [isIndiaSelected, setIsIndiaSelected] = useState(false); // Track if India is selected
+    const [zoomLevel, setZoomLevel] = useState(1);  // State to manage zoom level
 
-    // Function to update the map based on the selected country name
     const updateMap = (countryName) => {
         const selectedCountry = countriesList.find(country => country.name === countryName);
         if (!selectedCountry) return;
@@ -41,8 +46,8 @@ const Country = ({ data }) => {
                     projection: {
                         name: 'WebMercator'
                     },
-                    center: [lon, lat], // Use selected country's coordinates
-                    zoom: 2.8 // Adjust the zoom level to focus on the country
+                    center: [lon, lat],
+                    zoom: 2.8
                 },
                 legend: {
                     enabled: false
@@ -73,25 +78,122 @@ const Country = ({ data }) => {
     };
 
     useEffect(() => {
-        // Update the map with the selected country from data.company
         if (data && data.country) {
-            updateMap(data.country);
+            if (data.country === "India") {
+                // Set state to indicate India is selected
+                setIsIndiaSelected(true);
+
+                // Destroy any existing Highcharts instance
+                Highcharts.charts.forEach(chart => {
+                    if (chart && chart.renderTo.id === 'finCountry') {
+                        chart.destroy();
+                    }
+                });
+
+                // Clear the container
+                const container = document.getElementById('finCountry');
+                if (container) {
+                    container.innerHTML = '';
+                }
+            } else {
+                // Reset state when India is not selected
+                setIsIndiaSelected(false);
+
+                // Render the Highcharts map
+                updateMap(data.country);
+            }
         }
     }, [data]);
 
+    // Handle zoom-in and zoom-out actions
+    const handleZoomIn = () => {
+        setZoomLevel(prevZoom => Math.min(prevZoom + 0.4, 2)); // Max zoom level of 2
+    };
+
+    const handleZoomOut = () => {
+        setZoomLevel(prevZoom => Math.max(prevZoom - 0.4, 1)); // Min zoom level of 1
+    };
+
+    // Handle mouse wheel zooming (for zooming in and out with the mouse wheel)
+    const handleWheelZoom = (event) => {
+        event.preventDefault();
+        const delta = event.deltaY;
+
+        // Zoom in for mouse wheel up and zoom out for mouse wheel down
+        if (delta < 0) {
+            setZoomLevel(prevZoom => Math.min(prevZoom + 0.1, 2)); // Max zoom level of 2
+        } else {
+            setZoomLevel(prevZoom => Math.max(prevZoom - 0.1, 1)); // Min zoom level of 1
+        }
+    };
+
     return (
-    <>        
-        {data.country && 
-            <div className="col-sm-12">
-                <div className="card mt-15px mb-15px rounded-bottom-0 border-0 box-shadow">
-                    <div className="card-header fw-700 fs-14 ps-10px pt-5px pb-0 mb-0 lh-normal border-0 bg-white text-blue">Geographical Presence ({data.country})</div>
-                    <div className="card-body p-0 overflow-hidden">
-                        <div id="finCountry" style={{ height: "200px" }}></div>
+        <>
+            {data.country &&
+                <div className="col-sm-12">
+                    <div className="card mt-15px mb-15px rounded-bottom-0 border-0 box-shadow">
+                        <div className="card-header fw-700 fs-14 ps-10px pt-5px pb-0 mb-0 lh-normal border-0 bg-white text-blue">
+                            Geographical Presence ({data.country})
+                        </div>
+                        <div 
+                            className="card-body p-0 overflow-hidden" 
+                            style={{ textAlign: "center", position: "relative" }}
+                            onWheel={handleWheelZoom}  // Add wheel event listener here
+                        >
+                            {isIndiaSelected ? (
+                                <>
+                                    {/* Zoom Buttons with FontAwesome Icons */}
+                                    <div style={{
+                                        position: "absolute", top: "65%", left: "3%", transform: "translateX(-50%)",
+                                        display: "block", gap: "10px", zIndex:"100"
+                                    }}>
+                                        <button
+                                            onClick={handleZoomIn}
+                                            style={{
+                                                padding: "5px", fontSize: "17px",fontWeight:"900", cursor: "pointer",
+                                                 color: "rgb(80 80 80)", border: "1px solid rgb(74 73 73 / 17%)",
+                                                 display: "flex", justifyContent: "center", alignItems: "center",background:"none"
+                                            }}
+                                        >
+                                            <FontAwesomeIcon icon={faPlus} />
+                                        </button>
+                                        <button
+                                            onClick={handleZoomOut}
+                                            style={{
+                                                padding: "5px", fontSize: "17px",fontWeight:"900", cursor: "pointer",
+                                                color: "rgb(80 80 80)", border: "1px solid rgb(74 73 73 / 17%)",
+                                                display: "flex", justifyContent: "center", alignItems: "center",background:"none"
+                                            }}
+                                        >
+                                            <FontAwesomeIcon icon={faMinus} />
+                                        </button>
+                                    </div>
+
+                                    {/* India Map Image with Zoom */}
+                                    <div style={{ textAlign: "center" }}>
+                                        <img
+                                            src={indiaMapImage}
+                                            alt="India Map"
+                                            style={{
+                                                maxWidth: "100%",
+                                                height: "auto",
+                                                objectFit: "contain",
+                                                transform: `scale(${zoomLevel})`, // Apply zoom level
+                                                transition: "transform 0.3s ease", // Smooth transition
+                                                maxHeight: "200px", // Max height to keep the image size manageable
+                                            }}
+                                        />
+                                    </div>
+                                </>
+                            ) : (
+                                // Render the Highcharts map container for other countries
+                                <div id="finCountry" style={{ height: "200px" }}></div>
+                            )}
+                        </div>
                     </div>
                 </div>
-            </div>
-        }    
-    </>
+            }
+        </>
     );
 };
 
