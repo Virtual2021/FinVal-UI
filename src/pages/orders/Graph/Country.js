@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Highcharts from 'highcharts/highmaps';
 import { countries } from '../../../common/Country';
-import indiaMapImage from '../../../assets/finimg/India-map-new.png'; // Import the India map image
+import indiaMapImage from '../../../assets/finimg/new-india.png'; // Import the India map image
 
 // Import FontAwesome Icons for zoom buttons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
