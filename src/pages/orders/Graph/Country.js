@@ -11,7 +11,14 @@ const Country = ({ data }) => {
     const countriesList = countries();
     const [isIndiaSelected, setIsIndiaSelected] = useState(false); // Track if India is selected
     const [zoomLevel, setZoomLevel] = useState(1);  // State to manage zoom level
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth); // Track window width
 
+    // Update window width on resize
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
     const updateMap = (countryName) => {
         const selectedCountry = countriesList.find(country => country.name === countryName);
         if (!selectedCountry) return;
@@ -107,24 +114,11 @@ const Country = ({ data }) => {
 
     // Handle zoom-in and zoom-out actions
     const handleZoomIn = () => {
-        setZoomLevel(prevZoom => Math.min(prevZoom + 0.4, 2)); // Max zoom level of 2
+        setZoomLevel(prevZoom => Math.min(prevZoom + 0.5, 2)); // Max zoom level of 2
     };
 
     const handleZoomOut = () => {
-        setZoomLevel(prevZoom => Math.max(prevZoom - 0.4, 1)); // Min zoom level of 1
-    };
-
-    // Handle mouse wheel zooming (for zooming in and out with the mouse wheel)
-    const handleWheelZoom = (event) => {
-        event.preventDefault();
-        const delta = event.deltaY;
-
-        // Zoom in for mouse wheel up and zoom out for mouse wheel down
-        if (delta < 0) {
-            setZoomLevel(prevZoom => Math.min(prevZoom + 0.1, 2)); // Max zoom level of 2
-        } else {
-            setZoomLevel(prevZoom => Math.max(prevZoom - 0.1, 1)); // Min zoom level of 1
-        }
+        setZoomLevel(prevZoom => Math.max(prevZoom - 0.5, 1)); // Min zoom level of 1
     };
 
     return (
@@ -135,24 +129,23 @@ const Country = ({ data }) => {
                         <div className="card-header fw-700 fs-14 ps-10px pt-5px pb-0 mb-0 lh-normal border-0 bg-white text-blue">
                             Geographical Presence ({data.country})
                         </div>
-                        <div 
-                            className="card-body p-0 overflow-hidden" 
-                            style={{ textAlign: "center", position: "relative" }}
-                            onWheel={handleWheelZoom}  // Add wheel event listener here
-                        >
+                        <div className="card-body p-0 overflow-hidden" style={{ textAlign: "center", position: "relative" }}>
                             {isIndiaSelected ? (
                                 <>
                                     {/* Zoom Buttons with FontAwesome Icons */}
                                     <div style={{
-                                        position: "absolute", top: "65%", left: "3%", transform: "translateX(-50%)",
-                                        display: "block", gap: "10px", zIndex:"100"
+                                        position: "absolute",
+                                        top: windowWidth <= 400 ? "36%" : "65%", // Adjust top based on screen width
+                                        left: windowWidth <= 400 ? "5%" : "4%", // Adjust left position for small screens
+                                        transform: "translateX(-50%)",
+                                        display: "block", gap: "10px", zIndex: "100"
                                     }}>
                                         <button
                                             onClick={handleZoomIn}
                                             style={{
-                                                padding: "5px", fontSize: "17px",fontWeight:"900", cursor: "pointer",
-                                                 color: "rgb(80 80 80)", border: "1px solid rgb(74 73 73 / 17%)",
-                                                 display: "flex", justifyContent: "center", alignItems: "center",background:"none"
+                                                padding: "5px", fontSize: "17px", fontWeight: "900", cursor: "pointer",
+                                                color: "rgb(80 80 80)", border: "1px solid rgb(74 73 73 / 17%)",
+                                                display: "flex", justifyContent: "center", alignItems: "center", background: "none"
                                             }}
                                         >
                                             <FontAwesomeIcon icon={faPlus} />
@@ -160,9 +153,9 @@ const Country = ({ data }) => {
                                         <button
                                             onClick={handleZoomOut}
                                             style={{
-                                                padding: "5px", fontSize: "17px",fontWeight:"900", cursor: "pointer",
+                                                padding: "5px", fontSize: "17px", fontWeight: "900", cursor: "pointer",
                                                 color: "rgb(80 80 80)", border: "1px solid rgb(74 73 73 / 17%)",
-                                                display: "flex", justifyContent: "center", alignItems: "center",background:"none"
+                                                display: "flex", justifyContent: "center", alignItems: "center", background: "none"
                                             }}
                                         >
                                             <FontAwesomeIcon icon={faMinus} />
@@ -179,7 +172,7 @@ const Country = ({ data }) => {
                                                 height: "auto",
                                                 objectFit: "contain",
                                                 transform: `scale(${zoomLevel})`, // Apply zoom level
-                                                transition: "transform 0.3s ease", // Smooth transition
+                                                transition: "transform 0.6s ease", // Smooth transition
                                                 maxHeight: "200px", // Max height to keep the image size manageable
                                             }}
                                         />
