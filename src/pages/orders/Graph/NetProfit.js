@@ -71,7 +71,6 @@ const NetProfit = ({data, finData, forecastData}) => {
         name: yr,
         y: Number(roundedValues.roundedNumbers[index]),
         drilldown: yr,
-        color: '#183ea3'
     }));
 
     const options = {
@@ -94,41 +93,29 @@ const NetProfit = ({data, finData, forecastData}) => {
             crosshair: true,
             labels: {
                 style: {
-                    fontSize: '10'
+                    fontSize: '10px'
                 }
             },
-            gridLineWidth: 1, // Add grid lines
-            gridLineColor: '#e0e0e0', // Set grid line color
-            gridLineDashStyle: 'ShortDash' // Set grid line style
         }],
-        yAxis: [{ // Primary yAxis for waveData (Net Profit Margin)
+        yAxis: [{ 
             title: {
                 text: ''
             },
             labels: {
-                format: '{value}%',
-                enabled: false
+                enabled: false // Disable yAxis labels
             },
-            visible: false,
-            min: Math.min(0, Math.min(...updatedNetProfitMarginPercent)), // Adjust min to handle negative values
-            gridLineWidth: 1, // Optionally add grid lines here
-            gridLineColor: '#e0e0e0', // Optionally set grid line color here
-            gridLineDashStyle: 'ShortDash' // Optionally set grid line style here
-        }, 
-        { // Secondary yAxis for seriesData (Net Profit)
-            title: {
-                text: ''
-            },
-            labels: {
-                format: '{value}',
-                enabled: false
-            },
-            visible: false,
-            min: Math.min(0, Math.min(...updatedNetProfit)), // Adjust min dynamically based on negative values
-            max: Math.max(...updatedNetProfit),
-            gridLineWidth: 1, // Optionally add grid lines here
-            gridLineColor: '#e0e0e0', // Optionally set grid line color here
-            gridLineDashStyle: 'ShortDash' // Optionally set grid line style here
+            gridLineWidth: 1, // Enable grid lines
+            gridLineColor: '#e0e0e0',
+            gridLineDashStyle: 'ShortDash',
+            min: Math.min(0, Math.min(...roundedValues.roundedNumbers)), // Ensure it includes negative values
+            max: Math.max(...roundedValues.roundedNumbers),
+            plotLines: [{ // Add a zero line
+                value: 0,
+                color: '#000',
+                width: 1,
+                zIndex: 5,
+                dashStyle: 'Solid' // Optional: Style the zero line
+            }]
         }],
         tooltip: {
             shared: false
@@ -142,20 +129,29 @@ const NetProfit = ({data, finData, forecastData}) => {
         series: [{
             name: 'Net Profit',
             type: 'column',
-            yAxis: 0, // Associate with primary yAxis (waveData)
             data: seriesData,
-            color:'#183ea3',
+            zones: [
+                {
+                    value: 0, // Apply this zone for values less than 0
+                    color: '#d9534f' // Red color for negative values
+                },
+                {
+                    color: '#183ea3' // Blue color for positive values
+                }
+            ],
             tooltip: {
                 headerFormat: '',
-                pointFormatter: function() {
+                pointFormatter: function () {
                     return `<span style="color:${this.color};font-size:11px;"><b>${formatNumber(this.y)}</b></span>`;
                 },
             },
-            borderWidth: 0,
             dataLabels: {
                 enabled: true,
-                formatter: function() {
+                formatter: function () {
                     return `<span style="font-size:9px;"><b>${formatNumber(this.y)}</b></span>`;
+                },
+                style: {
+                    fontSize: '9px'
                 }
             }
         }]
