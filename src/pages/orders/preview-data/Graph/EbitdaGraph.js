@@ -153,7 +153,7 @@ const EbidtaGraph = ({data, finData, forecastData}) => {
                 data: roundedValues.roundedNumbers.map((value, index) => ({
                     name: year[index], // Use corresponding year
                     y: value, // Assign rounded value
-                    color: value < 0 ? '#d9534f' : '#183ea3' // Red for negative, blue for positive
+                    color: value < 0 ? '#ff7f7f' : '#183ea3' // Red for negative, blue for positive
                 }))
             }
         ]
