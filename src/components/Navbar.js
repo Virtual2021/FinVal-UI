@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
 import logo from "../assets/finimg/logo.png";
 import goldenlogo from "../assets/finimg/logo-golden.png";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -6,6 +7,30 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './Auth/Navbar.css';
 
 const Navbar = () => {
+    useEffect(() => {
+        const navLinks = document.querySelectorAll(".new-nav-link");
+        const navbarCollapse = document.querySelector(".collapse.navbar-collapse");
+    
+        navLinks.forEach((link) => {
+          link.addEventListener("click", () => {
+            if (navbarCollapse) {
+                navbarCollapse.classList.remove("show");
+            }
+          });
+        });
+    
+        // Cleanup listeners when the component unmounts
+        return () => {
+          navLinks.forEach((link) => {
+            link.removeEventListener("click", () => {
+              if (navbarCollapse) {
+                navbarCollapse.classList.remove("show");
+              }
+            });
+          });
+        };
+      }, []);
+    
   return (
     <>
         <header>
@@ -27,23 +52,23 @@ const Navbar = () => {
                         </button>
                         <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
                             <ul className="navbar-nav alt-font"> 
-                                <li className="nav-item"><a href="/" className="nav-link">Home</a></li>
-                                <li className="nav-item"><Link to="/about" className="nav-link">About</Link></li>
+                                <li className="nav-item"><a href="/" className="nav-link  new-nav-link">Home</a></li>
+                                <li className="nav-item"><Link to="/about" className="nav-link  new-nav-link">About</Link></li>
                                 <li className="nav-item dropdown simple-dropdown hover-dropdown">
                                     <a href="#!" className="nav-link">Product</a>
                                     <i className="fa-solid fa-angle-down dropdown-toggle" id="navbarDropdownMenuLink_1" role="button" aria-expanded="false"></i>
                                     <ul className="dropdown-menu menu-li-hover" aria-labelledby="navbarDropdownMenuLink">
-                                        <li><Link to="/how-it-works" className="text-base-color">How it works</Link></li>
+                                        <li><Link to="/how-it-works" className="text-base-color new-nav-link">How it works</Link></li>
                                         <li><a href="#!" className="text-base-color">Finance planning</a></li>
                                         <li><a href="#!" className="text-base-color">Wealth management</a></li>
                                         <li><a href="#!" className="text-base-color">Strategic planning</a></li>
                                         <li><a href="#!" className="text-base-color">Audit assurance</a></li>
                                     </ul>
                                 </li>
-                                <li className="nav-item"><Link to="/team" className="nav-link">Team</Link></li>
-                                <li className="nav-item"><Link to="/pricing" className="nav-link">Pricing</Link></li>
-                                <li className="nav-item"><Link to="/blog" className="nav-link">Blog</Link></li>
-                                <li className="nav-item"><Link to="/contact" className="nav-link">Contact</Link></li>
+                                <li className="nav-item"><Link to="/team" className="nav-link  new-nav-link">Team</Link></li>
+                                <li className="nav-item"><Link to="/pricing" className="nav-link  new-nav-link">Pricing</Link></li>
+                                <li className="nav-item"><Link to="/blog" className="nav-link  new-nav-link">Blog</Link></li>
+                                <li className="nav-item"><Link to="/contact" className="nav-link  new-nav-link">Contact</Link></li>
                             </ul>
                         </div>
                     </div>

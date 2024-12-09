@@ -30,7 +30,7 @@ const Blog = () => {
 
     return (
         <>
-            <section className="page-title-parallax-background half-section ipad-top-space-margin" style={bannerStyle}>
+            <section className="page-title-parallax-background half-section" style={bannerStyle}>
                 <div className="container">
                     <div className="row align-items-center justify-content-center">
                         <div className="col-12 text-center position-relative page-title-extra-large mt-15px">
@@ -50,116 +50,153 @@ const Blog = () => {
             <section className="padding-60-60">
                 <div className="container">
                     <div className="row">
-                        <div className="col-12 ps-0 pe-0" >
-                            <ul className="blog-side-image blog-wrapper grid grid-3col xxl-grid-3col xl-grid-3col lg-grid-3col md-grid-2col sm-grid-2col xs-grid-2col gutter-extra-large" style={{ position: "relative", height: "1200px" }}>
-                                <li className="grid-sizer"></li>
-                                <li className="grid-item" style={{ position: "absolute", left: "0%", top: "0px" }}>
+                        <div className="col-12 ps-0 pe-0">
+                            <ul className="blog-side-image blog-wrapper row gx-4 ps-0" style={{ position: 'relative' }}>
+                                <li className="col-lg-4 col-sm-6 mb-4">
                                     <div className="blog-box d-md-flex d-block flex-row h-100 border-radius-6px overflow-hidden box-shadow-extra-large">
                                         <div className="blog-content w-100 h-350px sm-w-100 p-3 bg-white d-flex flex-column justify-content-center align-items-start last-paragraph-no-margin">
-                                            <a href="/blog-details" className="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px ">Business</a>
+                                            <a href="/blog-details" className="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px">
+                                                Business
+                                            </a>
                                             <div className="heading-box-index">
-                                                <a href="/blog-details" className="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">Creativity is nothing but a mind set free.</a>
+                                                <a href="/blog-details" className="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">
+                                                    Creativity is nothing but a mind set free.
+                                                </a>
                                             </div>
-                                            
-                                            <p className=" gray-text fs-16 lh-28">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, Lorem Ipsum is simply dummy text.</p>
-                                            <div className="mt-15px"><span style={{ height: "2px", width: "10px" }} className="separator bg-sky-blue"></span><a href="/" className="gray-text text-dark-gray-hover d-inline-block fs-12 fw-500 fw-500 text-uppercase"> AUG 12,2024 | <span className="text-sky-blue">Fin-Valuation</span></a></div>
+                                            <p className="gray-text fs-16 lh-28">
+                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                                                industry's standard dummy text ever since the 1500s, Lorem Ipsum is simply dummy text.
+                                            </p>
+                                            <div className="mt-15px">
+                                                <span style={{ height: '2px', width: '10px' }} className="separator bg-sky-blue"></span>
+                                                <a href="/blog-details" className="gray-text text-dark-gray-hover d-inline-block fs-12 fw-500 text-uppercase">
+                                                    AUG 12,2024 | <span className="text-sky-blue">Fin-Valuation</span>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </li>
-                                
-                                <li className="grid-item" style={{ position: "absolute", left: "33.33%", top: "0px" }}>
+                                <li className="col-lg-4 col-sm-6 mb-4">
                                     <div className="blog-box d-md-flex d-block flex-row h-100 border-radius-6px overflow-hidden box-shadow-extra-large">
                                         <div className="blog-content w-100 h-350px sm-w-100 p-3 bg-white d-flex flex-column justify-content-center align-items-start last-paragraph-no-margin">
-                                            <a href="/blog-details" className="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px ">Finance</a>
+                                            <a href="/blog-details" className="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px">
+                                                Finance
+                                            </a>
                                             <div className="heading-box-index">
-                                            <a href="/blog-details" className="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">A business needs a successful mix of design.</a>
+                                                <a href="/blog-details" className="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">
+                                                    A business needs a successful mix of design.
+                                                </a>
                                             </div>
-                                            
-                                            <p className=" gray-text fs-16 lh-28">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, Lorem Ipsum is simply dummy text.</p>
-                                            <div className="mt-15px"><span style={{ height: "2px", width: "10px" }} className="separator bg-sky-blue"></span><a href="/" className="gray-text text-dark-gray-hover d-inline-block fs-12 fw-500 fw-500 text-uppercase"> AUG 12,2024 | <span className="text-sky-blue">Fin-Valuation</span></a></div>
+                                            <p className="gray-text fs-16 lh-28">
+                                                Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of
+                                                classical Latin literature from 45 BC, making it over 2000 years old. Lorem Ipsum is not simply
+                                                random text.
+                                            </p>
+                                            <div className="mt-15px">
+                                                <span style={{ height: '2px', width: '10px' }} className="separator bg-sky-blue"></span>
+                                                <a href="/blog-details" className="gray-text text-dark-gray-hover d-inline-block fs-12 fw-500 text-uppercase">
+                                                    AUG 11,2024 | <span className="text-sky-blue">Fin-Valuation</span>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </li>
-                                
-                                <li className="grid-item" style={{ position: "absolute", left: "66.66%", top: "0px" }}>
+                                <li className="col-lg-4 col-sm-6 mb-4">
                                     <div className="blog-box d-md-flex d-block flex-row h-100 border-radius-6px overflow-hidden box-shadow-extra-large">
                                         <div className="blog-content w-100 h-350px sm-w-100 p-3 bg-white d-flex flex-column justify-content-center align-items-start last-paragraph-no-margin">
-                                            <a href="/blog-details" className="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px ">Business</a>
+                                            <a href="/blog-details" className="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px">
+                                                Business
+                                            </a>
                                             <div className="heading-box-index">
-                                            <a href="/blog-details" className="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">A dream doesn't become reality through magic.</a>
+                                                <a href="/blog-details" className="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">
+                                                    A dream doesn't become reality through magic.
+                                                </a>
                                             </div>
-                                            
-                                            <p className=" gray-text fs-16 lh-28">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, Lorem Ipsum is simply dummy text.</p>
-                                            <div className="mt-15px"><span style={{ height: "2px", width: "10px" }} className="separator bg-sky-blue"></span><a href="/" className="gray-text text-dark-gray-hover d-inline-block fs-12 fw-500 fw-500 text-uppercase"> AUG 12,2024 | <span className="text-sky-blue">Fin-Valuation</span></a></div>
+                                            <p className="gray-text fs-16 lh-28">
+                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                                                industry's standard dummy text ever since the 1500s, Lorem Ipsum is simply dummy text.
+                                            </p>
+                                            <div className="mt-15px">
+                                                <span style={{ height: '2px', width: '10px' }} className="separator bg-sky-blue"></span>
+                                                <a href="/blog-details" className="gray-text text-dark-gray-hover d-inline-block fs-12 fw-500 text-uppercase">
+                                                    AUG 10,2024 | <span className="text-sky-blue">Fin-Valuation</span>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </li>
-                                
-                                <li className="grid-item" style={{ position: "absolute", left: "0%", top: "380px" }}>
+                                <li className="col-lg-4 col-sm-6 mb-4">
                                     <div className="blog-box d-md-flex d-block flex-row h-100 border-radius-6px overflow-hidden box-shadow-extra-large">
                                         <div className="blog-content w-100 h-350px sm-w-100 p-3 bg-white d-flex flex-column justify-content-center align-items-start last-paragraph-no-margin">
-                                            <a href="/blog-details" className="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px ">Creative</a>
+                                            <a href="/blog-details" className="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px">
+                                                Finance
+                                            </a>
                                             <div className="heading-box-index">
-                                                <a href="/blog-details" className="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">Build up healthy habits and strong peaceful life.</a>
+                                                <a href="/blog-details" className="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">
+                                                Build up healthy habits and strong peaceful life.
+                                                </a>
                                             </div>
-                                            
-                                            <p className=" gray-text fs-16 lh-28">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, Lorem Ipsum is simply dummy text.</p>
-                                            <div className="mt-15px"><span style={{ height: "2px", width: "10px" }} className="separator bg-sky-blue"></span><a href="/" className="gray-text text-dark-gray-hover d-inline-block fs-12 fw-500 fw-500 text-uppercase"> AUG 12,2024 | <span className="text-sky-blue">Fin-Valuation</span></a></div>
+                                            <p className="gray-text fs-16 lh-28">
+                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                                                industry's standard dummy text ever since the 1500s, Lorem Ipsum is simply dummy text.
+                                            </p>
+                                            <div className="mt-15px">
+                                                <span style={{ height: '2px', width: '10px' }} className="separator bg-sky-blue"></span>
+                                                <a href="/blog-details" className="gray-text text-dark-gray-hover d-inline-block fs-12 fw-500 text-uppercase">
+                                                    AUG 09,2024 | <span className="text-sky-blue">Fin-Valuation</span>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </li>
-                                
-                                <li className="grid-item" style={{ position: "absolute", left: "33.33%", top: "380px" }}>
+                                <li className="col-lg-4 col-sm-6 mb-4">
                                     <div className="blog-box d-md-flex d-block flex-row h-100 border-radius-6px overflow-hidden box-shadow-extra-large">
                                         <div className="blog-content w-100 h-350px sm-w-100 p-3 bg-white d-flex flex-column justify-content-center align-items-start last-paragraph-no-margin">
-                                            <a href="/blog-details" className="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px ">Finance</a>
+                                            <a href="/blog-details" className="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px">
+                                                Creative
+                                            </a>
                                             <div className="heading-box-index">
-                                            <a href="/blog-details" className="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">Everything is design are designed well.</a>
+                                                <a href="/blog-details" className="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">
+                                                Creative Make it simple, but significant.
+                                                </a>
                                             </div>
-                                            
-                                            <p className=" gray-text fs-16 lh-28">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, Lorem Ipsum is simply dummy text.</p>
-                                            <div className="mt-15px"><span style={{ height: "2px", width: "10px" }} className="separator bg-sky-blue"></span><a href="/" className="gray-text text-dark-gray-hover d-inline-block fs-12 fw-500 fw-500 text-uppercase"> AUG 12,2024 | <span className="text-sky-blue">Fin-Valuation</span></a></div>
+                                            <p className="gray-text fs-16 lh-28">
+                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                                                industry's standard dummy text ever since the 1500s, Lorem Ipsum is simply dummy text.
+                                            </p>
+                                            <div className="mt-15px">
+                                                <span style={{ height: '2px', width: '10px' }} className="separator bg-sky-blue"></span>
+                                                <a href="/blog-details" className="gray-text text-dark-gray-hover d-inline-block fs-12 fw-500 text-uppercase">
+                                                    AUG 08,2024 | <span className="text-sky-blue">Fin-Valuation</span>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </li>
-                                
-                                <li className="grid-item" style={{ position: "absolute", left: "66.66%", top: "380px" }}>
+                                <li className="col-lg-4 col-sm-6 mb-4">
                                     <div className="blog-box d-md-flex d-block flex-row h-100 border-radius-6px overflow-hidden box-shadow-extra-large">
                                         <div className="blog-content w-100 h-350px sm-w-100 p-3 bg-white d-flex flex-column justify-content-center align-items-start last-paragraph-no-margin">
-                                            <a href="/blog-details" className="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px ">Business</a>
+                                            <a href="/blog-details" className="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px">
+                                                Business
+                                            </a>
                                             <div className="heading-box-index">
-                                            <a href="/blog-details" className="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">Creative Make it simple, but significant.</a>
+                                                <a href="/blog-details" className="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">
+                                                Everything is design are designed well.
+                                                </a>
                                             </div>
-                                            
-                                            <p className=" gray-text fs-16 lh-28">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, Lorem Ipsum is simply dummy text.</p>
-                                            <div className="mt-15px"><span style={{ height: "2px", width: "10px" }} className="separator bg-sky-blue"></span><a href="/" className="gray-text text-dark-gray-hover d-inline-block fs-12 fw-500 fw-500 text-uppercase"> AUG 12,2024 | <span className="text-sky-blue">Fin-Valuation</span></a></div>
+                                            <p className="gray-text fs-16 lh-28">
+                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                                                industry's standard dummy text ever since the 1500s, Lorem Ipsum is simply dummy text.
+                                            </p>
+                                            <div className="mt-15px">
+                                                <span style={{ height: '2px', width: '10px' }} className="separator bg-sky-blue"></span>
+                                                <a href="/blog-details" className="gray-text text-dark-gray-hover d-inline-block fs-12 fw-500 text-uppercase">
+                                                    AUG 07,2024 | <span className="text-sky-blue">Fin-Valuation</span>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </li>
-                                
-                                <li className="grid-item" style={{ position: "absolute", left: "0%", top: "760px" }}>
-                                    <div className="blog-box d-md-flex d-block flex-row h-100 border-radius-6px overflow-hidden box-shadow-extra-large">
-                                        <div className="blog-content w-100 h-350px sm-w-100 p-3 bg-white d-flex flex-column justify-content-center align-items-start last-paragraph-no-margin">
-                                            <a href="/blog-details" className="categories-btn bg-sky-blue text-white text-uppercase fw-500 mb-20px ">Business</a>
-                                            <div className="heading-box-index">
-                                            <a href="/blog-details" className="d-inline-block alt-font text-base-color fw-600 fs-20 lh-28">Creative Make it simple, but significant.</a>
-                                            </div>
-                                            
-                                            <p className=" gray-text fs-16 lh-28">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, Lorem Ipsum is simply dummy text.</p>
-                                            <div className="mt-15px"><span style={{ height: "2px", width: "10px" }} className="separator bg-sky-blue"></span><a href="/" className="gray-text text-dark-gray-hover d-inline-block fs-12 fw-500 fw-500 text-uppercase"> AUG 12,2024 | <span className="text-sky-blue">Fin-Valuation</span></a></div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="col-12 mt-4 d-flex justify-content-center">
-                            <ul className="pagination pagination-style-01 fs-13 fw-500 mb-0">
-                                <li className="page-item"><a className="page-link" href="/"><i className="feather icon-feather-arrow-left fs-18 d-xs-none"></i></a></li>
-                                <li className="page-item active"><a className="page-link" href="/">01</a></li>
-                                <li className="page-item "><a className="page-link" href="/">02</a></li>
-                                <li className="page-item"><a className="page-link" href="/">03</a></li>
-                                <li className="page-item"><a className="page-link" href="/">04</a></li>
-                                <li className="page-item"><a className="page-link" href="/"><i className="feather icon-feather-arrow-right fs-18 d-xs-none"></i></a></li>
                             </ul>
                         </div>
                     </div>

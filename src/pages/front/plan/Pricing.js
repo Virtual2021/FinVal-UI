@@ -78,7 +78,7 @@ const Team = () => {
                                     <h1 className="text-base-color alt-font mb-0 fw-600 ls-minus-1px">Pricing <span className="text-sky-blue">Plans</span></h1>
                                 </div>
                                 <div className="mt-auto justify-content-center breadcrumb breadcrumb-style-01 alt-font text-white">
-                                    <p className="text-base-color">Set the price based on how long you plan to use FinVal and benefit from a simple, one-time payment pricing.</p>
+                                    <p className="text-base-color sm-fs-15">Set the price based on how long you plan to use FinVal and benefit from a simple, one-time payment pricing.</p>
                                 </div>
                             </div>
                         </div>
