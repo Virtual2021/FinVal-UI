@@ -105,7 +105,7 @@ const About = () => {
 
     return (
         <>
-            <section className="page-title-parallax-background half-section ipad-top-space-margin"
+            <section className="page-title-parallax-background half-section"
                 style={bannerStyle}>
                 <div className="container">
                     <div className="row align-items-center justify-content-center">
@@ -150,8 +150,8 @@ const About = () => {
                             <a href="/" className="btn btn-large btn-box-shadow fw-400 me-35px sm-me-25px btn-round-edge sky-blue-big-btn">Buy Now</a>
                         </div>
                         <div className="col-xl-5  col-lg-5  position-relative md-mb-6 sm-mb-50px">
-                            <div className="overflow-hidden text-end w-90 ms-auto" ref={elementRef4}>
-                                <img src={about_section} alt="" style={{ height: "450px" }} className="w-100 border-radius-5px" />
+                            <div className="overflow-hidden text-end w-90 sm-w-100 ms-auto" ref={elementRef4}>
+                                <img src={about_section} alt="" style={{ height: "450px" }} className="w-100 border-radius-5px sm-height-400" />
                             </div>
                         </div>
                     </div>

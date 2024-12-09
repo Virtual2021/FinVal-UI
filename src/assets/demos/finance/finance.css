@@ -82,8 +82,8 @@ header .navbar-brand img {
 }
 /* page title */
 .page-title-extra-large h1 {
-    font-size: 4.3rem;
-    line-height: 4.7rem;
+    font-size: 3.7rem;
+    line-height: 3.7rem;
 }
 /* media query responsive */
 @media (max-width: 1199px) {
@@ -113,6 +113,7 @@ header .navbar-brand img {
     }
     .page-title-extra-large h1 {
         line-height: 44px;
+        font-size: 3rem;
     }
     .sm-outside-box-right-0 {
         margin-right: 0;

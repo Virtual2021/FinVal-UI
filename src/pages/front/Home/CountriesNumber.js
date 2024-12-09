@@ -48,7 +48,7 @@ const CountriesNumber = () => {
           </div>
           <div className="col-12">
             <div className="row align-items-center align-items-lg-end">
-              <div className="col-lg-3 col-md-4 text-md-end text-center md-mt-30px md-mb-20px" 
+              <div className="col-lg-3 col-md-4 text-md-end text-center md-mt-30px md-mb-20px sm-d-none" 
                    data-anime='{"opacity": [0,1], "duration": 600, "delay": 0, "easing": "easeOutQuad"}'>
                 <div className="position-relative">
                   <img src="images/demo-branding-agency-about-01.png" className="animation-rotation" alt="" />

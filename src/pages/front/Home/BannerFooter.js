@@ -85,7 +85,7 @@ const BannerFooter = () => {
                     </div>
                 </div>
 
-                <div className="col icon-with-text-style-04 transition-inner-all">
+                <div className="col icon-with-text-style-04 transition-inner-all md-mb-30px">
                     <div className="feature-box bg-white h-100 justify-content-start p-15 pe-10px ps-10px lg-p-15 box-shadow-quadruple-large box-shadow-quadruple-large-hover border-radius-5px box-shadow-new">
                         <div className="feature-box-icon feature-box-icon-rounded mx-auto  fs-24  fw-500">
                             <i className="line-icon-Handshake fs-45 fw-600" style={{ color: "#4ea8f6" }}></i>
@@ -142,7 +142,7 @@ const BannerFooter = () => {
                     </div>
                 </div>
 
-                <div className="col-xl-4 col-lg-5 col-md-5" ref={elementRef5}>
+                <div className="col-xl-4 col-lg-5 col-md-5 sm-mt-10px" ref={elementRef5}>
                     <img src={banner_change} className="rounded-5px" style={{ marginBottom: "-30px" }} alt="Finval's accessible valuation platform" />
                 </div>
             </div>

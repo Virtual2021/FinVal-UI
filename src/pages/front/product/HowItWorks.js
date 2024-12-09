@@ -67,16 +67,16 @@ const HowItWorks = () => {
 
     return (
         <>
-            <section className="page-title-parallax-background half-section ipad-top-space-margin" style={bannerStyle}>
+            <section className="page-title-parallax-background half-section " style={bannerStyle}>
                 <div className="container">
                     <div className="row align-items-center justify-content-center">
                         <div className="col-12 text-center position-relative page-title-extra-large mt-15px">
                             <div className="d-flex flex-column h-100px">
                                 <div className="mt-auto" useRef={elementRef1}>
-                                    <h1 className="text-base-color alt-font mb-0 fw-600 ls-minus-1px">One-Stop Solution for Business <span className="text-sky-blue"> Valuation</span></h1>
+                                    <h1 className="text-base-color alt-font mb-0 fw-600 ls-minus-1px sm-fs-24">One-Stop Solution for Business <span className="text-sky-blue"> Valuation</span></h1>
                                 </div>
                                 <div className="mt-auto justify-content-center breadcrumb breadcrumb-style-01 alt-font text-base-color">
-                                    <p className="text-base-color">We've made every effort to make the valuation as simple and clear as possible. Here is how it goes.</p>
+                                    <p className="text-base-color sm-fs-14 sm-lh-20">We've made every effort to make the valuation as simple and clear as possible. Here is how it goes.</p>
                                 </div>
                             </div>
                         </div>
