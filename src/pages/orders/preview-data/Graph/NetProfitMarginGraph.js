@@ -127,7 +127,7 @@ const NetProfitMarginGraph = ({data, finData, forecastData}) => {
                 dataLabels: {
                     enabled: true,
                     formatter: function() {
-                        const color = this.y < 0 ? '#d9534f' : '#021a5b'; // Check if the value is negative
+                        const color = this.y < 0 ? '#ff7f7f' : '#021a5b'; // Check if the value is negative
                         return `<span style="font-size:9px; color:${color};"><b>${formatNumber(this.y)}</b></span>`;
                     }
                 },
@@ -142,7 +142,7 @@ const NetProfitMarginGraph = ({data, finData, forecastData}) => {
             zones: [
                 {
                     value: 0, // Below this value, the style applies
-                    color: '#d9534f' // Red marker for negative values
+                    color: '#ff7f7f' // Red marker for negative values
                 },
                 {
                     color: '#021a5b' // Default marker color for non-negative values

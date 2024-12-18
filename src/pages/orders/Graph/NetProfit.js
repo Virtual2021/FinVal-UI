@@ -133,7 +133,7 @@ const NetProfit = ({data, finData, forecastData}) => {
             zones: [
                 {
                     value: 0, // Apply this zone for values less than 0
-                    color: '#d9534f' // Red color for negative values
+                    color: '#ff7f7f' // Red color for negative values
                 },
                 {
                     color: '#183ea3' // Blue color for positive values

@@ -153,7 +153,7 @@ const Ebidta = ({data, finData, forecastData}) => {
               data: year.map((yr, index) => ({
                   name: yr, // Use corresponding year
                   y: Number(roundedValues.roundedNumbers[index]), // Assign rounded value
-                  color: Number(roundedValues.roundedNumbers[index]) < 0 ? '#d9534f' : '#183ea3' // Red for negative, blue for positive
+                  color: Number(roundedValues.roundedNumbers[index]) < 0 ? '#ff7f7f' : '#183ea3' // Red for negative, blue for positive
               }))
           }
       ]
