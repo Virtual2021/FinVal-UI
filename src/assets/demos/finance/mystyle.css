@@ -175,6 +175,9 @@
     --tran-04: all 0.3s ease;
     --tran-05: all 0.3s ease;
 }
+.   {
+    background-color: #f2f3f6!important;
+}
 .text-golden{
     color:var(--color-golden);
 }

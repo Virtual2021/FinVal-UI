@@ -55,7 +55,7 @@ const Join = () => {
   }, []);
 
   return (
-    <section className="big-section pt-60px" style={{ paddingBottom: "100px" }}>
+    <section className="big-section pt-60px bg-section-new" style={{ paddingBottom: "100px" }}>
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-lg-6 md-mb-15 xs-mb-22 position-relative" data-anime='{ "opacity": [0,1], "duration": 1000, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'>

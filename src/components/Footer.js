@@ -4,7 +4,7 @@ import logo from "../assets/finimg/logo-blue.png";
 const Footer = () => {
     return (
       <>
-      <footer className="footer-light pt-60px pb-50px" style={{"backgroundColor":"#e1eafcb5"}}>
+      <footer className="footer-light pt-60px pb-50px bg-footer-new" style={{"backgroundColor":"#e1eafcb5"}}>
         <div className="container">
             <div className="row justify-content-center ">
                 <div className="col-md-12 col-sm-10 text-center">

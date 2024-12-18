@@ -1,6 +1,6 @@
 const Blog = () => {
   return (
-    <section className="padding-60-60">
+    <section className="padding-60-60 bg-section-new">
       <div className="container">
         <div className="row justify-content-center mb-2 margin-8px">
           <div className="col-lg-7 text-center"
@@ -13,7 +13,7 @@ const Blog = () => {
         </div>
         <div className="row">
           <div className="col-12 ps-0 pe-0">
-            <ul className="blog-side-image blog-wrapper row gx-4 ps-0" style={{ position: 'relative' }}>
+            <ul className="blog-side-image blog-wrapper row gx-4 ps-0 sm-ps-10px sm-pe-10px" style={{ position: 'relative' }}>
               <li className="col-lg-4 col-sm-6 mb-4">
                 <div className="blog-box d-md-flex d-block flex-row h-100 border-radius-6px overflow-hidden box-shadow-extra-large">
                   <div className="blog-content w-100 h-350px sm-w-100 p-3 bg-white d-flex flex-column justify-content-center align-items-start last-paragraph-no-margin">
