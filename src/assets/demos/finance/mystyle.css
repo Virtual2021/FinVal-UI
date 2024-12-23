@@ -618,9 +618,9 @@ legend{
 
 
 .financial-info-input::placeholder {
-    color: grey !important; /* Change the color to your preference */
-    font-style: italic; /* Make the placeholder text italic */
-    opacity: 1; /* Ensure the opacity is set, as some browsers might lower it by default */
+    color: rgba(0, 0, 0, 0.25) !important; /* Change the color to your preference */
+    /* font-style: italic; Make the placeholder text italic */
+    opacity: 2; /* Ensure the opacity is set, as some browsers might lower it by default */
 }
 
 .financial-info-input-container {
@@ -639,15 +639,15 @@ legend{
 
 /* Apply styles when the placeholder is selected */
 .empty-selected {
-    color: grey;
-    font-style: italic;
+    color: rgba(0, 0, 0, 0.25)
+    /* font-style: italic; */
 }
 
 /* This ensures the styling is applied when the first option (placeholder) is selected */
-.empty-selected option:first-child {
+/* .empty-selected option:first-child {
     color: grey;
     font-style: italic;
-}
+} */
 
 .new-btn-color{
     background:#4ea8f6;
