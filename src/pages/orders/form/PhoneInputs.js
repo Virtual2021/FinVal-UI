@@ -37,11 +37,11 @@ const PhoneInputs = ({ value, onChange, error, name,disabled }) => {
     });
   
     // Simple validation: Check if the phone number is long enough
-    if (newPhoneNumber.replace(/[^0-9]/g, '').length < 10) {
-      setError('Phone number is too short');
-    } else {
-      setError('');
-    }
+    // if (newPhoneNumber.replace(/[^0-9]/g, '').length < 10) {
+    //   setError('Phone number is too short');
+    // } else {
+    //   setError('');
+    // }
   };
   
 
