@@ -93,8 +93,8 @@ const AdvisorUpgrade = ({ currentPlan, data }) => {
           </legend>
           <div className="table-responsive">
             {loading ? (
-              <div className="text-center">
-                <div className="spinner-border text-primary" role="status">
+              <div className="text-center d-flex justify-content-center align-items-center" style={{ height: '132px' }}>
+                <div className="spinner-border text-primary" role="status" >
                   <span className="visually-hidden">Loading...</span>
                 </div>
               </div>
