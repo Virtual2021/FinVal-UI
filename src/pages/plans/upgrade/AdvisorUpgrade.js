@@ -88,7 +88,7 @@ const AdvisorUpgrade = ({ currentPlan, data }) => {
         </fieldset>
 
         <fieldset className="mt-3">
-          <legend className="fw-600 float-none border-1px col-auto fs-14 ps-15px pe-15px p-5px lh-1 border-radius-4px bg-light-blue text-blue m-0 text-center">
+          <legend className="fw-600 float-none border-1px col-auto fs-14 ps-15px pe-15px p-5px lh-1 border-radius-4px bg-light-blue text-blue m-0 text-center mb-10px">
             Your current plan gets converted to following
           </legend>
           <div className="table-responsive">
@@ -113,8 +113,8 @@ const AdvisorUpgrade = ({ currentPlan, data }) => {
                     <tr>
                       <td>{selectedPlan.reports}</td>
                       <td>{selectedPlan.access_days}</td>
-                      <td>{selectedPlan.expiresAt}</td>
-                      <td>{selectedPlan.upgrade_price}</td>
+                      <td>{formatDate(selectedPlan.expiresAt)}</td>
+                      <td>{formatNumber(selectedPlan.upgrade_price)}</td>
                     </tr>
                   )}
                 </tbody>
@@ -141,8 +141,11 @@ const AdvisorUpgrade = ({ currentPlan, data }) => {
                 </thead>
                 <tbody>
                   {data.map((item, index) => (
-                    <tr key={index}>
-                      <td className="fs-14 p-0 h-40px">
+                     <tr
+                     key={index}
+                     className={selectedPlan && selectedPlan.id === item.id ? 'changeclass' : ''}
+                     >
+                      <td className="fs-14 p-0 h-40px bg-new-color">
                         <input
                           className="form-check-input p-0 mt-0 text-black w-15px h-15px border-blue"
                           type="radio"
@@ -153,13 +156,13 @@ const AdvisorUpgrade = ({ currentPlan, data }) => {
                           onChange={() => handleSelection(item)}
                         />
                       </td>
-                      <td className="fs-14 p-0">
+                      <td className="fs-14 p-0 bg-new-color">
                         <label htmlFor={`radio${index}`} className="d-block">{item.originalReports}</label>
                       </td>
-                      <td className="fs-14 p-0">
+                      <td className="fs-14 p-0 bg-new-color">
                         <label htmlFor={`radio${index}`} className="d-block">{item.originalAccessDays}</label>
                       </td>
-                      <td className="fs-14 p-0">
+                      <td className="fs-14 p-0 bg-new-color">
                         <label htmlFor={`radio${index}`} className="d-block">{formatNumber(item.price)}</label>
                       </td>
                     </tr>
@@ -184,11 +187,14 @@ const AdvisorUpgrade = ({ currentPlan, data }) => {
                 </thead>
                 <tbody>
                   {data.map((item, index) => (
-                    <tr key={index}>
-                      <td className="fs-14 h-40px">{item.reports}</td>
-                      <td className="fs-14">{item.access_days}</td>
-                      <td className="fs-14">{formatDate(item.expiresAt)}</td>
-                      <td className="fs-14">{formatNumber(item.upgrade_price)}</td>
+                   <tr
+                   key={index}
+                   className={selectedPlan && selectedPlan.id === item.id ? 'changeclass' : ''}
+                 >
+                      <td className="fs-14 h-40px bg-new-color">{item.reports}</td>
+                      <td className="fs-14 bg-new-color">{item.access_days}</td>
+                      <td className="fs-14 bg-new-color">{formatDate(item.expiresAt)}</td>
+                      <td className="fs-14 bg-new-color">{formatNumber(item.upgrade_price)}</td>
                     </tr>
                   ))}
                 </tbody>

@@ -777,3 +777,10 @@ div:where(.swal2-container) h2:where(.swal2-title){
     display: flex;
     align-items: center;
 }
+
+.changeclass td{
+    background-color: #e6f0ff!important; /* Example: light blue */
+  }
+  .bg-new-color{
+ --bs-table-bg-type:none!important;
+  }
