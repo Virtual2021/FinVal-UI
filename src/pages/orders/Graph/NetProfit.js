@@ -160,7 +160,8 @@ const NetProfit = ({data, finData, forecastData}) => {
       const containerStyle = {
         position: 'relative',
         overflow: 'hidden',
-        width: window.innerWidth <= 768 ? '100%' : '232px',
+        // width: window.innerWidth <= 768 ? '100%' : '232px',
+        width:'100%',
         height: '170px',
         textAlign: 'left',
         lineHeight: 'normal',
