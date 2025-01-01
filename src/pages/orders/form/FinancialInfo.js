@@ -3,6 +3,7 @@ import axios from 'axios';
 import { apiURL } from '../../../config/Config';
 import { formatFrontNumber } from "../../../common/numberUtils";
 import SupportLink from './Modal/SupportLink';
+import { NumericFormat } from 'react-number-format';
 
 const FinancialInfo = ({ onSave, initialData, backButton, onFieldChange, orderId, editAllowed }) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -74,25 +75,36 @@ const FinancialInfo = ({ onSave, initialData, backButton, onFieldChange, orderId
     const handleBlur = (e) => {
         const { name, value } = e.target;
         const [category, field] = name.split('.');
-        let newValue = value === '' ? '0.00' : value;
-
-        const numValue = parseFloat(newValue);
+        
+        let newValue = value.trim();
+        if (newValue === '') {
+            handleGraphData(field, newValue);
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                [category]: {
+                    ...prevFormData[category],
+                    [field]: newValue, // Keep the field blank if no input
+                },
+            }));
+            return;
+        }
+    
+        const numValue = parseFloat(newValue.replace(/,/g, ''));
         if (!isNaN(numValue)) {
             newValue = numValue.toFixed(2);
-        } else {
-            newValue = '0.00';
         }
-
+    
         handleGraphData(field, newValue);
-
+    
         setFormData(prevFormData => ({
             ...prevFormData,
             [category]: {
                 ...prevFormData[category],
-                [field]: newValue
-            }
+                [field]: newValue,
+            },
         }));
     };
+    
 
     const [finData, setFinData] = useState({
         sales: [initialData?.calculations?.finance?.sales || 0.00],
@@ -288,15 +300,37 @@ const FinancialInfo = ({ onSave, initialData, backButton, onFieldChange, orderId
                                                 netFixedAssets: 'bi-wallet-fill',
                                             }[field]} align-middle fs-20 lh-1`}></i>
                                         </span>
-                                        <input
-                                            className="mb-0 form-control bg-white financial-info-input"
-                                            type="text"
-                                            name={`financedata.${field}`}
-                                            value={formData.financedata[field]}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            placeholder='0.00'
-                                        />
+                                        <NumericFormat
+                                                    className="mb-0 form-control bg-white financial-info-input"
+                                                    type="text"
+                                                    name={`financedata.${field}`}
+                                                    value={formData.financedata[field]}
+                                                    onValueChange={(values) => {
+                                                        const { value: rawValue } = values; // Get unformatted raw value
+                                                        handleChange({
+                                                        target: { name: `financedata.${field}`, value: rawValue }, // simulate event structure
+                                                        });
+                                                    }}
+                                                    onBlur={(e) => {
+                                                        const sanitizedValue = e.target.value.replace(/,/g, '').trim(); // Remove commas for raw parsing
+                                                        if (sanitizedValue === '') {
+                                                        handleBlur({
+                                                            target: { name: `financedata.${field}`, value: '' }, // Set default value if empty
+                                                        });
+                                                        } else {
+                                                        const formattedValue = sanitizedValue.includes('.')
+                                                            ? parseFloat(sanitizedValue).toFixed(2) // Ensure two decimal places
+                                                            : `${sanitizedValue}.00`;
+                                                        handleBlur({
+                                                            target: { name: `financedata.${field}`, value: formattedValue },
+                                                        });
+                                                        }
+                                                    }}
+                                                    thousandSeparator={true}
+                                                    decimalScale={2} // Format with 2 decimal places
+                                                    fixedDecimalScale={true} // Ensure two decimal places are always shown
+                                                    placeholder="0.00"
+                                                    />
                                     </div>
                                     {errors[field] && <div className="text-danger">{errors[field]}</div>}
                                 </div>

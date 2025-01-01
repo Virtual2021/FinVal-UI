@@ -3,6 +3,7 @@ import axios from 'axios';
 import { apiURL } from '../../../config/Config';
 import { formatForecastNumber } from '../../../common/numberUtils';
 import SupportLink from './Modal/SupportLink';
+import { NumericFormat } from 'react-number-format';
 
 // Component to render the YEAR header
 const YearHeader = ({yearList}) => (
@@ -38,27 +39,27 @@ const TableRow = ({ label, values, yearList, onValueChange, handleBlur }) => {
             <td key={index} className="input-cell table-cell-mobile-forecastinfo">
                     <div className="input-wrapper">
                         <span className="year-text d-none sm-d-block">{yearList[index]}</span>
-                        <input
-                            type="text"
+                        <NumericFormat
                             className="form-control p-0 text-center border-radius-0px financial-info-input"
                             placeholder="0.0"
                             value={value}
-                            onChange={(e) => {
-                                const newValue = e.target.value;
-                                const regex = isNegativeAllowed ? /^-?\d*\.?\d{0,2}$/ : /^\d*\.?\d{0,2}$/;
-                                if (regex.test(newValue)) {
-                                    onValueChange(index, newValue);
-                                }
+                            thousandSeparator={true}
+                            decimalScale={1} // Allows 1 decimal place
+                            fixedDecimalScale={true} // Ensures 1 decimal place is always displayed
+                            allowNegative={isNegativeAllowed} // Handles negative numbers if allowed
+                            onValueChange={(values) => {
+                                const { value: rawValue } = values; // `value` is the unformatted raw number
+                                onValueChange(index, rawValue);
                             }}
                             onBlur={(e) => {
-                                const sanitizedValue = e.target.value.trim();
+                                const sanitizedValue = e.target.value.replace(/,/g, '').trim(); // Remove commas for raw parsing
                                 if (sanitizedValue === '') {
-                                    onValueChange(index, '0.0');
+                                onValueChange(index, '');
                                 } else {
-                                    const formattedValue = sanitizedValue.includes('.')
-                                        ? parseFloat(sanitizedValue).toFixed(1)
-                                        : `${sanitizedValue}.0`;
-                                    onValueChange(index, formattedValue);
+                                const formattedValue = sanitizedValue.includes('.')
+                                    ? parseFloat(sanitizedValue).toFixed(1)
+                                    : `${sanitizedValue}.0`;
+                                onValueChange(index, formattedValue);
                                 }
                                 handleBlur(label, values);
                             }}
@@ -218,36 +219,36 @@ const ForecastInfo = ({ onSave, initialData ,backButton, onPercentChange, orderI
                 data-scroll-options='{ "theme": "dark" }'
             >
                 <div className="row">
-    <div className="col-sm-12 p-15px ps-30px pe-30px sm-bg-white-special">
-        {/* Add the 'table-responsive' class to enable responsiveness */}
-        <div className="table-responsive">
-            <table className="table table-striped table-bordered fs-12 mytable">
-                <thead>
-                    <tr>
-                        <th scope="col" colSpan="6" className="fs-14 fw-400 pt-0 pb-0 bg-blue text-white">
-                            Income Statement Assumptions
-                        </th>
-                    </tr>
+            <div className="col-sm-12 p-15px ps-30px pe-30px sm-bg-white-special">
+                {/* Add the 'table-responsive' class to enable responsiveness */}
+                <div className="table-responsive">
+                    <table className="table table-striped table-bordered fs-12 mytable">
+                        <thead>
+                            <tr>
+                                <th scope="col" colSpan="6" className="fs-14 fw-400 pt-0 pb-0 bg-blue text-white">
+                                    Income Statement Assumptions
+                                </th>
+                            </tr>
 
-                    <YearHeader yearList={years}/>
-                </thead>
-                <tbody className="align-middle lh-sm">
-                    {rows.map((row, rowIndex) => (
-                        <TableRow
-                            key={rowIndex}
-                            label={row.label}
-                            values={row.values}
-                            yearList={years}  // Pass the year list to each row
-                            onValueChange={(colIndex, newValue) => handleValueChange(rowIndex, colIndex, newValue)}
-                            handleBlur={handleBlur}
-                        />
-                    ))}
-                 </tbody>
+                            <YearHeader yearList={years}/>
+                        </thead>
+                        <tbody className="align-middle lh-sm">
+                            {rows.map((row, rowIndex) => (
+                                <TableRow
+                                    key={rowIndex}
+                                    label={row.label}
+                                    values={row.values}
+                                    yearList={years}  // Pass the year list to each row
+                                    onValueChange={(colIndex, newValue) => handleValueChange(rowIndex, colIndex, newValue)}
+                                    handleBlur={handleBlur}
+                                />
+                            ))}
+                        </tbody>
 
-            </table>
+                    </table>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 
                 {!editAllowed ? (
                     <div className="col-sm-12 mt-20px mb-15px text-center">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatNumber } from '../../../common/numberUtils';
+import { formatPreviewNumber } from '../../../common/numberUtils';
 
 const BalanceSheet = ({ data }) => {
   const balanceSheetData = data?.calculations?.forecast_bal_sheet || [];
@@ -46,7 +46,7 @@ const BalanceSheet = ({ data }) => {
                   <input
                     type="text"
                     className="form-control p-2 text-end border-radius-0px bg-dark-gray border-light-blue fs-14"
-                    value={formatNumber(item.fixedAssets || defaultValue)}
+                    value={formatPreviewNumber(item.fixedAssets || defaultValue)}
                     disabled
                   />
                 </td>
@@ -69,7 +69,7 @@ const BalanceSheet = ({ data }) => {
                   <input
                     type="text"
                     className="form-control p-2 text-end border-radius-0px bg-dark-gray border-light-blue fs-14"
-                    value={formatNumber(item.debtLoan || defaultValue)}
+                    value={formatPreviewNumber(item.debtLoan || defaultValue)}
                     disabled
                   />
                 </td>

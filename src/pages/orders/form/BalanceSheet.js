@@ -4,6 +4,7 @@ import axios from 'axios';
 import { formatNumber } from '../../../common/numberUtils';
 import { useNavigate } from 'react-router-dom';
 import SupportLink from './Modal/SupportLink';
+import { NumericFormat } from 'react-number-format';
 
 const BalanceSheet = ({ onSave, initialData ,backButton, orderId, editAllowed }) => {
   const year= initialData.order.business.business.FinYrEnd + 1;
@@ -124,13 +125,20 @@ const BalanceSheet = ({ onSave, initialData ,backButton, orderId, editAllowed })
                   {forecastBalSheetData.map((item, index) => (
                     <td key={index} align="right" class>
                       <input type="text" className="w-50px form-control p-0 text-center border-radius-0px bg-light-blue text-blue fw-600 mb-5px border-1 border-blue" value={year + index} disabled />
-                      <input
-                        type="text"
-                        className="form-control p-2 text-end border-radius-0px  financial-info-input"
+                      <NumericFormat
+                        className="form-control p-2 text-end border-radius-0px financial-info-input"
                         value={item.fixedAssets}
-                        onChange={(e) => handleBalSheetInputChange(index, 'fixedAssets', e.target.value)}
-                        onBlur={(e) => handleBalSheetInputChange(index, 'fixedAssets', parseFloat(e.target.value).toFixed(2))}
-                        placeholder='0.00'
+                        onValueChange={(values) => {
+                          const { value } = values; // raw numeric value without formatting
+                          handleBalSheetInputChange(index, 'fixedAssets', value);
+                        }}
+                        onBlur={(e) => {
+                          const formattedValue = parseFloat(e.target.value.replace(/,/g, '')).toFixed(2);
+                          handleBalSheetInputChange(index, 'fixedAssets', formattedValue);
+                        }}
+                        thousandSeparator={true}
+                        decimalScale={2}
+                        placeholder="0.00"
                       />
                     </td>
                   ))}
@@ -142,13 +150,20 @@ const BalanceSheet = ({ onSave, initialData ,backButton, orderId, editAllowed })
                   {forecastBalSheetData.map((item, index) => (
                     <td key={index} align="right" >
                       <input type="text" className="w-50px form-control p-0 text-center border-radius-0px bg-light-blue text-blue fw-600 mb-5px border-1 border-blue" value={year + index} disabled />
-                      <input
-                        type="text"
-                        className="form-control p-2 text-end border-radius-0px  financial-info-input"
+                       <NumericFormat
+                        className="form-control p-2 text-end border-radius-0px financial-info-input"
                         value={item.debtLoan}
-                        onChange={(e) => handleBalSheetInputChange(index, 'debtLoan', e.target.value)}
-                        onBlur={(e) => handleBalSheetInputChange(index, 'debtLoan', parseFloat(e.target.value).toFixed(2))}
-                        placeholder='0.00'
+                        onValueChange={(values) => {
+                          const { value } = values; // raw numeric value without formatting
+                          handleBalSheetInputChange(index, 'debtLoan', value);
+                        }}
+                        onBlur={(e) => {
+                          const formattedValue = parseFloat(e.target.value.replace(/,/g, '')).toFixed(2);
+                          handleBalSheetInputChange(index, 'debtLoan', formattedValue);
+                        }}
+                        thousandSeparator={true}
+                        decimalScale={2}
+                        placeholder="0.00"
                       />
                     </td>
                   ))}

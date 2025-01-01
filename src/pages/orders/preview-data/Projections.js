@@ -1,4 +1,4 @@
-import { formatNumber } from "../../../common/numberUtils";
+import { formatNumber, formatPreviewNumber } from "../../../common/numberUtils";
 const Projections = ({ data }) => {
     const projections = data?.calculations?.forecast_inc_stmt;
     const year = data?.calculations?.finance?.dataYear;
@@ -55,7 +55,7 @@ const Projections = ({ data }) => {
                         <input
                           type="text"
                           className="form-control p-0 text-center border-radius-0px bg-dark-gray border-light-blue fs-14"
-                          value={formatNumber(projection[heading.key] || 0.00)}
+                          value={formatPreviewNumber(projection[heading.key] || 0.00)}
                           disabled
                         />
                       </td>
