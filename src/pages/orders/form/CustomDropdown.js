@@ -6,28 +6,34 @@ const { TreeNode } = TreeSelect;
 const CustomDropdown = ({ data, value, onChange, error, name, disabled }) => {
 
   // Format the tree nodes from the data
-  const formatTreeNodes = (data) => {
-    return Object.keys(data).map(industry => {      
-      // Check if data[industry] is an array
-      if (!Array.isArray(data[industry])) {
-        return null;
-      }
+const formatTreeNodes = (data) => {
+  // Sort industries alphabetically
+  const sortedIndustries = Object.keys(data).sort();
 
-      return (
-        <TreeNode
-          value={industry}
-          title={industry} // Title for display
-          key={industry}
-          selectable={false} // Disable selection of main industry
-          disabled={disabled}
-        >
-          {data[industry].map(subItem => (
-            <TreeNode value={subItem.name} title={subItem.name} key={subItem.name} disabled={disabled} />
-          ))}
-        </TreeNode>
-      );
-    });
-  };
+  return sortedIndustries.map(industry => {      
+    // Check if data[industry] is an array
+    if (!Array.isArray(data[industry])) {
+      return null;
+    }
+
+    // Sort sub-items alphabetically by name
+    const sortedSubItems = data[industry].sort((a, b) => a.name.localeCompare(b.name));
+
+    return (
+      <TreeNode
+        value={industry}
+        title={industry} // Title for display
+        key={industry}
+        selectable={false} // Disable selection of main industry
+        disabled={disabled}
+      >
+        {sortedSubItems.map(subItem => (
+          <TreeNode value={subItem.name} title={subItem.name} key={subItem.name} disabled={disabled} />
+        ))}
+      </TreeNode>
+    );
+  });
+};
 
   // Handle change event
   const handleChangeInternal = (value) => {

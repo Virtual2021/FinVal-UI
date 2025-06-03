@@ -3,15 +3,22 @@ import { formatDate } from "../../../common/numberUtils";
 import { Link } from "react-router-dom";
 import Tooltip from 'rc-tooltip';
 import 'rc-tooltip/assets/bootstrap.css'; // Optional, for basic styling
-
-
+import { useNavigate } from 'react-router-dom';
   
 const Table = ({data}) => {
     const [expandedRows, setExpandedRows] = React.useState({});
+    const navigate = useNavigate();
 
     const toggleRow = (index) => {
         setExpandedRows((prev) => ({ ...prev, [index]: !prev[index] }));
     };
+
+    const newOrder = async () => {
+        navigate({
+            pathname: `/valuation-form`,
+        });
+    }
+
  const renderLink = (status, id, submittedOn, custody ,resubmit_time, resubmit_pending, orderplan) => {
     
     if (status === 'Help Requested' && custody === "Company") {

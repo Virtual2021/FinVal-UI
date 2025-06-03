@@ -171,6 +171,11 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
         }
     };
 
+    const handleCancel = async() => {
+        navigate('/orders');
+    }
+    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -616,6 +621,7 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                         <span className="btn-double-text ms-3px" data-text="Submitting...">Submitting...</span>
                                     </span>
                                 ) : (
+                                  <>    
                                     <button className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn" type="button" onClick={handleSave}>
                                     <span>
                                         <span><i className="feather icon-feather-save m-0"></i></span>
@@ -626,6 +632,15 @@ const Company = ({ onSave, initialData, onFieldBlur, orderId, editAllowed }) => 
                                         }
                                     </span>
                                 </button>
+                                &nbsp;
+                                    <button className="border-radius-0px btn btn-round-edge bg-blue submit h-40px p-0 ps-15px pe-15px fs-12 m-0 text-white fs-12 fw-600 text-capitalize fin-btn" type="button" onClick={handleCancel}>
+                                    <span>
+                                        <span><i className="feather icon-feather-arrow-left-circle m-0 fs-16 align-text-bottom"></i></span>
+                                         Cancel
+                                    </span>
+                                </button>
+                                </>
+                                
                             ))}
                             </div>
                         </form>    

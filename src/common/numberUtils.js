@@ -51,17 +51,29 @@ export const getMonthName = (monthNumber) => {
 //   return format(new Date(date), dateFormat);
 // }
 
+// export function formatDate(dateString) {
+//   // Parse the date string into a Date object
+//   const date = parseISO(dateString);
+
+//   // Convert to UTC
+//   const utcDate = toZonedTime(date, 'UTC');
+
+//   // Format the date into 'dd-MMM-yyyy HH:mm:ss' format
+//   const formattedDate = format(utcDate, 'dd-MMM-yyyy HH:mm');
+
+//   // Append 'GMT' to the formatted date string
+//   return `${formattedDate} GMT`;
+// }
+
 export function formatDate(dateString) {
   // Parse the date string into a Date object
   const date = parseISO(dateString);
 
-  // Convert to UTC
-  const utcDate = toZonedTime(date, 'UTC');
+  // Convert to system's local timezone
+  const localDate = toZonedTime(date, Intl.DateTimeFormat().resolvedOptions().timeZone);
 
-  // Format the date into 'dd-MMM-yyyy HH:mm:ss' format
-  const formattedDate = format(utcDate, 'dd-MMM-yyyy HH:mm');
-
-  // Append 'GMT' to the formatted date string
-  return `${formattedDate} GMT`;
+  // Format the date into 'dd-MMM-yyyy HH:mm' format
+  return format(localDate, 'dd-MMM-yyyy HH:mm');
 }
+
 
